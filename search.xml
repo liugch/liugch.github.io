@@ -7,6 +7,7 @@
       <title><![CDATA[hexo博客搭建]]></title>
       <url>http://liugch.top/2016/09/25/hexo/</url>
       <content type="html"><![CDATA[<h1 id="1-Hexo简介"><a href="#1-Hexo简介" class="headerlink" title="1.Hexo简介"></a>1.Hexo简介</h1><p>Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&lt;属于个人的理解&gt;</p>
+<a id="more"></a>
 <p>查考：<a href="https://hexo.io/zh-cn/docs/" title="Hexo帮助文档" target="_blank" rel="external">Hexo的帮助文档重要 </a></p>
 <h1 id="2-博客环境的搭建"><a href="#2-博客环境的搭建" class="headerlink" title="2.博客环境的搭建"></a>2.博客环境的搭建</h1><h2 id="一、安装Git"><a href="#一、安装Git" class="headerlink" title="一、安装Git"></a>一、安装Git</h2><blockquote>
 <p>下载地址  <a href="https://git-scm.com/download" title="Git下载地址" target="_blank" rel="external">https://git-scm.com/download</a></p>
@@ -49,7 +50,9 @@ $ hexo init
     <entry>
       <title><![CDATA[Oralce的世界]]></title>
       <url>http://liugch.top/2016/09/24/index/</url>
-      <content type="html"><![CDATA[<h1 id="Oracle-的体系结构"><a href="#Oracle-的体系结构" class="headerlink" title="Oracle 的体系结构"></a>Oracle 的体系结构</h1><p>数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。<br><a id="more"></a><br>Oracle 是基于请求响应的方式，分为服务端和客户端。</p>
+      <content type="html"><![CDATA[<h1 id="Oracle-的体系结构"><a href="#Oracle-的体系结构" class="headerlink" title="Oracle 的体系结构"></a>Oracle 的体系结构</h1><p>数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。</p>
+<a id="more"></a>
+<p>Oracle 是基于请求响应的方式，分为服务端和客户端。</p>
 <h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><p>Oracle 是由实例和数据库两部分组成</p>
 <h3 id="实例-INSTANCE"><a href="#实例-INSTANCE" class="headerlink" title="实例 (INSTANCE)"></a><strong>实例 (INSTANCE)</strong></h3><p> 又称为oracle数据库引擎，由由内存即SGA(System Global Area,系统全局区)和后台处理进程组成。</p>
 <h3 id="数据库-DATEBASE"><a href="#数据库-DATEBASE" class="headerlink" title="数据库(DATEBASE)"></a><strong>数据库(DATEBASE)</strong></h3><p> 保存在计算机上的数据文件等。可以从物理物件或逻辑组件的角度看待。</p>
