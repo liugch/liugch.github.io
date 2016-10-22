@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>何有悠然</title>
+  <subtitle>Liu Guangch&#39;s blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://liugch.top/"/>
+  <updated>2016-10-22T18:07:26.393Z</updated>
+  <id>http://liugch.top/</id>
+  
+  <author>
+    <name>何有悠然</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo博客搭建</title>
+    <link href="http://liugch.top/2016/09/25/hexo/"/>
+    <id>http://liugch.top/2016/09/25/hexo/</id>
+    <published>2016-09-24T18:22:53.000Z</published>
+    <updated>2016-10-22T18:07:26.393Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-Hexo简介"><a href="#1-Hexo简介" class="headerlink" title="1.Hexo简介"></a>1.Hexo简介</h1><p>Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&lt;属于个人的理解&gt;</p>
+<a id="more"></a>
+<p>查考：<a href="https://hexo.io/zh-cn/docs/" title="Hexo帮助文档" target="_blank" rel="external">Hexo的帮助文档重要 </a></p>
+<h1 id="2-博客环境的搭建"><a href="#2-博客环境的搭建" class="headerlink" title="2.博客环境的搭建"></a>2.博客环境的搭建</h1><h2 id="一、安装Git"><a href="#一、安装Git" class="headerlink" title="一、安装Git"></a>一、安装Git</h2><blockquote>
+<p>下载地址  <a href="https://git-scm.com/download" title="Git下载地址" target="_blank" rel="external">https://git-scm.com/download</a></p>
+</blockquote>
+<h2 id="二、安装Node-js"><a href="#二、安装Node-js" class="headerlink" title="二、安装Node.js"></a>二、安装Node.js</h2><blockquote>
+<p>下载地址  <a href="http://nodejs.cn/download/" title="Node.js下载地址" target="_blank" rel="external">http://nodejs.cn/download/</a></p>
+</blockquote>
+<h2 id="三、安装Hexo"><a href="#三、安装Hexo" class="headerlink" title="三、安装Hexo"></a>三、安装Hexo</h2><p>Git和Node.js 安装好后，在一个合适的位置新建一个文件夹（英文的比较好），之后就开始使用Hexo了。</p>
+<blockquote>
+<p>Hexo的安装并初始化</p>
+</blockquote>
+<pre><code>$ npm install -g hexo-cli
+$ hexo init
+</code></pre><p>安装Hexo后会在该文件夹下生成如下的文件</p>
+<pre><code>├── _config.yml
+├── package.json
+├── scaffolds
+├── source
+|   ├── _drafts
+|   └── _posts
+└── themes
+</code></pre><p>其中_config.yml文件用于存放网站的配置信息，你可以在此配置大部分的参数；scaffolds是存放模板的文件夹，当新建文章时，Hexo 会根据scaffold来建立文件；source是资源文件夹，用于存放用户资源，themes是主题文件夹，存放博客主题，Hexo 会根据主题来生成静态页面。</p>
+<blockquote>
+<p>生成静态的博文</p>
+</blockquote>
+<p>在Git Bash终端执行命令：</p>
+<pre><code>1  hexo g
+2  hexo s
+</code></pre><p>可以组合起来使用：</p>
+<pre><code>hexo s -g
+</code></pre><p>执行完之后：</p>
+<p>Hexo将source文件夹中的 Markdown 和 HTML 文件会被解析并放到public文件夹中，public文件夹用于存放静态博客文件，相当于网站根目录。</p>
+<blockquote>
+<p>至此简单的博客已经搭建完毕  访问：<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></p>
+</blockquote>
+<hr>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;1-Hexo简介&quot;&gt;&lt;a href=&quot;#1-Hexo简介&quot; class=&quot;headerlink&quot; title=&quot;1.Hexo简介&quot;&gt;&lt;/a&gt;1.Hexo简介&lt;/h1&gt;&lt;p&gt;Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&amp;lt;属于个人的理解&amp;gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="hexo" scheme="http://liugch.top/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="http://liugch.top/tags/hexo/"/>
+    
+      <category term="github" scheme="http://liugch.top/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Oralce的世界</title>
+    <link href="http://liugch.top/2016/09/24/index/"/>
+    <id>http://liugch.top/2016/09/24/index/</id>
+    <published>2016-09-24T09:40:51.000Z</published>
+    <updated>2016-10-22T18:07:31.612Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Oracle-的体系结构"><a href="#Oracle-的体系结构" class="headerlink" title="Oracle 的体系结构"></a>Oracle 的体系结构</h1><p>数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。</p>
+<a id="more"></a>
+<p>Oracle 是基于请求响应的方式，分为服务端和客户端。</p>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><p>Oracle 是由实例和数据库两部分组成</p>
+<h3 id="实例-INSTANCE"><a href="#实例-INSTANCE" class="headerlink" title="实例 (INSTANCE)"></a><strong>实例 (INSTANCE)</strong></h3><p> 又称为oracle数据库引擎，由由内存即SGA(System Global Area,系统全局区)和后台处理进程组成。</p>
+<h3 id="数据库-DATEBASE"><a href="#数据库-DATEBASE" class="headerlink" title="数据库(DATEBASE)"></a><strong>数据库(DATEBASE)</strong></h3><p> 保存在计算机上的数据文件等。可以从物理物件或逻辑组件的角度看待。</p>
+<h4 id="物理组件"><a href="#物理组件" class="headerlink" title="物理组件"></a>物理组件</h4><ol>
+<li><p><strong>控制文件 (Control File)</strong></p>
+<pre><code>select * from v$controlfile;
+</code></pre><p>记录数据库的物理结构和其他控制信息，如数据库名称，数据文件、日志文件名称和位置等。多副本保证安全。</p>
+</li>
+<li><p><strong>数据文件 (Data File)</strong></p>
+<pre><code>select name,status,enabled from v$datafile;
+</code></pre></li>
+<li><p><strong> 日志文件 (联机日志文件/归档日志文件)</strong></p>
+<pre><code>select * from v$log;   -- 查看日志
+</code></pre><p>保存用户的所有操作。一个数据库至少有两个日志组，轮流写入。<br>每个日志组至少有一个日志成员，成员之间是镜像关系，这是为了保护数据。<br>联机日志组的交换过程叫切换。当一个组写完会自动切换下一组，也可以手动切换：</p>
+<pre><code>alter system switch logfile   -- 切换日志文件
+</code></pre><p>如果打开归档模式，切换日志的时候会产生归档文件。打开归档模式命令:</p>
+<pre><code>alter database archivelog
+</code></pre></li>
+<li><p><strong>初始化参数文件 (Parameter File)</strong></p>
+<pre><code>位置:
+$ORA_HOME/admin/&lt;SID&gt;/pfile/init.ora.xxx
+</code></pre></li>
+</ol>
+<h4 id="逻辑组件"><a href="#逻辑组件" class="headerlink" title="逻辑组件"></a>逻辑组件</h4><ul>
+<li><p><strong>表空间</strong></p>
+<pre><code>select * from v$tablespace;--查询所有的表空间
+</code></pre></li>
+</ul>
+<ol>
+<li>最基本的逻辑结构 ，是数据库恢复的最小单位, 容纳着许多数据库实体, 如表、视图、索引、聚簇、回退段和临时段等。</li>
+<li>默认创建的表空间有 SYSTEM/SYSAUX/TEMP/UNDO/USERS</li>
+<li>表空间跟数据文件是 1vN 的关系。一个表空间至少需要一个相应的数据文件</li>
+<li>在实际生产中，不建议用默认表空间，要根据情况自己创建</li>
+<li><p>创建/删除表空间的语法：</p>
+<pre><code>--表空间创建
+create tablespace xxx
+datafile &apos;D:\xxx.dbf&apos;
+size 50m
+autoextend on
+next 50m maxsize 20480m
+extent management local;
+
+-- 创建临时表空间
+create temporary tablespace yyy
+tempfile &apos;D:\yyy.dbf&apos;;
+
+-- 删除
+drop tablespace yyy;
+</code></pre></li>
+<li>逻辑上说，一个表空间是由一到多个段组成的。</li>
+</ol>
+<ul>
+<li><strong>段 (Segment)</strong></li>
+</ul>
+<ol>
+<li>段是对象在数据库中占用的空间</li>
+<li>每个段，对应的是每个对象，有 table/index/view 等</li>
+<li>按照存储对象类型的不同，分为数据段、索引段、回滚段和临时段</li>
+<li>逻辑上说，段是由区组成的</li>
+</ol>
+<ul>
+<li><strong> 区 (Extend)</strong></li>
+</ul>
+<ol>
+<li>由连续的数据块组成，由 Oracle 自动分配管理</li>
+<li>当段中的空间已满时，会自动扩展新区</li>
+</ol>
+<ul>
+<li><strong>块</strong></li>
+</ul>
+<ol>
+<li>数据块是Oracle服务器所能分配、读取或写入的最小逻辑单位。</li>
+<li>Oracle服务器以数据块为单位管理数据文件的存储空间。</li>
+<li>正常情况下，块的大小是操作系统块的整数倍，称作标准块。</li>
+<li>可以通过参数 db_block_size 控制，默认 8k.</li>
+</ol>
+<blockquote>
+<p>启动过程</p>
+</blockquote>
+<pre><code>startup nomount        -- 只启动了实例 (Instance)
+alter database mount   -- 数据库挂载
+alter database open    -- 数据库打开
+shutdown immediate     -- 立刻关闭
+</code></pre><h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="连接语法"><a href="#连接语法" class="headerlink" title="连接语法"></a>连接语法</h2><pre><code>sqlplus sys/southit as sysdba     -- 管理员登录
+sqlplus / as sysdba               -- 操作系统认证
+sqlplus scott/tiger               -- 普通用户登录
+sqlplus scott/tiger@remotedb      -- 连接远程数据库
+ -- 未连接状态，之后可以用 conn user/pass 语法登录
+sqlplus /nolog                    
+</code></pre><hr>
+<h1 id="Oracle-网络配置"><a href="#Oracle-网络配置" class="headerlink" title="Oracle 网络配置"></a>Oracle 网络配置</h1><h2 id="配置途径"><a href="#配置途径" class="headerlink" title="配置途径"></a>配置途径</h2><ul>
+<li><p><code>直接修改 NETWORK/ADMIN 下的配置文件</code><br>  通过 Oracle 的 Net Manager 工具配置<br>  服务端 (NETWORK/ADMIN/listener.ora)</p>
+</li>
+<li><p><code>直接修改配置文件或通过图形界面配置。</code><br>  主要配置元素有：<br>  协议 (TCP/IP)<br>  连接地址<br>  端口号 (默认1521，一般不需要修改)<br>  开启 TNSListener 服务</p>
+</li>
+</ul>
+<hr>
+<h1 id="用户与权限"><a href="#用户与权限" class="headerlink" title="用户与权限"></a>用户与权限</h1><h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>用户是用于资源控制和权限管理的一个概念<br>开始新的项目时，保持良好的习惯： 为项目创建新的用户，指定新的表空间。</p>
+<blockquote>
+<p>系统缺省用户</p>
+</blockquote>
+<p><strong>SYS 用户</strong></p>
+<pre><code>又叫特权用户，数据库中至高无上的用户。
+它是数据库的系统管理员，负责的是数据的安装、维护、升级、备份、恢复、优化等操作。
+不能用 normal 的身份登录，必须用 SYSDBA/SYSOPER 的身份登录。
+即使其他的用户用 SYSDBA/SYSOPER 的身份登录，实际上登录的也是 SYS。
+</code></pre><p><strong>SYSTEM 用户</strong></p>
+<pre><code>数据库的管理员。SYSTEM 用户之下保存着数据库运行的一些基本字典数据。
+它拥有 DBA 的角色。主要负责对数据库中各种对象，各种资源的管理。
+</code></pre><p><strong>其他用户 (如SCOTT)</strong></p>
+<pre><code>普通用户，能够执行被授权范围之内的操作。
+</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Oracle-的体系结构&quot;&gt;&lt;a href=&quot;#Oracle-的体系结构&quot; class=&quot;headerlink&quot; title=&quot;Oracle 的体系结构&quot;&gt;&lt;/a&gt;Oracle 的体系结构&lt;/h1&gt;&lt;p&gt;数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Oracle" scheme="http://liugch.top/categories/Oracle/"/>
+    
+    
+      <category term="Oracle" scheme="http://liugch.top/tags/Oracle/"/>
+    
+  </entry>
+  
+</feed>
