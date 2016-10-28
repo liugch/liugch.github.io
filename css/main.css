@@ -1591,7 +1591,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #50f98f;
+  background: #5cdf1f;
 }
 .links-of-author-item {
   text-align: center;
@@ -2476,7 +2476,7 @@ body {
   text-align: center;
 }
 .feed-link a {
-  display: block;
+  display: inline-block;
   color: #fc6423;
   border: none;
 }
