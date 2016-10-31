@@ -66,7 +66,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo,Oracle" />
+  <meta name="keywords" content="Hibernate," />
 
 
 
@@ -85,16 +85,16 @@
 
 
 
-<meta name="description" content="最近访客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="留言">
-<meta property="og:url" content="http://liugch.top/guestbook/index.html">
+<meta name="description" content="Hibernate工作原理及为什么要用?原理：1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件2.由hibernate.cfg.xml中的读取并解析映射信息3.通过config.buildSessionFactory();//创建SessionFactory4.sessionFactory.openSession();//打开Se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hibernate">
+<meta property="og:url" content="http://liugch.top/2016/11/01/Hibernate/index.html">
 <meta property="og:site_name" content="何有悠然">
-<meta property="og:description" content="最近访客">
-<meta property="og:updated_time" content="2016-10-19T18:55:23.815Z">
+<meta property="og:description" content="Hibernate工作原理及为什么要用?原理：1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件2.由hibernate.cfg.xml中的读取并解析映射信息3.通过config.buildSessionFactory();//创建SessionFactory4.sessionFactory.openSession();//打开Se">
+<meta property="og:updated_time" content="2016-10-31T17:10:32.955Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="留言">
-<meta name="twitter:description" content="最近访客">
+<meta name="twitter:title" content="Hibernate">
+<meta name="twitter:description" content="Hibernate工作原理及为什么要用?原理：1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件2.由hibernate.cfg.xml中的读取并解析映射信息3.通过config.buildSessionFactory();//创建SessionFactory4.sessionFactory.openSession();//打开Se">
 
 
 
@@ -112,13 +112,7 @@
   };
 </script>
 
-  <title>
-  
-
-  
-    留言 | 何有悠然
-  
- - 个人博客 </title>
+  <title> Hibernate | 何有悠然  - 个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -145,7 +139,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -288,13 +282,265 @@
 
   <div id="posts" class="posts-expand">
     
-    
-      <blockquote>
-<p>最近访客</p>
-</blockquote>
-<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div>
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hibernate
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-01T00:13:25+08:00" content="2016-11-01">
+              2016-11-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Hibernate/" itemprop="url" rel="index">
+                    <span itemprop="name">Hibernate</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/01/Hibernate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/01/Hibernate/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+			
+			
+			
+		
+					
+			
+			
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Hibernate工作原理及为什么要用"><a href="#Hibernate工作原理及为什么要用" class="headerlink" title="Hibernate工作原理及为什么要用?"></a>Hibernate工作原理及为什么要用?</h1><h2 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h2><p>1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件<br>2.由hibernate.cfg.xml中的<mapping resource="com/xx/User.hbm.xml">读取并解析映射信息<br>3.通过config.buildSessionFactory();//创建SessionFactory<br>4.sessionFactory.openSession();//打开Sesssion<br>5.session.beginTransaction();//创建事务Transation<br>6.persistent operate持久化操作<br>7.session.getTransaction().commit();//提交事务<br>8.关闭Session<br>9.关闭SesstionFactory<br><a id="more"></a></mapping></p>
+<h2 id="为什么要用："><a href="#为什么要用：" class="headerlink" title="为什么要用："></a>为什么要用：</h2><ol>
+<li><p>对JDBC访问数据库的代码做了封装，大大简化了数据访问层繁琐的重复性代码。</p>
+</li>
+<li><p>Hibernate是一个基于JDBC的主流持久化框架，是一个优秀的ORM实现。他很大程度的简化DAO层的        编码工作</p>
+</li>
+<li><p>hibernate使用Java反射机制，而不是字节码增强程序来实现透明性。</p>
+</li>
+<li><p>hibernate的性能非常好，因为它是个轻量级框架。映射的灵活性很出色。它支持各种关系数据库，    从一对一到多对多的各种复杂关系。</p>
+</li>
+</ol>
+<blockquote>
+<p>Hibernate是如何延迟加载?</p>
+</blockquote>
+<ol>
+<li><p>Hibernate2延迟加载实现：a)实体对象 b)集合（Collection）</p>
+</li>
+<li><p>Hibernate3 提供了属性的延迟加载功能</p>
+</li>
+</ol>
+<p>当Hibernate在查询数据的时候，数据并没有存在与内存中，当程序真正对数据的操作时，对象才存在与内存中，就实现了延迟加载，他节省了服务器的内存开销，从而提高了服务器的性能。</p>
+<blockquote>
+<p>Hibernate中怎样实现类之间的关系?(如：一对多、多对多的关系)</p>
+</blockquote>
+<p>类与类之间的关系主要体现在表与表之间的关系进行操作，它们都市对对象进行操作，我们程序中把所有的表与类都映射在一起，它们通过配置文件中的many-to-one、one-to-many、many-to-many、</p>
+<h2 id="说下Hibernate的缓存机制"><a href="#说下Hibernate的缓存机制" class="headerlink" title="说下Hibernate的缓存机制"></a>说下Hibernate的缓存机制</h2><ol>
+<li><p>内部缓存存在Hibernate中又叫一级缓存，属于应用事物级缓存</p>
+</li>
+<li><p>二级缓存：</p>
+<p>a) 应用及缓存 </p>
+<p>b) 分布式缓存<br>条件：数据不会被第三方修改、数据大小在可接受范围、数据更新频率低、同一数据被系统频繁使用、非 关键数据<br>c) 第三方缓存的实现</p>
+</li>
+</ol>
+<p><strong>一级缓存：session级的缓存也叫事务级的缓存，只缓存实体，生命周期和session一致。不能对其进行管理。不用显示的调用</strong>。</p>
+<p><strong>二级缓存：sessionFactory缓存，也叫进程级的缓存，使用第3方插件实现的，也值缓存实体，生命周期和sessionFactory一致，可以进行管理。</strong></p>
+<p>首先配置第3放插件，我们用的是EHCache，在hibernate.cfg.xml文件中加入</p>
+<pre><code>&lt;property name=&quot;hibernate.cache.user_second_level_cache&quot;&gt;true&lt;/property&gt;
+</code></pre><p>在映射中也要显示的调用<br>    <cache usage="read-only"></cache></p>
+<p>二</p>
+<blockquote>
+<p>级缓存之查询缓存：对普通属性进行缓存。如果关联的表发生了修改，那么查询缓存的生命周期也结束了。</p>
+</blockquote>
+<p><strong>在程序中必须手动启用查询缓存：query.setCacheable(true);</strong></p>
+<blockquote>
+<p>Hibernate的查询方式     Sql、Criteria,object comptosition</p>
+<p>Hql：</p>
+</blockquote>
+<p>1、 属性查询<br>2、 参数查询、命名参数查询<br>3、 关联查询<br>4、 分页查询<br>5、 统计函数</p>
+<h2 id="如何优化Hibernate？"><a href="#如何优化Hibernate？" class="headerlink" title="如何优化Hibernate？"></a><strong>如何优化Hibernate？</strong></h2><p>1.使用双向一对多关联，不使用单向一对多</p>
+<p>2.灵活使用单向一对多关联</p>
+<p>3.不用一对一，用多对一取代</p>
+<p>4.配置对象缓存，不使用集合缓存</p>
+<p>5.一对多集合使用Bag,多对多集合使用Set</p>
+<p>6.继承类使用显式多态</p>
+<p>7.表字段要少，表关联不要怕多，有二级缓存撑腰</p>
+<blockquote>
+<p>Hibernate有哪几种查询数据的方式</p>
+</blockquote>
+<p>  (1)导航对象图查询</p>
+<p>  (2)OID查询</p>
+<p>  (3)HQL</p>
+<p>  (4)QBC</p>
+<p>  (5)本地SQL</p>
+<h2 id="load-和get-的区别"><a href="#load-和get-的区别" class="headerlink" title="load()和get()的区别"></a><strong>load()和get()的区别</strong></h2><p>Session.load/get方法均可以根据指定的实体类和id从数据库读取记录，并返回与之对应的实体对象。</p>
+<p>如果未能发现符合条件的记录，get方法返回null，而load方法会抛出一个ObjectNotFoundException。<br>Load方法可返回实体的代理类实例，而get方法永远直接返回实体类。<br>load方法可以充分利用内部缓存和二级缓存中的现有数据，<br>而get方法则仅仅在内部缓存中进行数据查找，如没有发现对应数据，将越过二级缓存，<br>直接调用SQL完成数据读取。</p>
+<p>/<em>
+  </em>load()方法的执行顺序如下：<br>  <em>a)：首先通过id在session缓存中查找对象，如果存在此id的对象，直接将其返回
+  </em>b)：在二级缓存中查找，找到后将 其返回。<br>  <em>c)：如果在session缓存和二级缓存中都找不到此对象，则从数据库中加载有此ID的对象
+  </em>因此load()方法并不总是导致SQL语句，只有缓存中无此数据时，才向数据库发送SQL！<br>  */</p>
+<p> /<em>
+  </em>与get()的区别：<br>  <em>1：在立即加载对象（当hibernate在从数据库中取得数据组装好一个对象后
+  </em>会立即再从数据库取得数据此对象所关联的对象）时，如果对象存在，<br>  <em>load()和get()方法没有区别，都可以取得已初始化的对象;但如果当对
+  </em>象不存在且是立即加载时，使用get()方法则返回null,而使用load()则<br>  <em>抛出一个异常。因此使用load()方法时，要确认查询的主键ID一定是存在
+  </em>的，从这一点讲它没有get方便！<br>  <em>2：在延迟加载对象(Hibernate从数据库中取得数据组装好一个对象后，
+  </em>不会立即再从数据库取得数据组装此对象所关联的对象，而是等到需要时，<br>  <em>都会从数据库取得数据组装此对象关联的对象)时，get()方法仍然使用
+  </em>立即加载的方式发送SQL语句，并得到已初始化的对象，而load()方法则<br>  <em>根本不发送SQL语句，它返回一个代理对象，直到这个对象被访问时才被
+  </em>初始化。<br>  */</p>
+<p>get()—-不支持LAZY</p>
+<p>load()—-支持LAZY</p>
+<p>总之对于get和load的根本区别，一句话，hibernate对于load方法认为该数据在数据库中一定存在，<br>可以放心的使用代理来延迟加载，如果在使用过程中发现了问题，只能抛异常；<br>而对于get方法，hibernate一定要获取到真实的数据，否则返回null。<br>get方法首先查询session缓存，没有的话查询二级缓存，最后查询数据库；<br>反而load方法创建时首先查询session缓存，没有就创建代理，实际使用数据时才查询二级缓存和数据库</p>
+<blockquote>
+<p>引用链接</p>
+</blockquote>
+<p><a href="http://sishuok.com/forum/blogPost/list/2936.html" target="_blank" rel="external">http://sishuok.com/forum/blogPost/list/2936.html</a><br><a href="http://www.cnblogs.com/javaNewegg/archive/2011/08/28/2156521.html" target="_blank" rel="external">http://www.cnblogs.com/javaNewegg/archive/2011/08/28/2156521.html</a><br><a href="http://blog.csdn.net/zhaoshl_368/article/details/6577103" target="_blank" rel="external">http://blog.csdn.net/zhaoshl_368/article/details/6577103</a></p>
+<h2 id="hibernate-主键生成策略"><a href="#hibernate-主键生成策略" class="headerlink" title="hibernate 主键生成策略"></a>hibernate 主键生成策略</h2><pre><code>&lt;id name=&quot;id&quot; length=&quot;22&quot; &gt;
+    &lt;generator class=&quot;native&quot;&gt;&lt;/generator&gt;
+&lt;/id&gt;
+</code></pre><p><a href="http://www.cnblogs.com/xlwmin/articles/2189427.html" target="_blank" rel="external">http://www.cnblogs.com/xlwmin/articles/2189427.html</a></p>
+<blockquote>
+<p>注意:<br>    在HQL,您应该使用映射的java类名和属性名@ entity,而不是实际的表名和列名<br>List&lt;?&gt; result = session.createQuery(“from Student”).list();</p>
+</blockquote>
+
+      
+    </div>
+
+	<div>
+      
+        
+<div style="text-align:center;color: #ccc;font-size:14px;">------ づ╭❤ ～ 文本结束 ～づ╭❤ ------</div>
+
+      
+    </div>
+	
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hibernate/" rel="tag">#Hibernate</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+		  
+		  <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/25/hexo/" class="post-nav-title-link" rel="next" title="hexo博客搭建">
+                hexo博客搭建  <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/11/01/Hibernate/"
+     data-title="Hibernate"
+     data-content=""
+     data-url="http://liugch.top/2016/11/01/Hibernate/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><span class="ds-more" >分享到：</span></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+  </div>
+</div>
+      
+    </div>
   </div>
 
 
@@ -303,6 +549,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/01/Hibernate/"
+           data-title="Hibernate" data-url="http://liugch.top/2016/11/01/Hibernate/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -322,8 +576,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=562862502,2807361029&fm=116&gp=0.jpg"
@@ -573,6 +836,17 @@
       </section>
 
       
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hibernate工作原理及为什么要用"><span class="nav-number">1.</span> <span class="nav-text">Hibernate工作原理及为什么要用?</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理："><span class="nav-number">1.1.</span> <span class="nav-text">原理：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用："><span class="nav-number">1.2.</span> <span class="nav-text">为什么要用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说下Hibernate的缓存机制"><span class="nav-number">1.3.</span> <span class="nav-text">说下Hibernate的缓存机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何优化Hibernate？"><span class="nav-number">1.4.</span> <span class="nav-text">如何优化Hibernate？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-和get-的区别"><span class="nav-number">1.5.</span> <span class="nav-text">load()和get()的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hibernate-主键生成策略"><span class="nav-number">1.6.</span> <span class="nav-text">hibernate 主键生成策略</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
 
     </div>
   </aside>
@@ -685,6 +959,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

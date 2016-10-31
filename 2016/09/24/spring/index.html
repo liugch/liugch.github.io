@@ -1,339 +1,447 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-  <title>何有悠然</title>
-  <subtitle>Liu Guangch&#39;s blog</subtitle>
-  <link href="/atom.xml" rel="self"/>
-  
-  <link href="http://liugch.top/"/>
-  <updated>2016-10-31T17:10:32.955Z</updated>
-  <id>http://liugch.top/</id>
-  
-  <author>
-    <name>何有悠然</name>
-    
-  </author>
-  
-  <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hibernate</title>
-    <link href="http://liugch.top/2016/11/01/Hibernate/"/>
-    <id>http://liugch.top/2016/11/01/Hibernate/</id>
-    <published>2016-10-31T16:13:25.000Z</published>
-    <updated>2016-10-31T17:10:32.955Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Hibernate工作原理及为什么要用"><a href="#Hibernate工作原理及为什么要用" class="headerlink" title="Hibernate工作原理及为什么要用?"></a>Hibernate工作原理及为什么要用?</h1><h2 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h2><p>1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件<br>2.由hibernate.cfg.xml中的<mapping resource="com/xx/User.hbm.xml">读取并解析映射信息<br>3.通过config.buildSessionFactory();//创建SessionFactory<br>4.sessionFactory.openSession();//打开Sesssion<br>5.session.beginTransaction();//创建事务Transation<br>6.persistent operate持久化操作<br>7.session.getTransaction().commit();//提交事务<br>8.关闭Session<br>9.关闭SesstionFactory<br><a id="more"></a></mapping></p>
-<h2 id="为什么要用："><a href="#为什么要用：" class="headerlink" title="为什么要用："></a>为什么要用：</h2><ol>
-<li><p>对JDBC访问数据库的代码做了封装，大大简化了数据访问层繁琐的重复性代码。</p>
-</li>
-<li><p>Hibernate是一个基于JDBC的主流持久化框架，是一个优秀的ORM实现。他很大程度的简化DAO层的        编码工作</p>
-</li>
-<li><p>hibernate使用Java反射机制，而不是字节码增强程序来实现透明性。</p>
-</li>
-<li><p>hibernate的性能非常好，因为它是个轻量级框架。映射的灵活性很出色。它支持各种关系数据库，    从一对一到多对多的各种复杂关系。</p>
-</li>
-</ol>
-<blockquote>
-<p>Hibernate是如何延迟加载?</p>
-</blockquote>
-<ol>
-<li><p>Hibernate2延迟加载实现：a)实体对象 b)集合（Collection）</p>
-</li>
-<li><p>Hibernate3 提供了属性的延迟加载功能</p>
-</li>
-</ol>
-<p>当Hibernate在查询数据的时候，数据并没有存在与内存中，当程序真正对数据的操作时，对象才存在与内存中，就实现了延迟加载，他节省了服务器的内存开销，从而提高了服务器的性能。</p>
-<blockquote>
-<p>Hibernate中怎样实现类之间的关系?(如：一对多、多对多的关系)</p>
-</blockquote>
-<p>类与类之间的关系主要体现在表与表之间的关系进行操作，它们都市对对象进行操作，我们程序中把所有的表与类都映射在一起，它们通过配置文件中的many-to-one、one-to-many、many-to-many、</p>
-<h2 id="说下Hibernate的缓存机制"><a href="#说下Hibernate的缓存机制" class="headerlink" title="说下Hibernate的缓存机制"></a>说下Hibernate的缓存机制</h2><ol>
-<li><p>内部缓存存在Hibernate中又叫一级缓存，属于应用事物级缓存</p>
-</li>
-<li><p>二级缓存：</p>
-<p>a) 应用及缓存 </p>
-<p>b) 分布式缓存<br>条件：数据不会被第三方修改、数据大小在可接受范围、数据更新频率低、同一数据被系统频繁使用、非 关键数据<br>c) 第三方缓存的实现</p>
-</li>
-</ol>
-<p><strong>一级缓存：session级的缓存也叫事务级的缓存，只缓存实体，生命周期和session一致。不能对其进行管理。不用显示的调用</strong>。</p>
-<p><strong>二级缓存：sessionFactory缓存，也叫进程级的缓存，使用第3方插件实现的，也值缓存实体，生命周期和sessionFactory一致，可以进行管理。</strong></p>
-<p>首先配置第3放插件，我们用的是EHCache，在hibernate.cfg.xml文件中加入</p>
-<pre><code>&lt;property name=&quot;hibernate.cache.user_second_level_cache&quot;&gt;true&lt;/property&gt;
-</code></pre><p>在映射中也要显示的调用<br>    <cache usage="read-only"></cache></p>
-<p>二</p>
-<blockquote>
-<p>级缓存之查询缓存：对普通属性进行缓存。如果关联的表发生了修改，那么查询缓存的生命周期也结束了。</p>
-</blockquote>
-<p><strong>在程序中必须手动启用查询缓存：query.setCacheable(true);</strong></p>
-<blockquote>
-<p>Hibernate的查询方式     Sql、Criteria,object comptosition</p>
-<p>Hql：</p>
-</blockquote>
-<p>1、 属性查询<br>2、 参数查询、命名参数查询<br>3、 关联查询<br>4、 分页查询<br>5、 统计函数</p>
-<h2 id="如何优化Hibernate？"><a href="#如何优化Hibernate？" class="headerlink" title="如何优化Hibernate？"></a><strong>如何优化Hibernate？</strong></h2><p>1.使用双向一对多关联，不使用单向一对多</p>
-<p>2.灵活使用单向一对多关联</p>
-<p>3.不用一对一，用多对一取代</p>
-<p>4.配置对象缓存，不使用集合缓存</p>
-<p>5.一对多集合使用Bag,多对多集合使用Set</p>
-<p>6.继承类使用显式多态</p>
-<p>7.表字段要少，表关联不要怕多，有二级缓存撑腰</p>
-<blockquote>
-<p>Hibernate有哪几种查询数据的方式</p>
-</blockquote>
-<p>  (1)导航对象图查询</p>
-<p>  (2)OID查询</p>
-<p>  (3)HQL</p>
-<p>  (4)QBC</p>
-<p>  (5)本地SQL</p>
-<h2 id="load-和get-的区别"><a href="#load-和get-的区别" class="headerlink" title="load()和get()的区别"></a><strong>load()和get()的区别</strong></h2><p>Session.load/get方法均可以根据指定的实体类和id从数据库读取记录，并返回与之对应的实体对象。</p>
-<p>如果未能发现符合条件的记录，get方法返回null，而load方法会抛出一个ObjectNotFoundException。<br>Load方法可返回实体的代理类实例，而get方法永远直接返回实体类。<br>load方法可以充分利用内部缓存和二级缓存中的现有数据，<br>而get方法则仅仅在内部缓存中进行数据查找，如没有发现对应数据，将越过二级缓存，<br>直接调用SQL完成数据读取。</p>
-<p>/<em>
-  </em>load()方法的执行顺序如下：<br>  <em>a)：首先通过id在session缓存中查找对象，如果存在此id的对象，直接将其返回
-  </em>b)：在二级缓存中查找，找到后将 其返回。<br>  <em>c)：如果在session缓存和二级缓存中都找不到此对象，则从数据库中加载有此ID的对象
-  </em>因此load()方法并不总是导致SQL语句，只有缓存中无此数据时，才向数据库发送SQL！<br>  */</p>
-<p> /<em>
-  </em>与get()的区别：<br>  <em>1：在立即加载对象（当hibernate在从数据库中取得数据组装好一个对象后
-  </em>会立即再从数据库取得数据此对象所关联的对象）时，如果对象存在，<br>  <em>load()和get()方法没有区别，都可以取得已初始化的对象;但如果当对
-  </em>象不存在且是立即加载时，使用get()方法则返回null,而使用load()则<br>  <em>抛出一个异常。因此使用load()方法时，要确认查询的主键ID一定是存在
-  </em>的，从这一点讲它没有get方便！<br>  <em>2：在延迟加载对象(Hibernate从数据库中取得数据组装好一个对象后，
-  </em>不会立即再从数据库取得数据组装此对象所关联的对象，而是等到需要时，<br>  <em>都会从数据库取得数据组装此对象关联的对象)时，get()方法仍然使用
-  </em>立即加载的方式发送SQL语句，并得到已初始化的对象，而load()方法则<br>  <em>根本不发送SQL语句，它返回一个代理对象，直到这个对象被访问时才被
-  </em>初始化。<br>  */</p>
-<p>get()—-不支持LAZY</p>
-<p>load()—-支持LAZY</p>
-<p>总之对于get和load的根本区别，一句话，hibernate对于load方法认为该数据在数据库中一定存在，<br>可以放心的使用代理来延迟加载，如果在使用过程中发现了问题，只能抛异常；<br>而对于get方法，hibernate一定要获取到真实的数据，否则返回null。<br>get方法首先查询session缓存，没有的话查询二级缓存，最后查询数据库；<br>反而load方法创建时首先查询session缓存，没有就创建代理，实际使用数据时才查询二级缓存和数据库</p>
-<blockquote>
-<p>引用链接</p>
-</blockquote>
-<p><a href="http://sishuok.com/forum/blogPost/list/2936.html" target="_blank" rel="external">http://sishuok.com/forum/blogPost/list/2936.html</a><br><a href="http://www.cnblogs.com/javaNewegg/archive/2011/08/28/2156521.html" target="_blank" rel="external">http://www.cnblogs.com/javaNewegg/archive/2011/08/28/2156521.html</a><br><a href="http://blog.csdn.net/zhaoshl_368/article/details/6577103" target="_blank" rel="external">http://blog.csdn.net/zhaoshl_368/article/details/6577103</a></p>
-<h2 id="hibernate-主键生成策略"><a href="#hibernate-主键生成策略" class="headerlink" title="hibernate 主键生成策略"></a>hibernate 主键生成策略</h2><pre><code>&lt;id name=&quot;id&quot; length=&quot;22&quot; &gt;
-    &lt;generator class=&quot;native&quot;&gt;&lt;/generator&gt;
-&lt;/id&gt;
-</code></pre><p><a href="http://www.cnblogs.com/xlwmin/articles/2189427.html" target="_blank" rel="external">http://www.cnblogs.com/xlwmin/articles/2189427.html</a></p>
-<blockquote>
-<p>注意:<br>    在HQL,您应该使用映射的java类名和属性名@ entity,而不是实际的表名和列名<br>List&lt;?&gt; result = session.createQuery(“from Student”).list();</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Hibernate工作原理及为什么要用&quot;&gt;&lt;a href=&quot;#Hibernate工作原理及为什么要用&quot; class=&quot;headerlink&quot; title=&quot;Hibernate工作原理及为什么要用?&quot;&gt;&lt;/a&gt;Hibernate工作原理及为什么要用?&lt;/h1&gt;&lt;h2 id=&quot;原理：&quot;&gt;&lt;a href=&quot;#原理：&quot; class=&quot;headerlink&quot; title=&quot;原理：&quot;&gt;&lt;/a&gt;原理：&lt;/h2&gt;&lt;p&gt;1.通过Configuration().configure();读取并解析hibernate.cfg.xml配置文件&lt;br&gt;2.由hibernate.cfg.xml中的&lt;mapping resource=&quot;com/xx/User.hbm.xml&quot;/&gt;读取并解析映射信息&lt;br&gt;3.通过config.buildSessionFactory();//创建SessionFactory&lt;br&gt;4.sessionFactory.openSession();//打开Sesssion&lt;br&gt;5.session.beginTransaction();//创建事务Transation&lt;br&gt;6.persistent operate持久化操作&lt;br&gt;7.session.getTransaction().commit();//提交事务&lt;br&gt;8.关闭Session&lt;br&gt;9.关闭SesstionFactory&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Hibernate" scheme="http://liugch.top/categories/Hibernate/"/>
-    
-    
-      <category term="Hibernate" scheme="http://liugch.top/tags/Hibernate/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo博客搭建</title>
-    <link href="http://liugch.top/2016/09/25/hexo/"/>
-    <id>http://liugch.top/2016/09/25/hexo/</id>
-    <published>2016-09-24T18:22:53.000Z</published>
-    <updated>2016-10-22T18:07:26.393Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="1-Hexo简介"><a href="#1-Hexo简介" class="headerlink" title="1.Hexo简介"></a>1.Hexo简介</h1><p>Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&lt;属于个人的理解&gt;</p>
-<a id="more"></a>
-<p>查考：<a href="https://hexo.io/zh-cn/docs/" title="Hexo帮助文档" target="_blank" rel="external">Hexo的帮助文档重要 </a></p>
-<h1 id="2-博客环境的搭建"><a href="#2-博客环境的搭建" class="headerlink" title="2.博客环境的搭建"></a>2.博客环境的搭建</h1><h2 id="一、安装Git"><a href="#一、安装Git" class="headerlink" title="一、安装Git"></a>一、安装Git</h2><blockquote>
-<p>下载地址  <a href="https://git-scm.com/download" title="Git下载地址" target="_blank" rel="external">https://git-scm.com/download</a></p>
-</blockquote>
-<h2 id="二、安装Node-js"><a href="#二、安装Node-js" class="headerlink" title="二、安装Node.js"></a>二、安装Node.js</h2><blockquote>
-<p>下载地址  <a href="http://nodejs.cn/download/" title="Node.js下载地址" target="_blank" rel="external">http://nodejs.cn/download/</a></p>
-</blockquote>
-<h2 id="三、安装Hexo"><a href="#三、安装Hexo" class="headerlink" title="三、安装Hexo"></a>三、安装Hexo</h2><p>Git和Node.js 安装好后，在一个合适的位置新建一个文件夹（英文的比较好），之后就开始使用Hexo了。</p>
-<blockquote>
-<p>Hexo的安装并初始化</p>
-</blockquote>
-<pre><code>$ npm install -g hexo-cli
-$ hexo init
-</code></pre><p>安装Hexo后会在该文件夹下生成如下的文件</p>
-<pre><code>├── _config.yml
-├── package.json
-├── scaffolds
-├── source
-|   ├── _drafts
-|   └── _posts
-└── themes
-</code></pre><p>其中_config.yml文件用于存放网站的配置信息，你可以在此配置大部分的参数；scaffolds是存放模板的文件夹，当新建文章时，Hexo 会根据scaffold来建立文件；source是资源文件夹，用于存放用户资源，themes是主题文件夹，存放博客主题，Hexo 会根据主题来生成静态页面。</p>
-<blockquote>
-<p>生成静态的博文</p>
-</blockquote>
-<p>在Git Bash终端执行命令：</p>
-<pre><code>1  hexo g
-2  hexo s
-</code></pre><p>可以组合起来使用：</p>
-<pre><code>hexo s -g
-</code></pre><p>执行完之后：</p>
-<p>Hexo将source文件夹中的 Markdown 和 HTML 文件会被解析并放到public文件夹中，public文件夹用于存放静态博客文件，相当于网站根目录。</p>
-<blockquote>
-<p>至此简单的博客已经搭建完毕  访问：<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></p>
-</blockquote>
-<hr>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;1-Hexo简介&quot;&gt;&lt;a href=&quot;#1-Hexo简介&quot; class=&quot;headerlink&quot; title=&quot;1.Hexo简介&quot;&gt;&lt;/a&gt;1.Hexo简介&lt;/h1&gt;&lt;p&gt;Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&amp;lt;属于个人的理解&amp;gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://liugch.top/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://liugch.top/tags/hexo/"/>
-    
-      <category term="github" scheme="http://liugch.top/tags/github/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Oralce的世界</title>
-    <link href="http://liugch.top/2016/09/24/index/"/>
-    <id>http://liugch.top/2016/09/24/index/</id>
-    <published>2016-09-24T09:40:51.000Z</published>
-    <updated>2016-10-22T18:07:31.612Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Oracle-的体系结构"><a href="#Oracle-的体系结构" class="headerlink" title="Oracle 的体系结构"></a>Oracle 的体系结构</h1><p>数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。</p>
-<a id="more"></a>
-<p>Oracle 是基于请求响应的方式，分为服务端和客户端。</p>
-<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><p>Oracle 是由实例和数据库两部分组成</p>
-<h3 id="实例-INSTANCE"><a href="#实例-INSTANCE" class="headerlink" title="实例 (INSTANCE)"></a><strong>实例 (INSTANCE)</strong></h3><p> 又称为oracle数据库引擎，由由内存即SGA(System Global Area,系统全局区)和后台处理进程组成。</p>
-<h3 id="数据库-DATEBASE"><a href="#数据库-DATEBASE" class="headerlink" title="数据库(DATEBASE)"></a><strong>数据库(DATEBASE)</strong></h3><p> 保存在计算机上的数据文件等。可以从物理物件或逻辑组件的角度看待。</p>
-<h4 id="物理组件"><a href="#物理组件" class="headerlink" title="物理组件"></a>物理组件</h4><ol>
-<li><p><strong>控制文件 (Control File)</strong></p>
-<pre><code>select * from v$controlfile;
-</code></pre><p>记录数据库的物理结构和其他控制信息，如数据库名称，数据文件、日志文件名称和位置等。多副本保证安全。</p>
-</li>
-<li><p><strong>数据文件 (Data File)</strong></p>
-<pre><code>select name,status,enabled from v$datafile;
-</code></pre></li>
-<li><p><strong> 日志文件 (联机日志文件/归档日志文件)</strong></p>
-<pre><code>select * from v$log;   -- 查看日志
-</code></pre><p>保存用户的所有操作。一个数据库至少有两个日志组，轮流写入。<br>每个日志组至少有一个日志成员，成员之间是镜像关系，这是为了保护数据。<br>联机日志组的交换过程叫切换。当一个组写完会自动切换下一组，也可以手动切换：</p>
-<pre><code>alter system switch logfile   -- 切换日志文件
-</code></pre><p>如果打开归档模式，切换日志的时候会产生归档文件。打开归档模式命令:</p>
-<pre><code>alter database archivelog
-</code></pre></li>
-<li><p><strong>初始化参数文件 (Parameter File)</strong></p>
-<pre><code>位置:
-$ORA_HOME/admin/&lt;SID&gt;/pfile/init.ora.xxx
-</code></pre></li>
-</ol>
-<h4 id="逻辑组件"><a href="#逻辑组件" class="headerlink" title="逻辑组件"></a>逻辑组件</h4><ul>
-<li><p><strong>表空间</strong></p>
-<pre><code>select * from v$tablespace;--查询所有的表空间
-</code></pre></li>
-</ul>
-<ol>
-<li>最基本的逻辑结构 ，是数据库恢复的最小单位, 容纳着许多数据库实体, 如表、视图、索引、聚簇、回退段和临时段等。</li>
-<li>默认创建的表空间有 SYSTEM/SYSAUX/TEMP/UNDO/USERS</li>
-<li>表空间跟数据文件是 1vN 的关系。一个表空间至少需要一个相应的数据文件</li>
-<li>在实际生产中，不建议用默认表空间，要根据情况自己创建</li>
-<li><p>创建/删除表空间的语法：</p>
-<pre><code>--表空间创建
-create tablespace xxx
-datafile &apos;D:\xxx.dbf&apos;
-size 50m
-autoextend on
-next 50m maxsize 20480m
-extent management local;
+<!doctype html>
 
--- 创建临时表空间
-create temporary tablespace yyy
-tempfile &apos;D:\yyy.dbf&apos;;
 
--- 删除
-drop tablespace yyy;
-</code></pre></li>
-<li>逻辑上说，一个表空间是由一到多个段组成的。</li>
-</ol>
-<ul>
-<li><strong>段 (Segment)</strong></li>
-</ul>
-<ol>
-<li>段是对象在数据库中占用的空间</li>
-<li>每个段，对应的是每个对象，有 table/index/view 等</li>
-<li>按照存储对象类型的不同，分为数据段、索引段、回滚段和临时段</li>
-<li>逻辑上说，段是由区组成的</li>
-</ol>
-<ul>
-<li><strong> 区 (Extend)</strong></li>
-</ul>
-<ol>
-<li>由连续的数据块组成，由 Oracle 自动分配管理</li>
-<li>当段中的空间已满时，会自动扩展新区</li>
-</ol>
-<ul>
-<li><strong>块</strong></li>
-</ul>
-<ol>
-<li>数据块是Oracle服务器所能分配、读取或写入的最小逻辑单位。</li>
-<li>Oracle服务器以数据块为单位管理数据文件的存储空间。</li>
-<li>正常情况下，块的大小是操作系统块的整数倍，称作标准块。</li>
-<li>可以通过参数 db_block_size 控制，默认 8k.</li>
-</ol>
-<blockquote>
-<p>启动过程</p>
-</blockquote>
-<pre><code>startup nomount        -- 只启动了实例 (Instance)
-alter database mount   -- 数据库挂载
-alter database open    -- 数据库打开
-shutdown immediate     -- 立刻关闭
-</code></pre><h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1><h2 id="连接语法"><a href="#连接语法" class="headerlink" title="连接语法"></a>连接语法</h2><pre><code>sqlplus sys/southit as sysdba     -- 管理员登录
-sqlplus / as sysdba               -- 操作系统认证
-sqlplus scott/tiger               -- 普通用户登录
-sqlplus scott/tiger@remotedb      -- 连接远程数据库
- -- 未连接状态，之后可以用 conn user/pass 语法登录
-sqlplus /nolog                    
-</code></pre><hr>
-<h1 id="Oracle-网络配置"><a href="#Oracle-网络配置" class="headerlink" title="Oracle 网络配置"></a>Oracle 网络配置</h1><h2 id="配置途径"><a href="#配置途径" class="headerlink" title="配置途径"></a>配置途径</h2><ul>
-<li><p><code>直接修改 NETWORK/ADMIN 下的配置文件</code><br>  通过 Oracle 的 Net Manager 工具配置<br>  服务端 (NETWORK/ADMIN/listener.ora)</p>
-</li>
-<li><p><code>直接修改配置文件或通过图形界面配置。</code><br>  主要配置元素有：<br>  协议 (TCP/IP)<br>  连接地址<br>  端口号 (默认1521，一般不需要修改)<br>  开启 TNSListener 服务</p>
-</li>
-</ul>
-<hr>
-<h1 id="用户与权限"><a href="#用户与权限" class="headerlink" title="用户与权限"></a>用户与权限</h1><h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><p>用户是用于资源控制和权限管理的一个概念<br>开始新的项目时，保持良好的习惯： 为项目创建新的用户，指定新的表空间。</p>
-<blockquote>
-<p>系统缺省用户</p>
-</blockquote>
-<p><strong>SYS 用户</strong></p>
-<pre><code>又叫特权用户，数据库中至高无上的用户。
-它是数据库的系统管理员，负责的是数据的安装、维护、升级、备份、恢复、优化等操作。
-不能用 normal 的身份登录，必须用 SYSDBA/SYSOPER 的身份登录。
-即使其他的用户用 SYSDBA/SYSOPER 的身份登录，实际上登录的也是 SYS。
-</code></pre><p><strong>SYSTEM 用户</strong></p>
-<pre><code>数据库的管理员。SYSTEM 用户之下保存着数据库运行的一些基本字典数据。
-它拥有 DBA 的角色。主要负责对数据库中各种对象，各种资源的管理。
-</code></pre><p><strong>其他用户 (如SCOTT)</strong></p>
-<pre><code>普通用户，能够执行被授权范围之内的操作。
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Oracle-的体系结构&quot;&gt;&lt;a href=&quot;#Oracle-的体系结构&quot; class=&quot;headerlink&quot; title=&quot;Oracle 的体系结构&quot;&gt;&lt;/a&gt;Oracle 的体系结构&lt;/h1&gt;&lt;p&gt;数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Oracle" scheme="http://liugch.top/categories/Oracle/"/>
-    
-    
-      <category term="Oracle" scheme="http://liugch.top/tags/Oracle/"/>
-    
-  </entry>
+
+
+<html class="theme-next pisces">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <entry>
-    <title>Spring的世界</title>
-    <link href="http://liugch.top/2016/09/24/spring/"/>
-    <id>http://liugch.top/2016/09/24/spring/</id>
-    <published>2016-09-24T09:40:51.000Z</published>
-    <updated>2016-10-30T06:44:32.132Z</updated>
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
     
-    <content type="html"><![CDATA[<div style="font-size:34px">Spring4参考手册中文版</div>
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="何有悠然" type="application/atom+xml" />
+  
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Spring4参考手册中文版
+
+前言我是前言。
+Part III. 核心技术本部分参考手册完全覆盖了Srping 框架的全部技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring的世界">
+<meta property="og:url" content="http://liugch.top/2016/09/24/spring/index.html">
+<meta property="og:site_name" content="何有悠然">
+<meta property="og:description" content="Spring4参考手册中文版
+
+前言我是前言。
+Part III. 核心技术本部分参考手册完全覆盖了Srping 框架的全部技术">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.0.5.RELEASE/spring-framework-reference/htmlsingle/images/container-magic.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/singleton.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:image" content="http://docs.spring.io/spring/docs/4.2.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/images/note.png">
+<meta property="og:updated_time" content="2016-10-30T06:44:32.132Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring的世界">
+<meta name="twitter:description" content="Spring4参考手册中文版
+
+前言我是前言。
+Part III. 核心技术本部分参考手册完全覆盖了Srping 框架的全部技术">
+<meta name="twitter:image" content="http://docs.spring.io/spring/docs/4.0.5.RELEASE/spring-framework-reference/htmlsingle/images/container-magic.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Spring的世界 | 何有悠然  - 个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">何有悠然</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle" id="site-subtitle">Liu Guangch's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button onclick="showSubtitle()">
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav" id="site-nav">
+  
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photos">
+          <a href="/photos" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-picture-o"></i> <br />
+            
+            づ╭❤～づ相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mylove">
+          <a href="/mylove" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            陪伴づ╭❤～づ
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar-check-o"></i> <br />
+            
+            日志
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-commenting-o"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+	  
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring的世界
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-24T17:40:51+08:00" content="2016-09-24">
+              2016-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/spring/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/spring/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+			
+			
+			
+		
+					
+			
+			
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div style="font-size:34px">Spring4参考手册中文版</div>
 
 <p></p><h1>前言</h1><br>我是前言。<p></p>
 <p></p><h1 id="spring-core">Part III. 核心技术</h1><br>本部分参考手册完全覆盖了Srping 框架的全部技术<br><a id="more"></a><br>首先是Spring IoC控制反转。深入彻底的IoC讲解之后，紧随其后的是全面解说Spring AOP。Spring有自己的AOP框架,该框架概念简单易于理解，能解决Java企业应用中80%的需求<p></p>
@@ -675,22 +783,716 @@ sqlplus /nolog
 <p>在使用<code>Beanfactory</code>时，注册<code>BeanFactoryPostProcessor</code>，得这样:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">XmlBeanFactory factory = <span class="keyword">new</span> XmlBeanFactory(<span class="keyword">new</span> FileSystemResource(<span class="string">"beans.xml"</span>));</div><div class="line"></div><div class="line"><span class="comment">// bring in some property values from a Properties file</span></div><div class="line">PropertyPlaceholderConfigurer cfg = <span class="keyword">new</span> PropertyPlaceholderConfigurer();</div><div class="line">cfg.setLocation(<span class="keyword">new</span> FileSystemResource(<span class="string">"jdbc.properties"</span>));</div><div class="line"></div><div class="line"><span class="comment">// now actually do the replacement</span></div><div class="line">cfg.postProcessBeanFactory(factory);</div></pre></td></tr></table></figure></p>
 <p>上面2个栗子，显示注册步骤非常不便，这就是为什么推荐使用<code>ApplicationContext</code>的原因之一,就是为了方便的使用<code>BeanFactoryPostProcessors</code>和<code>BeanPostProcessors</code>。这些机制实现了一些非常重要的功能，比如property placeholder replacement and AOP</p>
 <p></p><h4 id="beans-servicelocator">耦合代码和邪恶的单例</h4><br>在应用中，推荐使用依赖注入的方式编写，使用Spring IoC容器管理的代码，当需要创建实例时，从容器获取他的依赖关系，并且对象对容器将对其一无所知，对于一些小的借合层的代码，也许会需要与其他层、组件、bean互相协作，可以以单例（准单例）方式使用Spring IoC容器。比如，第三方组件会使用构造器创建新对象（<code>Class.forName()</code>风格）,而不能使用IoC容器获取这些对象。 如果第三方组件创建的对象是stub或者proxy代理，然后这些对象以单例风格从Ioc容器获取真正的对象加以委派，此时控制反转完成主要工作（对象将脱离于容器管理）。此时，大部分代码不需知道容器、也不需知道如何访问容器，好处就是代码解耦。EJBs也可以使用这种方式，代理的方式委派给简单的java实现对象，java对象从Ioc容器检出。然而，spring Ioc容器必须得设计为单例，。。。。。。。//TODO<br><em>未翻译完，翻了完了不通顺，第五章总算是搞定了</em><p></p>
-</aop:scoped-proxy>]]></content>
-    
-    <summary type="html">
-    
-      &lt;div style=&quot;font-size:34px&quot;&gt;Spring4参考手册中文版&lt;/div&gt;
+</aop:scoped-proxy>
+      
+    </div>
 
-&lt;p&gt;&lt;h1&gt;前言&lt;/h1&gt;&lt;br&gt;我是前言。&lt;/p&gt;
-&lt;p&gt;&lt;h1 id=&quot;spring-core&quot;&gt;Part III. 核心技术&lt;/h1&gt;&lt;br&gt;本部分参考手册完全覆盖了Srping 框架的全部技术&lt;br&gt;
+	<div>
+      
+        
+<div style="text-align:center;color: #ccc;font-size:14px;">------ づ╭❤ ～ 文本结束 ～づ╭❤ ------</div>
+
+      
+    </div>
+	
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag">#Spring</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/24/index/" class="post-nav-title-link" rel="prev" title="Oralce的世界">
+                <i class="fa fa-chevron-left"></i> Oralce的世界 
+              </a>
+            
+          </div>
+		  
+		  <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/09/24/spring/"
+     data-title="Spring的世界"
+     data-content=""
+     data-url="http://liugch.top/2016/09/24/spring/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><span class="ds-more" >分享到：</span></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
     
-    </summary>
+      <div class="ds-thread" data-thread-key="2016/09/24/spring/"
+           data-title="Spring的世界" data-url="http://liugch.top/2016/09/24/spring/">
+      </div>
     
-      <category term="Spring" scheme="http://liugch.top/categories/Spring/"/>
-    
-    
-      <category term="Spring" scheme="http://liugch.top/tags/Spring/"/>
-    
-  </entry>
+  </div>
+
+
+        </div>
+        
+          
   
-</feed>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=562862502,2807361029&fm=116&gp=0.jpg"
+               alt="何有悠然" />
+          <p class="site-author-name" itemprop="name">何有悠然</p>
+          <p class="site-description motion-element" itemprop="description">有你陪伴,寻找属于自己空间</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" target="_blank" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+			 <a title="偶尔High一下^_^" rel="alternate" class="mw-harlem_shake_slow wobble shake" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+ 
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+})()'><i class="fa fa-music"></i> High</a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liugch" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/liugch" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+              友情链接
+            </div>
+           
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://www.dnspod.cn/" title="DNSPOD" target="_blank">DNSPOD</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://portal.qiniu.com/create" title="七牛" target="_blank">七牛</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://leancloud.cn/" title="Leancloud" target="_blank">Leancloud</a>
+                </span>
+              
+            
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-core"><span class="nav-number">2.</span> <span class="nav-text">Part III. 核心技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#beans"><span class="nav-number">2.1.</span> <span class="nav-text">IoC容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-introduction"><span class="nav-number">2.1.1.</span> <span class="nav-text">springIOC容器和beans简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-basics"><span class="nav-number">2.1.2.</span> <span class="nav-text">容器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-metadata"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">配置元数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-instantiation"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">容器实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-xml-import"><span class="nav-number">2.1.2.2.1.</span> <span class="nav-text">引入基于xml的元数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-client"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">使用容器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-definition"><span class="nav-number">2.1.3.</span> <span class="nav-text">Bean概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-beanname"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">beans命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-class"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">bean实例化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-class-ctor"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">用构造函数实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-class-static-factory-method"><span class="nav-number">2.1.3.3.1.</span> <span class="nav-text">使用静态工厂方法实例化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-class-instance-factory-method"><span class="nav-number">2.1.3.3.2.</span> <span class="nav-text">使用实例工厂方法实例化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-dependencies"><span class="nav-number">2.1.4.</span> <span class="nav-text">依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-collaborators"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-ctor-arguments-resolution"><span class="nav-number">2.1.4.1.1.</span> <span class="nav-text">构造函数参数解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-setter-injection"><span class="nav-number">2.1.4.1.2.</span> <span class="nav-text">setter注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-dependency-resolution"><span class="nav-number">2.1.4.1.3.</span> <span class="nav-text">依赖处理过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-some-examples"><span class="nav-number">2.1.4.1.4.</span> <span class="nav-text">注入依赖样例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-properties-detailed"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">依赖和配置详解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-value-element"><span class="nav-number">2.1.4.2.1.</span> <span class="nav-text">直接赋值(原始类型、String等等)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-idref-element"><span class="nav-number">2.1.4.2.2.</span> <span class="nav-text">元素idref</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-ref-element"><span class="nav-number">2.1.4.2.3.</span> <span class="nav-text">引用其他bean(协作类)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-inner-beans"><span class="nav-number">2.1.4.2.4.</span> <span class="nav-text">内部bean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-collection-elements"><span class="nav-number">2.1.4.2.5.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-collection-elements-merging"><span class="nav-number">2.1.4.2.6.</span> <span class="nav-text">集合合并</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#`beans-null-element`"><span class="nav-number">2.1.4.2.7.</span> <span class="nav-text">Null值和空字串</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-p-namespace"><span class="nav-number">2.1.4.2.8.</span> <span class="nav-text">XML简写p命名空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-c-namespace"><span class="nav-number">2.1.4.2.9.</span> <span class="nav-text">c-namespace命名空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-compound-property-names"><span class="nav-number">2.1.4.2.10.</span> <span class="nav-text">复合属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-dependson"><span class="nav-number">2.1.4.3.</span> <span class="nav-text">使用depends-on</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-lazy-init"><span class="nav-number">2.1.4.4.</span> <span class="nav-text">延迟初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-autowire"><span class="nav-number">2.1.4.5.</span> <span class="nav-text">自动装配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-autowired-exceptions"><span class="nav-number">2.1.4.5.1.</span> <span class="nav-text">自动装配的局限和缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-autowire-candidate"><span class="nav-number">2.1.4.5.2.</span> <span class="nav-text">排除自动装配bean</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-method-injection"><span class="nav-number">2.1.4.6.</span> <span class="nav-text">方法注入</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lookup-method-injection"><span class="nav-number">2.1.4.6.1.</span> <span class="nav-text">查找式方法注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-arbitrary-method-replacement"><span class="nav-number">2.1.4.6.2.</span> <span class="nav-text">任意方法替换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-factory-scopes"><span class="nav-number">2.1.5.</span> <span class="nav-text">bean作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="##beans-factory-scopes-singleton"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">单例作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-scopes-sing-prot-interaction"><span class="nav-number">2.1.5.2.</span> <span class="nav-text">单例依赖原型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-scopes-other"><span class="nav-number">2.1.5.3.</span> <span class="nav-text"> Request, session, and global session scopes</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-other-web-configuration"><span class="nav-number">2.1.5.3.1.</span> <span class="nav-text">初始化web配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-request"><span class="nav-number">2.1.5.3.2.</span> <span class="nav-text">Request作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-session"><span class="nav-number">2.1.5.3.3.</span> <span class="nav-text">session作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-global-session"><span class="nav-number">2.1.5.3.4.</span> <span class="nav-text">全局Session作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-application"><span class="nav-number">2.1.5.3.5.</span> <span class="nav-text">应用作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-other-injection"><span class="nav-number">2.1.5.3.6.</span> <span class="nav-text">不同级别作用域bean之间依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-other-injection-proxies"><span class="nav-number">2.1.5.3.7.</span> <span class="nav-text">选择代理类型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-scopes-custom"><span class="nav-number">2.1.5.4.</span> <span class="nav-text">自定义作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-custom-creating"><span class="nav-number">2.1.5.4.1.</span> <span class="nav-text">创建自定义作用域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-scopes-custom-using"><span class="nav-number">2.1.5.4.2.</span> <span class="nav-text">使用自定义作用域</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-factory-nature"><span class="nav-number">2.1.6.</span> <span class="nav-text">Customizing the nature of a bean自定义bean的xxx擦这个nature该怎么翻</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-lifecycle"><span class="nav-number">2.1.6.1.</span> <span class="nav-text">生命周期回调函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lifecycle-initializingbean"><span class="nav-number">2.1.6.1.1.</span> <span class="nav-text">初始化回调</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lifecycle-disposablebean"><span class="nav-number">2.1.6.1.2.</span> <span class="nav-text">销毁回调</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lifecycle-default-init-destroy-methods"><span class="nav-number">2.1.6.1.3.</span> <span class="nav-text">默认的初始化函数和销毁函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lifecycle-combined-effects"><span class="nav-number">2.1.6.1.4.</span> <span class="nav-text">联合混合使用多种生命周期回调机制</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-lifecycle-processor"><span class="nav-number">2.1.6.1.5.</span> <span class="nav-text">容器启动和关闭回调</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-shutdown"><span class="nav-number">2.1.6.1.6.</span> <span class="nav-text">非web应用中安全的关闭Spring IoC容器</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-aware"><span class="nav-number">2.1.6.2.</span> <span class="nav-text">ApplicationContextAware and BeanNameAware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aware-list"><span class="nav-number">2.1.6.3.</span> <span class="nav-text">Other Aware interfaces</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-child-bean-definitions"><span class="nav-number">2.1.7.</span> <span class="nav-text">Spring Bean的继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-factory-extension"><span class="nav-number">2.1.8.</span> <span class="nav-text">容器扩展点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-extension-bp"><span class="nav-number">2.1.8.1.</span> <span class="nav-text">使用BeanPostProcessor自定义bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-extension-factory-postprocessors"><span class="nav-number">2.1.8.2.</span> <span class="nav-text">使用BeanFactoryPostProcessor自定义配置元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-placeholderconfigurer"><span class="nav-number">2.1.8.2.1.</span> <span class="nav-text">Example: the Class name substitution PropertyPlaceholderConfigurer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-factory-overrideconfigurer"><span class="nav-number">2.1.8.2.2.</span> <span class="nav-text">Example: the PropertyOverrideConfigurer</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factory-extension-factorybean"><span class="nav-number">2.1.8.3.</span> <span class="nav-text">使用FactoryBean自定义实例化逻辑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-annotation-config"><span class="nav-number">2.1.9.</span> <span class="nav-text">基于注解的把配置元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-required-annotation"><span class="nav-number">2.1.9.1.</span> <span class="nav-text">@Required</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-autowired-annotation"><span class="nav-number">2.1.9.2.</span> <span class="nav-text">@Autowired</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-autowired-annotation-qualifiers"><span class="nav-number">2.1.9.3.</span> <span class="nav-text">使用限定符对自动注入注解微调</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-generics-as-qualifiers"><span class="nav-number">2.1.9.4.</span> <span class="nav-text">范型作为自动装配限定符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-custom-autowire-configurer"><span class="nav-number">2.1.9.5.</span> <span class="nav-text">CustomAutowireConfigurer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="##beans-resource-annotation"><span class="nav-number">2.1.9.6.</span> <span class="nav-text">@Resouce</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-postconstruct-and-predestroy-annotations"><span class="nav-number">2.1.9.7.</span> <span class="nav-text">@PostConstruct and @PreDestroy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-classpath-scanning"><span class="nav-number">2.1.10.</span> <span class="nav-text">ClassPath扫描和管理组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-stereotype-annotations"><span class="nav-number">2.1.10.1.</span> <span class="nav-text">@Component和各代码层注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-meta-annotations"><span class="nav-number">2.1.10.2.</span> <span class="nav-text">Meta-annotations元注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-scanning-autodetection"><span class="nav-number">2.1.10.3.</span> <span class="nav-text">自动探测类和自动注册bean定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-scanning-filters"><span class="nav-number">2.1.10.4.</span> <span class="nav-text">使用过滤器自定义扫描</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-factorybeans-annotations"><span class="nav-number">2.1.10.5.</span> <span class="nav-text">在组件内定义Spring bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-scanning-name-generator"><span class="nav-number">2.1.10.6.</span> <span class="nav-text">命名自动注册组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-scanning-scope-resolver"><span class="nav-number">2.1.10.7.</span> <span class="nav-text">为自动探测组件提供作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-scanning-qualifiers"><span class="nav-number">2.1.10.8.</span> <span class="nav-text">为注解提供标示符Qualifier</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-standard-annotations"><span class="nav-number">2.1.11.</span> <span class="nav-text">使用JSR-330标准注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-inject-named"><span class="nav-number">2.1.11.1.</span> <span class="nav-text">使用@Inject @Name依赖注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-named"><span class="nav-number">2.1.11.2.</span> <span class="nav-text">@Named:相当于@Component</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-standard-annotations-limitations"><span class="nav-number">2.1.11.3.</span> <span class="nav-text">标准注解的限制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-java"><span class="nav-number">2.1.12.</span> <span class="nav-text">基于Java的配置元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-java-basic-concepts"><span class="nav-number">2.1.12.1.</span> <span class="nav-text">基本概念@Bean和@Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-instantiating-container"><span class="nav-number">2.1.12.1.1.</span> <span class="nav-text">使用AnnotationConfigApplicationContext实例化Spring IoC容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-instantiating-container-contstructor"><span class="nav-number">2.1.12.1.2.</span> <span class="nav-text">简单结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-instantiating-container-register"><span class="nav-number">2.1.12.1.3.</span> <span class="nav-text">使用 register(Class<?>…)编程式构造Spring容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-instantiating-container-scan"><span class="nav-number">2.1.12.1.4.</span> <span class="nav-text">开启组件扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-instantiating-container-web"><span class="nav-number">2.1.12.1.5.</span> <span class="nav-text">使用AnnotationConfigWebApplicationContext支持WEB应用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-java-bean-annotation"><span class="nav-number">2.1.12.2.</span> <span class="nav-text">使用@Bean注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-declaring-a-bean"><span class="nav-number">2.1.12.2.1.</span> <span class="nav-text">声明bean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-lifecycle-callbacks"><span class="nav-number">2.1.12.2.2.</span> <span class="nav-text">接收生命周期回调</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-specifying-bean-scope"><span class="nav-number">2.1.12.2.3.</span> <span class="nav-text">指定bean作用域scope</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#beans-java-available-scopes"><span class="nav-number">2.1.12.2.3.1.</span> <span class="nav-text">使用@Scope注解</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="##beans-java-scoped-proxy"><span class="nav-number">2.1.12.2.3.2.</span> <span class="nav-text">@Scope 和作用域代理</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-customizing-bean-naming"><span class="nav-number">2.1.12.2.4.</span> <span class="nav-text">自定义bean名字</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-bean-aliasing"><span class="nav-number">2.1.12.2.5.</span> <span class="nav-text">bean别名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="##beans-java-bean-description"><span class="nav-number">2.1.12.2.6.</span> <span class="nav-text">bean描述</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-java-configuration-annotation"><span class="nav-number">2.1.12.3.</span> <span class="nav-text">使用@Configuration注解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-injecting-dependencies"><span class="nav-number">2.1.12.3.1.</span> <span class="nav-text">注入内部bean依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-method-injection"><span class="nav-number">2.1.12.3.2.</span> <span class="nav-text">查找方法注入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-further-information-java-config"><span class="nav-number">2.1.12.3.3.</span> <span class="nav-text">基于java配置的内部工作原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-java-composing-configuration-classes"><span class="nav-number">2.1.12.4.</span> <span class="nav-text">组装java配置元数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-using-import"><span class="nav-number">2.1.12.4.1.</span> <span class="nav-text">使用@Import注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-injecting-imported-beans"><span class="nav-number">2.1.12.4.2.</span> <span class="nav-text">在导入的bean上注入依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-conditional"><span class="nav-number">2.1.12.4.3.</span> <span class="nav-text">过滤@Configuration或者@Bean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-java-combining"><span class="nav-number">2.1.12.4.4.</span> <span class="nav-text">混合java和xml配置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#beans-java-combining-xml-centric"><span class="nav-number">2.1.12.4.4.1.</span> <span class="nav-text">基于XML混合使用@Configuration类</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#beans-java-combining-java-centric"><span class="nav-number">2.1.12.4.4.2.</span> <span class="nav-text">基于@Configuration混合使用xml配置</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-environment"><span class="nav-number">2.1.13.</span> <span class="nav-text">环境抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-definition-profiles"><span class="nav-number">2.1.13.1.</span> <span class="nav-text">bean定义profiles</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-definition-profiles-java"><span class="nav-number">2.1.13.1.1.</span> <span class="nav-text">@Profile</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-definition-profiles-xml"><span class="nav-number">2.1.13.2.</span> <span class="nav-text">XML bean定义profile</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-definition-profiles-enable"><span class="nav-number">2.1.13.2.1.</span> <span class="nav-text">开启profile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#beans-definition-profiles-default"><span class="nav-number">2.1.13.2.2.</span> <span class="nav-text">默认profile配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-property-source-abstraction"><span class="nav-number">2.1.13.3.</span> <span class="nav-text">PropertySource Abstraction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#__propertysource"><span class="nav-number">2.1.13.4.</span> <span class="nav-text">@PropertySource</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#_placeholder_resolution_in_statements"><span class="nav-number">2.1.13.5.</span> <span class="nav-text">Placeholder resolution in statements</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-load-time-weaver"><span class="nav-number">2.1.14.</span> <span class="nav-text">注册LoadTimeWeaver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-introduction"><span class="nav-number">2.1.15.</span> <span class="nav-text">补充说明ApplicationContext的能力</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#context-functionality-resources"><span class="nav-number">2.1.15.1.</span> <span class="nav-text">TODO使用MessageSource国际化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#context-functionality-events"><span class="nav-number">2.1.15.2.</span> <span class="nav-text">标注事件和自定义事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#context-functionality-resources"><span class="nav-number">2.1.15.3.</span> <span class="nav-text">便利的访问底层资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#context-create"><span class="nav-number">2.1.15.4.</span> <span class="nav-text">易用的web应用的ApplicationContext实例化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#context-deploy-rar"><span class="nav-number">2.1.15.5.</span> <span class="nav-text">将Spring ApplicationContext作为JAVA EE RAR文件部署</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#beans-beanfactory"><span class="nav-number">2.1.16.</span> <span class="nav-text">BeanFactory</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#context-introduction-ctx-vs-beanfactory"><span class="nav-number">2.1.16.1.</span> <span class="nav-text">BeanFactory or ApplicationContext</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#beans-servicelocator"><span class="nav-number">2.1.16.2.</span> <span class="nav-text">耦合代码和邪恶的单例</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何有悠然</span>
+  
+   <span style="margin-left:8px;">
+   <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+   </span>
+  
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank">Liugch</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank">
+    Liugch.Pisces 
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liugch"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  <script type="text/JavaScript">
+function hideElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="none";
+}
+
+function showElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="block";
+}
+</script>
+
+<script type="text/JavaScript">
+function showSubtitle()
+{
+  var siteNav=document.getElementById("site-nav");
+  if(siteNav.style.display=="block")
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="none";
+  }else
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="block";
+  }
+
+}
+</script>
+  
+
+</body>
+</html>
