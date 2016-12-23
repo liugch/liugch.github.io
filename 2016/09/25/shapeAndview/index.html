@@ -66,7 +66,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo,github," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -85,16 +85,39 @@
 
 
 
-<meta name="description" content="1.Hexo简介Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&amp;lt;属于个人的理解&amp;gt;">
+<meta name="description" content="布局的优化
+尽量的使用 include merge 
+劲量不要嵌套的太多的布局
+一般不要 RelativeLayout 里面再次嵌套 RelativeLayout
+
+布局的一些简化操作 &amp;lt;LinearLayout
+    android:layout_width=&amp;quot;match_parent&amp;quot;
+    android:layout_height=&amp;quot;120dp&amp;qu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo博客搭建">
-<meta property="og:url" content="http://liugch.top/2016/09/25/hexo/index.html">
+<meta property="og:title" content="Android Layout">
+<meta property="og:url" content="http://liugch.top/2016/09/25/shapeAndview/index.html">
 <meta property="og:site_name" content="何有悠然">
-<meta property="og:description" content="1.Hexo简介Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&amp;lt;属于个人的理解&amp;gt;">
-<meta property="og:updated_time" content="2016-10-22T18:07:26.393Z">
+<meta property="og:description" content="布局的优化
+尽量的使用 include merge 
+劲量不要嵌套的太多的布局
+一般不要 RelativeLayout 里面再次嵌套 RelativeLayout
+
+布局的一些简化操作 &amp;lt;LinearLayout
+    android:layout_width=&amp;quot;match_parent&amp;quot;
+    android:layout_height=&amp;quot;120dp&amp;qu">
+<meta property="og:image" content="http://i.imgur.com/LUa8sx6.png">
+<meta property="og:updated_time" content="2016-12-23T16:17:57.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo博客搭建">
-<meta name="twitter:description" content="1.Hexo简介Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&amp;lt;属于个人的理解&amp;gt;">
+<meta name="twitter:title" content="Android Layout">
+<meta name="twitter:description" content="布局的优化
+尽量的使用 include merge 
+劲量不要嵌套的太多的布局
+一般不要 RelativeLayout 里面再次嵌套 RelativeLayout
+
+布局的一些简化操作 &amp;lt;LinearLayout
+    android:layout_width=&amp;quot;match_parent&amp;quot;
+    android:layout_height=&amp;quot;120dp&amp;qu">
+<meta name="twitter:image" content="http://i.imgur.com/LUa8sx6.png">
 
 
 
@@ -112,7 +135,7 @@
   };
 </script>
 
-  <title> hexo博客搭建 | 何有悠然  - 个人博客 </title>
+  <title> Android Layout | 何有悠然  - 个人博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +324,7 @@
             
             
               
-                hexo博客搭建
+                Android Layout
               
             
           </h1>
@@ -313,7 +336,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T02:22:53+08:00" content="2016-09-25">
+            <time itemprop="dateCreated" datetime="2016-09-25T17:40:51+08:00" content="2016-09-25">
               2016-09-25
             </time>
           </span>
@@ -327,8 +350,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
@@ -343,8 +366,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/25/hexo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/hexo/" itemprop="commentsCount"></span>
+                <a href="/2016/09/25/shapeAndview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/shapeAndview/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -373,45 +396,118 @@
       
 
       
-        <h1 id="1-Hexo简介"><a href="#1-Hexo简介" class="headerlink" title="1.Hexo简介"></a>1.Hexo简介</h1><p>Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&lt;属于个人的理解&gt;</p>
-<a id="more"></a>
-<p>查考：<a href="https://hexo.io/zh-cn/docs/" title="Hexo帮助文档" target="_blank" rel="external">Hexo的帮助文档重要 </a></p>
-<h1 id="2-博客环境的搭建"><a href="#2-博客环境的搭建" class="headerlink" title="2.博客环境的搭建"></a>2.博客环境的搭建</h1><h2 id="一、安装Git"><a href="#一、安装Git" class="headerlink" title="一、安装Git"></a>一、安装Git</h2><blockquote>
-<p>下载地址  <a href="https://git-scm.com/download" title="Git下载地址" target="_blank" rel="external">https://git-scm.com/download</a></p>
+        <h1 id="布局的优化"><a href="#布局的优化" class="headerlink" title="布局的优化"></a>布局的优化</h1><blockquote>
+<p>尽量的使用 include merge </p>
+<p>劲量不要嵌套的太多的布局</p>
+<p>一般不要 RelativeLayout 里面再次嵌套 RelativeLayout</p>
 </blockquote>
-<h2 id="二、安装Node-js"><a href="#二、安装Node-js" class="headerlink" title="二、安装Node.js"></a>二、安装Node.js</h2><blockquote>
-<p>下载地址  <a href="http://nodejs.cn/download/" title="Node.js下载地址" target="_blank" rel="external">http://nodejs.cn/download/</a></p>
-</blockquote>
-<h2 id="三、安装Hexo"><a href="#三、安装Hexo" class="headerlink" title="三、安装Hexo"></a>三、安装Hexo</h2><p>Git和Node.js 安装好后，在一个合适的位置新建一个文件夹（英文的比较好），之后就开始使用Hexo了。</p>
-<blockquote>
-<p>Hexo的安装并初始化</p>
-</blockquote>
-<pre><code>$ npm install -g hexo-cli
-$ hexo init
-</code></pre><p>安装Hexo后会在该文件夹下生成如下的文件</p>
-<pre><code>├── _config.yml
-├── package.json
-├── scaffolds
-├── source
-|   ├── _drafts
-|   └── _posts
-└── themes
-</code></pre><p>其中_config.yml文件用于存放网站的配置信息，你可以在此配置大部分的参数；scaffolds是存放模板的文件夹，当新建文章时，Hexo 会根据scaffold来建立文件；source是资源文件夹，用于存放用户资源，themes是主题文件夹，存放博客主题，Hexo 会根据主题来生成静态页面。</p>
-<blockquote>
-<p>生成静态的博文</p>
-</blockquote>
-<p>在Git Bash终端执行命令：</p>
-<pre><code>1  hexo g
-2  hexo s
-</code></pre><p>可以组合起来使用：</p>
-<pre><code>hexo s -g
-</code></pre><p>执行完之后：</p>
-<p>Hexo将source文件夹中的 Markdown 和 HTML 文件会被解析并放到public文件夹中，public文件夹用于存放静态博客文件，相当于网站根目录。</p>
-<blockquote>
-<p>至此简单的博客已经搭建完毕  访问：<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a></p>
-</blockquote>
-<hr>
+<h2 id="布局的一些简化操作"><a href="#布局的一些简化操作" class="headerlink" title="布局的一些简化操作"></a>布局的一些简化操作</h2><pre><code> &lt;LinearLayout
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;120dp&quot;
+    android:orientation=&quot;horizontal&quot;&gt;
 
+    &lt;ImageView
+        android:layout_width=&quot;120dp&quot;
+        android:layout_height=&quot;120dp&quot;
+        android:layout_margin=&quot;5dp&quot;
+        android:src=&quot;@drawable/touxiang&quot; /&gt;
+    &lt;!--
+    ineSpacingExtra属性代表的是行间距，他默认是0，是一个绝对高度值。
+    同时还有lineSpacingMultiplier属性， 它代表行间距倍数，默认为1.0f，是一个相对高度值。
+    android:text=&quot;你好\n第三方\n大都饭店&quot; 自动回帮你换行
+    --&gt;
+    &lt;TextView
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:lineSpacingMultiplier=&quot;2&quot;
+        android:text=&quot;你好\n第三方\n大都饭店&quot;
+        android:textSize=&quot;14sp&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><blockquote>
+<p>定义 一个shape的XML</p>
+<p>调用 自定义的 shape 设置包含item的分割线</p>
+<p>item中的间隔我可以 放弃 view 和 margin 用 space 使用</p>
+</blockquote>
+<p><strong>类似的效果图</strong></p>
+<pre><code>![](http://i.imgur.com/bV20OlF.png)
+</code></pre><p><strong>divider.xml</strong></p>
+<pre><code>&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+&lt;size
+    android:width=&quot;1dp&quot;
+    android:height=&quot;1dp&quot;/&gt;
+&lt;solid
+    android:color=&quot;#e1e1e1&quot;/&gt;
+&lt;/shape&gt;
+</code></pre><p><strong>布局</strong>    </p>
+<pre><code>&lt;!--
+    divider:调用 定义的shape  
+    showDividers:分割线显示的位置
+    android:drawableLeft=&quot;@mipmap/shebei
+    Space: 设置 间隔
+ --&gt;
+&lt;LinearLayout
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:divider=&quot;@drawable/divider&quot;
+    android:showDividers=&quot;middle|beginning|end&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+    &lt;Space
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;30dp&quot; /&gt;
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p><strong>TextView 实现超链接</strong></p>
+<p>效果图:</p>
+<p><img src="http://i.imgur.com/LUa8sx6.png" alt=""></p>
+<pre><code>//布局
+ &lt;TextView
+    android:id=&quot;@+id/text&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:autoLink=&quot;all&quot; /&gt;
+
+// activity
+ text=(TextView) findViewById(R.id.text);
+    String texts = &quot;网址：http://www.baidu.com&quot;+&quot;\n&quot;;
+    texts += &quot;邮箱:88888888@qq.com&quot;+&quot;\n&quot;;
+    texts += &quot;电话：13888888888&quot; +&quot;\n&quot;;
+    text.setText(texts);
+</code></pre>
       
     </div>
 
@@ -440,9 +536,7 @@ $ hexo init
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag">#hexo</a>
-          
-            <a href="/tags/github/" rel="tag">#github</a>
+            <a href="/tags/Android/" rel="tag">#Android</a>
           
         </div>
       
@@ -451,16 +545,16 @@ $ hexo init
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/25/shapeAndview/" class="post-nav-title-link" rel="prev" title="Android Layout">
-                <i class="fa fa-chevron-left"></i> Android Layout 
+              <a href="/2016/09/26/menu/" class="post-nav-title-link" rel="prev" title="Android Menu">
+                <i class="fa fa-chevron-left"></i> Android Menu 
               </a>
             
           </div>
 		  
 		  <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/24/index/" class="post-nav-title-link" rel="next" title="Oralce的世界">
-                Oralce的世界  <i class="fa fa-chevron-right"></i>
+              <a href="/2016/09/25/hexo/" class="post-nav-title-link" rel="next" title="hexo博客搭建">
+                hexo博客搭建  <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -476,10 +570,10 @@ $ hexo init
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/09/25/hexo/"
-     data-title="hexo博客搭建"
+        <div class="ds-share flat" data-thread-key="2016/09/25/shapeAndview/"
+     data-title="Android Layout"
      data-content=""
-     data-url="http://liugch.top/2016/09/25/hexo/">
+     data-url="http://liugch.top/2016/09/25/shapeAndview/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -504,8 +598,8 @@ $ hexo init
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/25/hexo/"
-           data-title="hexo博客搭建" data-url="http://liugch.top/2016/09/25/hexo/">
+      <div class="ds-thread" data-thread-key="2016/09/25/shapeAndview/"
+           data-title="Android Layout" data-url="http://liugch.top/2016/09/25/shapeAndview/">
       </div>
     
   </div>
@@ -795,7 +889,7 @@ $ hexo init
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Hexo简介"><span class="nav-number">1.</span> <span class="nav-text">1.Hexo简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-博客环境的搭建"><span class="nav-number">2.</span> <span class="nav-text">2.博客环境的搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、安装Git"><span class="nav-number">2.1.</span> <span class="nav-text">一、安装Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、安装Node-js"><span class="nav-number">2.2.</span> <span class="nav-text">二、安装Node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、安装Hexo"><span class="nav-number">2.3.</span> <span class="nav-text">三、安装Hexo</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#布局的优化"><span class="nav-number">1.</span> <span class="nav-text">布局的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布局的一些简化操作"><span class="nav-number">1.1.</span> <span class="nav-text">布局的一些简化操作</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

@@ -303,8 +303,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/24/index/" itemprop="url">
-                  Oralce的世界
+                <a class="post-title-link" href="/2016/09/25/shapeAndview/" itemprop="url">
+                  Android Layout
                 </a>
               
             
@@ -317,8 +317,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-24T17:40:51+08:00" content="2016-09-24">
-              2016-09-24
+            <time itemprop="dateCreated" datetime="2016-09-25T17:40:51+08:00" content="2016-09-25">
+              2016-09-25
             </time>
           </span>
 
@@ -331,8 +331,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Oracle/" itemprop="url" rel="index">
-                    <span itemprop="name">Oracle</span>
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
@@ -347,8 +347,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/24/index/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/index/" itemprop="commentsCount"></span>
+                <a href="/2016/09/25/shapeAndview/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/shapeAndview/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -378,12 +378,120 @@
 
       
         
-          <h1 id="Oracle-的体系结构"><a href="#Oracle-的体系结构" class="headerlink" title="Oracle 的体系结构"></a>Oracle 的体系结构</h1><p>数据库是一个以某种有组织的方式存储的数据集合。 它本质上是用计算机存储记录的系统，是位于用户和系统之间的一层管理软件。 Oracle 数据库是目前最流行、最强大的面向对象的关系型数据库(ORDBMS)。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/24/index/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
+            <h1 id="布局的优化"><a href="#布局的优化" class="headerlink" title="布局的优化"></a>布局的优化</h1><blockquote>
+<p>尽量的使用 include merge </p>
+<p>劲量不要嵌套的太多的布局</p>
+<p>一般不要 RelativeLayout 里面再次嵌套 RelativeLayout</p>
+</blockquote>
+<h2 id="布局的一些简化操作"><a href="#布局的一些简化操作" class="headerlink" title="布局的一些简化操作"></a>布局的一些简化操作</h2><pre><code> &lt;LinearLayout
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;120dp&quot;
+    android:orientation=&quot;horizontal&quot;&gt;
+
+    &lt;ImageView
+        android:layout_width=&quot;120dp&quot;
+        android:layout_height=&quot;120dp&quot;
+        android:layout_margin=&quot;5dp&quot;
+        android:src=&quot;@drawable/touxiang&quot; /&gt;
+    &lt;!--
+    ineSpacingExtra属性代表的是行间距，他默认是0，是一个绝对高度值。
+    同时还有lineSpacingMultiplier属性， 它代表行间距倍数，默认为1.0f，是一个相对高度值。
+    android:text=&quot;你好\n第三方\n大都饭店&quot; 自动回帮你换行
+    --&gt;
+    &lt;TextView
+        android:layout_width=&quot;wrap_content&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:lineSpacingMultiplier=&quot;2&quot;
+        android:text=&quot;你好\n第三方\n大都饭店&quot;
+        android:textSize=&quot;14sp&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><blockquote>
+<p>定义 一个shape的XML</p>
+<p>调用 自定义的 shape 设置包含item的分割线</p>
+<p>item中的间隔我可以 放弃 view 和 margin 用 space 使用</p>
+</blockquote>
+<p><strong>类似的效果图</strong></p>
+<pre><code>![](http://i.imgur.com/bV20OlF.png)
+</code></pre><p><strong>divider.xml</strong></p>
+<pre><code>&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+&lt;size
+    android:width=&quot;1dp&quot;
+    android:height=&quot;1dp&quot;/&gt;
+&lt;solid
+    android:color=&quot;#e1e1e1&quot;/&gt;
+&lt;/shape&gt;
+</code></pre><p><strong>布局</strong>    </p>
+<pre><code>&lt;!--
+    divider:调用 定义的shape  
+    showDividers:分割线显示的位置
+    android:drawableLeft=&quot;@mipmap/shebei
+    Space: 设置 间隔
+ --&gt;
+&lt;LinearLayout
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:divider=&quot;@drawable/divider&quot;
+    android:showDividers=&quot;middle|beginning|end&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+    &lt;Space
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;30dp&quot; /&gt;
+    &lt;TextView
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;40dp&quot;
+        android:background=&quot;#ffffff&quot;
+        android:drawableLeft=&quot;@mipmap/shebei&quot;
+        android:drawablePadding=&quot;5dp&quot;
+        android:drawableRight=&quot;@drawable/right&quot;
+        android:gravity=&quot;center_vertical&quot;
+        android:paddingLeft=&quot;5dp&quot;
+        android:paddingRight=&quot;5dp&quot;
+        android:text=&quot;我的设备&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><p><strong>TextView 实现超链接</strong></p>
+<p>效果图:</p>
+<p><img src="http://i.imgur.com/LUa8sx6.png" alt=""></p>
+<pre><code>//布局
+ &lt;TextView
+    android:id=&quot;@+id/text&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:autoLink=&quot;all&quot; /&gt;
+
+// activity
+ text=(TextView) findViewById(R.id.text);
+    String texts = &quot;网址：http://www.baidu.com&quot;+&quot;\n&quot;;
+    texts += &quot;邮箱:88888888@qq.com&quot;+&quot;\n&quot;;
+    texts += &quot;电话：13888888888&quot; +&quot;\n&quot;;
+    text.setText(texts);
+</code></pre>
+          
         
       
     </div>
@@ -435,8 +543,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/24/spring/" itemprop="url">
-                  Spring的世界
+                <a class="post-title-link" href="/2016/09/25/hexo/" itemprop="url">
+                  hexo博客搭建
                 </a>
               
             
@@ -449,8 +557,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-24T17:40:51+08:00" content="2016-09-24">
-              2016-09-24
+            <time itemprop="dateCreated" datetime="2016-09-25T02:22:53+08:00" content="2016-09-25">
+              2016-09-25
             </time>
           </span>
 
@@ -463,8 +571,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Spring/" itemprop="url" rel="index">
-                    <span itemprop="name">Spring</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
 
@@ -479,8 +587,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/24/spring/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/spring/" itemprop="commentsCount"></span>
+                <a href="/2016/09/25/hexo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/hexo/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -510,12 +618,9 @@
 
       
         
-          <div style="font-size:34px">Spring4参考手册中文版</div>
-
-<p><h1>前言</h1><br>我是前言。</p>
-<p><h1 id="spring-core">Part III. 核心技术</h1><br>本部分参考手册完全覆盖了Srping 框架的全部技术<br>
+          <h1 id="1-Hexo简介"><a href="#1-Hexo简介" class="headerlink" title="1.Hexo简介"></a>1.Hexo简介</h1><p>Hexo是一款基于Node.js 的静态博客框架，并且使用Markdown来解析文章的，本地安装Hexo后，可以利用git版本控制工具来操作Hexo,利用Hexo的主题来自动生成静态的网页。&lt;属于个人的理解&gt;</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/24/spring/#more" rel="contents">
+            <a class="btn" href="/2016/09/25/hexo/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -553,7 +658,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -594,7 +699,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -602,7 +707,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -611,7 +716,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
