@@ -437,7 +437,7 @@ public void onClick(View v) {
     <link href="http://liugch.top/2016/09/25/shapeAndview/"/>
     <id>http://liugch.top/2016/09/25/shapeAndview/</id>
     <published>2016-09-25T09:40:51.000Z</published>
-    <updated>2016-12-23T16:17:57.237Z</updated>
+    <updated>2016-12-23T16:29:09.405Z</updated>
     
     <content type="html"><![CDATA[<h1 id="布局的优化"><a href="#布局的优化" class="headerlink" title="布局的优化"></a>布局的优化</h1><blockquote>
 <p>尽量的使用 include merge </p>
@@ -473,8 +473,8 @@ public void onClick(View v) {
 <p>item中的间隔我可以 放弃 view 和 margin 用 space 使用</p>
 </blockquote>
 <p><strong>类似的效果图</strong></p>
-<pre><code>![](http://i.imgur.com/bV20OlF.png)
-</code></pre><p><strong>divider.xml</strong></p>
+<p><img src="http://i.imgur.com/bV20OlF.png" alt=""></p>
+<p><strong>divider.xml</strong></p>
 <pre><code>&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
 &lt;size
     android:width=&quot;1dp&quot;
