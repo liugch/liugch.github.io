@@ -1844,6 +1844,35 @@ public class TestCglib {
   </entry>
   
   <entry>
+    <title>Mabatis基本使用</title>
+    <link href="http://liugch.top/2017/01/01/Mybatis%20%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB/"/>
+    <id>http://liugch.top/2017/01/01/Mybatis 映射关系/</id>
+    <published>2017-01-01T11:40:01.000Z</published>
+    <updated>2017-04-14T09:05:16.919Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Mabatis基本使用"><a href="#Mabatis基本使用" class="headerlink" title="Mabatis基本使用"></a>Mabatis基本使用</h1><blockquote>
+<p>Mabatis 表与实体的映射关系</p>
+</blockquote>
+<p><a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
+<a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Mabatis基本使用&quot;&gt;&lt;a href=&quot;#Mabatis基本使用&quot; class=&quot;headerlink&quot; title=&quot;Mabatis基本使用&quot;&gt;&lt;/a&gt;Mabatis基本使用&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;Mabatis 表与实体的映射关系&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/xdp-gacl/p/4264440.html&quot;&gt;http://www.cnblogs.com/xdp-gacl/p/4264440.html&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Mabatis" scheme="http://liugch.top/categories/Mabatis/"/>
+    
+    
+      <category term="Mabatis" scheme="http://liugch.top/tags/Mabatis/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Git 的基本使用</title>
     <link href="http://liugch.top/2017/01/01/Git%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
     <id>http://liugch.top/2017/01/01/Git 基本使用/</id>
@@ -1927,35 +1956,6 @@ public class TestCglib {
     
     
       <category term="git" scheme="http://liugch.top/tags/git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mabatis基本使用</title>
-    <link href="http://liugch.top/2017/01/01/Mybatis%20%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB/"/>
-    <id>http://liugch.top/2017/01/01/Mybatis 映射关系/</id>
-    <published>2017-01-01T11:40:01.000Z</published>
-    <updated>2017-04-14T09:05:16.919Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Mabatis基本使用"><a href="#Mabatis基本使用" class="headerlink" title="Mabatis基本使用"></a>Mabatis基本使用</h1><blockquote>
-<p>Mabatis 表与实体的映射关系</p>
-</blockquote>
-<p><a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
-<a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Mabatis基本使用&quot;&gt;&lt;a href=&quot;#Mabatis基本使用&quot; class=&quot;headerlink&quot; title=&quot;Mabatis基本使用&quot;&gt;&lt;/a&gt;Mabatis基本使用&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;Mabatis 表与实体的映射关系&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/xdp-gacl/p/4264440.html&quot;&gt;http://www.cnblogs.com/xdp-gacl/p/4264440.html&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Mabatis" scheme="http://liugch.top/categories/Mabatis/"/>
-    
-    
-      <category term="Mabatis" scheme="http://liugch.top/tags/Mabatis/"/>
     
   </entry>
   
@@ -2688,69 +2688,91 @@ getFilesDir();
   </entry>
   
   <entry>
-    <title>SSH 整合笔记</title>
-    <link href="http://liugch.top/2016/10/28/SSH%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/"/>
-    <id>http://liugch.top/2016/10/28/SSH整合笔记/</id>
+    <title>Spring 一些基本的注解的使用</title>
+    <link href="http://liugch.top/2016/10/28/Spring%20%E4%B8%80%E4%BA%9B%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>http://liugch.top/2016/10/28/Spring 一些注解的基本使用/</id>
     <published>2016-10-28T11:40:07.000Z</published>
-    <updated>2017-02-08T12:39:29.255Z</updated>
+    <updated>2017-02-08T12:32:53.190Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
-<p>SSH笔记</p>
+<p>Spring Bean 的一些配置</p>
 </blockquote>
-<p>rasphone  连接网络</p>
-<blockquote>
-<p>Spring 的使用教程</p>
-</blockquote>
-<h2 id="http-wiki-jikexueyuan-com-project-spring"><a href="#http-wiki-jikexueyuan-com-project-spring" class="headerlink" title="http://wiki.jikexueyuan.com/project/spring/ "></a><a href="http://wiki.jikexueyuan.com/project/spring/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/spring/</a> </h2><a id="more"></a>
-<blockquote>
-<p>Hibernate.initialize(autho.getBook()) 显式 lazy对象</p>
-</blockquote>
+<p><strong>id:</strong> Bean唯一标识</p>
+<p><strong>Class:</strong> Bean 对应的Class 类</p>
+<p><strong>lazy-init:</strong><br>值为: TRUE / false </p>
+<a id="more"></a>
+<p>默认为: false</p>
+<p>定义这个Bean是否懒初始化(就是用到这个Bean的时候才初始化)</p>
+<p><strong>singleton:</strong><br>值为: TRUE / false </p>
+<p>默认为: TRUE;</p>
+<p>定义这个Bean 是否是单例模式,如果是false的话:每获取该Bean 的时候 都不是同一个Bean实例 ,会重新创建一个;</p>
+<h3 id="autowire"><a href="#autowire" class="headerlink" title="autowire:"></a>autowire:</h3><p>值为:<br>byName 根据名字装配</p>
+<p>byType    根据类型装配</p>
+<p>constructor 根据构造器装配</p>
+<p>默认:default no ;</p>
+<p>定义这个Bean的时候是否自动注入其它的Bean的实例;</p>
+<p>比如autowire=”byName”,<br>如果该Bean对应类中有其它Bean类型的变量时:并且<strong>该变量的属性名 和 xml中定义的某个Bean的id 相同</strong><br>就会把这个Bean自动注入进去</p>
+<h3 id="scope"><a href="#scope" class="headerlink" title="scope:"></a>scope:</h3><p>值为:<br>singleton(单例)<br>prototype(重新创建实例) 一般用在Action</p>
+<p>request,session,global session 仅用于web中;</p>
+<h3 id="abstract"><a href="#abstract" class="headerlink" title="abstract:"></a>abstract:</h3><p>值为: TRUE / false</p>
+<p>默认: false;</p>
+<p>定义一个Bean是否是抽象Bean, 表示该Bean 不被实例化;</p>
+<p><strong>一般用于,一些 属性不会经常改变; 经常会被其它的Bean 给继承;</strong></p>
+<h3 id="parent"><a href="#parent" class="headerlink" title="parent:"></a>parent:</h3><p>值为: 其它 Bean的id值;</p>
+<p><strong>表示继承对应id的Bean ;</strong></p>
+<h3 id="depends-on"><a href="#depends-on" class="headerlink" title="depends-on:"></a>depends-on:</h3><p>值为: 其它 Bean的id值;</p>
+<p>表示实例化该Bean的时候 , <strong>先实例化和 depends-on值的Bean的实例;</strong></p>
+<h3 id="init-method"><a href="#init-method" class="headerlink" title="init-method:"></a>init-method:</h3><p>用来定义Bean的初始化方法，它会在Bean组装之后调用。它必须是一个无参数的方法。 </p>
+<h3 id="destroy-method："><a href="#destroy-method：" class="headerlink" title="destroy-method："></a>destroy-method：</h3><p>用来定义Bean的销毁方法，它在BeanFactory关闭时调用。同样，它也必须是一个无参数的方法。它只能应用于singleton Bean。 </p>
+<h3 id="factory-method："><a href="#factory-method：" class="headerlink" title="factory-method："></a>factory-method：</h3><p>定义创建该Bean对象的工厂方法。它用于下面的“factory-bean”，表示这个Bean是通过工厂方法创建。此时，“class”属性失效。 </p>
+<h3 id="factory-bean"><a href="#factory-bean" class="headerlink" title="factory-bean:"></a>factory-bean:</h3><p>定义创建该Bean对象的工厂类。如果使用了“factory-bean”则“class”属性失效。</p>
 <hr>
 <blockquote>
-<p>Struts2 几种获取参数的方法 </p>
-<h2 id="https-my-oschina-net-u-1398304-blog-215874"><a href="#https-my-oschina-net-u-1398304-blog-215874" class="headerlink" title="https://my.oschina.net/u/1398304/blog/215874"></a><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></h2><p>SSH 整合的一些思路及案例</p>
-<h2 id="http-blog-csdn-net-zhuanzhe117-article-details-48014545"><a href="#http-blog-csdn-net-zhuanzhe117-article-details-48014545" class="headerlink" title="http://blog.csdn.net/zhuanzhe117/article/details/48014545"></a><a href="http://blog.csdn.net/zhuanzhe117/article/details/48014545" target="_blank" rel="external">http://blog.csdn.net/zhuanzhe117/article/details/48014545</a></h2><p>SpringMVC 的一些配置</p>
-<h2 id="https-segmentfault-com-a-1190000005670764-articleHeader7"><a href="#https-segmentfault-com-a-1190000005670764-articleHeader7" class="headerlink" title="https://segmentfault.com/a/1190000005670764#articleHeader7"></a><a href="https://segmentfault.com/a/1190000005670764#articleHeader7" target="_blank" rel="external">https://segmentfault.com/a/1190000005670764#articleHeader7</a></h2><p>SpringMVC 的一些笔记</p>
-<h2 id="http-www-imooc-com-article-1392"><a href="#http-www-imooc-com-article-1392" class="headerlink" title="http://www.imooc.com/article/1392"></a><a href="http://www.imooc.com/article/1392" target="_blank" rel="external">http://www.imooc.com/article/1392</a></h2><p>maven 中oracle jar包</p>
+<p>如果有很多的xml 可以使用import 导入<br>在集合其它框架整合的时候. 还有其它方式进行导入</p>
 </blockquote>
-<p>到达下载后的jar包的位置 执行下面语句</p>
-<p>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar -DgeneratePom=true </p>
-<hr>
+<pre><code>&lt;import resource=&quot;spring-test.xml&quot;/&gt;
+</code></pre><blockquote>
+<p>当使用注解的时候  需要定义如下:</p>
+</blockquote>
+<pre><code>&lt;context:component-scan base-package=&quot;com.liugch&quot;&gt;
+    &lt;context:exclude-filter type=&quot;annotation&quot; expression=&quot;com.liugch.entity&quot;/&gt;
+&lt;/context:component-scan&gt;
+</code></pre><blockquote>
+<p> 当要加载 其它的配置文件的时候 如:properties 文件时</p>
+</blockquote>
+<pre><code>&lt;context:property-placeholder location=&quot;jdbc.properties&quot;/&gt;
+</code></pre><hr>
 <blockquote>
-<p>大神的博客</p>
+<p> Spring 中一些常用的注解</p>
 </blockquote>
-<h2 id="http-blog-csdn-net-fengshizty-viewmode-list"><a href="#http-blog-csdn-net-fengshizty-viewmode-list" class="headerlink" title="http://blog.csdn.net/fengshizty?viewmode=list"></a><a href="http://blog.csdn.net/fengshizty?viewmode=list" target="_blank" rel="external">http://blog.csdn.net/fengshizty?viewmode=list</a></h2><blockquote>
-<p>无法访问服务器</p>
-</blockquote>
-<p>1.没有部署到服务器中;<br>2.配置中访问地址已经出错;</p>
-<blockquote>
-<p>防止访问时路径有问题<br>    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"></p>
-</blockquote>
+<p>@Component</p>
+<p>@Repository</p>
+<p>@Service</p>
+<p>@Controller</p>
+<p>上面都是一样的作用: 用来 让一个类让Spring容器来管理 , 相当于生成了一个Bean</p>
+<p>@Resource</p>
+<p>@Autowired</p>
+<p>@Qualifier</p>
+<p>上面用注入: 一般用 @Resource 就行了</p>
+<p>@Scope(“prototype”) </p>
+<p>让该类不是使用单例;重新创建新的实例;</p>
 ]]></content>
     
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;SSH笔记&lt;/p&gt;
+&lt;p&gt;Spring Bean 的一些配置&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;rasphone  连接网络&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Spring 的使用教程&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;http-wiki-jikexueyuan-com-project-spring&quot;&gt;&lt;a href=&quot;#http-wiki-jikexueyuan-com-project-spring&quot; class=&quot;headerlink&quot; title=&quot;http://wiki.jikexueyuan.com/project/spring/ &quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://wiki.jikexueyuan.com/project/spring/&quot;&gt;http://wiki.jikexueyuan.com/project/spring/&lt;/a&gt; &lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;id:&lt;/strong&gt; Bean唯一标识&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Class:&lt;/strong&gt; Bean 对应的Class 类&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;lazy-init:&lt;/strong&gt;&lt;br&gt;值为: TRUE / false &lt;/p&gt;
     
     </summary>
     
-      <category term="SSH" scheme="http://liugch.top/categories/SSH/"/>
+      <category term="Spring" scheme="http://liugch.top/categories/Spring/"/>
     
-    
-      <category term="SSH" scheme="http://liugch.top/tags/SSH/"/>
     
       <category term="Spring" scheme="http://liugch.top/tags/Spring/"/>
-    
-      <category term="Hibernate" scheme="http://liugch.top/tags/Hibernate/"/>
-    
-      <category term="Struts2" scheme="http://liugch.top/tags/Struts2/"/>
     
   </entry>
   

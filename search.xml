@@ -1572,6 +1572,16 @@ public class TestCglib {
     </entry>
     
     <entry>
+      <title><![CDATA[Mabatis基本使用]]></title>
+      <url>http://liugch.top/2017/01/01/Mybatis%20%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB/</url>
+      <content type="html"><![CDATA[<h1 id="Mabatis基本使用"><a href="#Mabatis基本使用" class="headerlink" title="Mabatis基本使用"></a>Mabatis基本使用</h1><blockquote>
+<p>Mabatis 表与实体的映射关系</p>
+</blockquote>
+<p><a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
+<a id="more"></a>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Git 的基本使用]]></title>
       <url>http://liugch.top/2017/01/01/Git%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
       <content type="html"><![CDATA[<h1 id="git-的相关操作"><a href="#git-的相关操作" class="headerlink" title="git 的相关操作"></a>git 的相关操作</h1><p>Git 的基本使用</p>
@@ -1639,16 +1649,6 @@ public class TestCglib {
 <p>git merge HEAD hehe       # 将 hehe 的最新版本合并到当前分支</p>
 <p>git pull . hehe           # 相当于 git fetch &amp;&amp; git merge</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Mabatis基本使用]]></title>
-      <url>http://liugch.top/2017/01/01/Mybatis%20%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB/</url>
-      <content type="html"><![CDATA[<h1 id="Mabatis基本使用"><a href="#Mabatis基本使用" class="headerlink" title="Mabatis基本使用"></a>Mabatis基本使用</h1><blockquote>
-<p>Mabatis 表与实体的映射关系</p>
-</blockquote>
-<p><a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
-<a id="more"></a>]]></content>
     </entry>
     
     <entry>
@@ -2304,44 +2304,6 @@ getFilesDir();
     </entry>
     
     <entry>
-      <title><![CDATA[SSH 整合笔记]]></title>
-      <url>http://liugch.top/2016/10/28/SSH%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>SSH笔记</p>
-</blockquote>
-<p>rasphone  连接网络</p>
-<blockquote>
-<p>Spring 的使用教程</p>
-</blockquote>
-<h2 id="http-wiki-jikexueyuan-com-project-spring"><a href="#http-wiki-jikexueyuan-com-project-spring" class="headerlink" title="http://wiki.jikexueyuan.com/project/spring/ "></a><a href="http://wiki.jikexueyuan.com/project/spring/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/spring/</a> </h2><a id="more"></a>
-<blockquote>
-<p>Hibernate.initialize(autho.getBook()) 显式 lazy对象</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>Struts2 几种获取参数的方法 </p>
-<h2 id="https-my-oschina-net-u-1398304-blog-215874"><a href="#https-my-oschina-net-u-1398304-blog-215874" class="headerlink" title="https://my.oschina.net/u/1398304/blog/215874"></a><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></h2><p>SSH 整合的一些思路及案例</p>
-<h2 id="http-blog-csdn-net-zhuanzhe117-article-details-48014545"><a href="#http-blog-csdn-net-zhuanzhe117-article-details-48014545" class="headerlink" title="http://blog.csdn.net/zhuanzhe117/article/details/48014545"></a><a href="http://blog.csdn.net/zhuanzhe117/article/details/48014545" target="_blank" rel="external">http://blog.csdn.net/zhuanzhe117/article/details/48014545</a></h2><p>SpringMVC 的一些配置</p>
-<h2 id="https-segmentfault-com-a-1190000005670764-articleHeader7"><a href="#https-segmentfault-com-a-1190000005670764-articleHeader7" class="headerlink" title="https://segmentfault.com/a/1190000005670764#articleHeader7"></a><a href="https://segmentfault.com/a/1190000005670764#articleHeader7" target="_blank" rel="external">https://segmentfault.com/a/1190000005670764#articleHeader7</a></h2><p>SpringMVC 的一些笔记</p>
-<h2 id="http-www-imooc-com-article-1392"><a href="#http-www-imooc-com-article-1392" class="headerlink" title="http://www.imooc.com/article/1392"></a><a href="http://www.imooc.com/article/1392" target="_blank" rel="external">http://www.imooc.com/article/1392</a></h2><p>maven 中oracle jar包</p>
-</blockquote>
-<p>到达下载后的jar包的位置 执行下面语句</p>
-<p>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar -DgeneratePom=true </p>
-<hr>
-<blockquote>
-<p>大神的博客</p>
-</blockquote>
-<h2 id="http-blog-csdn-net-fengshizty-viewmode-list"><a href="#http-blog-csdn-net-fengshizty-viewmode-list" class="headerlink" title="http://blog.csdn.net/fengshizty?viewmode=list"></a><a href="http://blog.csdn.net/fengshizty?viewmode=list" target="_blank" rel="external">http://blog.csdn.net/fengshizty?viewmode=list</a></h2><blockquote>
-<p>无法访问服务器</p>
-</blockquote>
-<p>1.没有部署到服务器中;<br>2.配置中访问地址已经出错;</p>
-<blockquote>
-<p>防止访问时路径有问题<br>    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"></p>
-</blockquote>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Spring 一些基本的注解的使用]]></title>
       <url>http://liugch.top/2016/10/28/Spring%20%E4%B8%80%E4%BA%9B%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
       <content type="html"><![CDATA[<blockquote>
@@ -2406,6 +2368,44 @@ getFilesDir();
 <p>上面用注入: 一般用 @Resource 就行了</p>
 <p>@Scope(“prototype”) </p>
 <p>让该类不是使用单例;重新创建新的实例;</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[SSH 整合笔记]]></title>
+      <url>http://liugch.top/2016/10/28/SSH%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>SSH笔记</p>
+</blockquote>
+<p>rasphone  连接网络</p>
+<blockquote>
+<p>Spring 的使用教程</p>
+</blockquote>
+<h2 id="http-wiki-jikexueyuan-com-project-spring"><a href="#http-wiki-jikexueyuan-com-project-spring" class="headerlink" title="http://wiki.jikexueyuan.com/project/spring/ "></a><a href="http://wiki.jikexueyuan.com/project/spring/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/spring/</a> </h2><a id="more"></a>
+<blockquote>
+<p>Hibernate.initialize(autho.getBook()) 显式 lazy对象</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Struts2 几种获取参数的方法 </p>
+<h2 id="https-my-oschina-net-u-1398304-blog-215874"><a href="#https-my-oschina-net-u-1398304-blog-215874" class="headerlink" title="https://my.oschina.net/u/1398304/blog/215874"></a><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></h2><p>SSH 整合的一些思路及案例</p>
+<h2 id="http-blog-csdn-net-zhuanzhe117-article-details-48014545"><a href="#http-blog-csdn-net-zhuanzhe117-article-details-48014545" class="headerlink" title="http://blog.csdn.net/zhuanzhe117/article/details/48014545"></a><a href="http://blog.csdn.net/zhuanzhe117/article/details/48014545" target="_blank" rel="external">http://blog.csdn.net/zhuanzhe117/article/details/48014545</a></h2><p>SpringMVC 的一些配置</p>
+<h2 id="https-segmentfault-com-a-1190000005670764-articleHeader7"><a href="#https-segmentfault-com-a-1190000005670764-articleHeader7" class="headerlink" title="https://segmentfault.com/a/1190000005670764#articleHeader7"></a><a href="https://segmentfault.com/a/1190000005670764#articleHeader7" target="_blank" rel="external">https://segmentfault.com/a/1190000005670764#articleHeader7</a></h2><p>SpringMVC 的一些笔记</p>
+<h2 id="http-www-imooc-com-article-1392"><a href="#http-www-imooc-com-article-1392" class="headerlink" title="http://www.imooc.com/article/1392"></a><a href="http://www.imooc.com/article/1392" target="_blank" rel="external">http://www.imooc.com/article/1392</a></h2><p>maven 中oracle jar包</p>
+</blockquote>
+<p>到达下载后的jar包的位置 执行下面语句</p>
+<p>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar -DgeneratePom=true </p>
+<hr>
+<blockquote>
+<p>大神的博客</p>
+</blockquote>
+<h2 id="http-blog-csdn-net-fengshizty-viewmode-list"><a href="#http-blog-csdn-net-fengshizty-viewmode-list" class="headerlink" title="http://blog.csdn.net/fengshizty?viewmode=list"></a><a href="http://blog.csdn.net/fengshizty?viewmode=list" target="_blank" rel="external">http://blog.csdn.net/fengshizty?viewmode=list</a></h2><blockquote>
+<p>无法访问服务器</p>
+</blockquote>
+<p>1.没有部署到服务器中;<br>2.配置中访问地址已经出错;</p>
+<blockquote>
+<p>防止访问时路径有问题<br>    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"></p>
+</blockquote>
 ]]></content>
     </entry>
     
