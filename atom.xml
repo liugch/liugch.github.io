@@ -231,12 +231,13 @@ public String post(MultipartFile picfile, HttpServletRequest request, @PathVaria
     <link href="http://liugch.top/2017/01/14/Java%20IO%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%93%8D%E4%BD%9C/"/>
     <id>http://liugch.top/2017/01/14/Java IO基本的操作/</id>
     <published>2017-01-14T12:31:02.000Z</published>
-    <updated>2017-03-14T12:33:27.609Z</updated>
+    <updated>2017-04-14T09:32:12.649Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>IO 的基本使用</p>
 </blockquote>
 <p><a href="http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html" target="_blank" rel="external">http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html</a></p>
+<a id="more"></a>
 <p><img src="http://pic002.cnblogs.com/images/2012/384764/2012031413373126.jpg" alt=""></p>
 <h2 id="字符流-常用类"><a href="#字符流-常用类" class="headerlink" title="字符流  常用类"></a>字符流  常用类</h2><p>Reader  Writer</p>
 <p>BufferedReader   InputStreamReader   FilterReader</p>
@@ -382,7 +383,7 @@ public void fun2() throws IOException{
       &lt;blockquote&gt;
 &lt;p&gt;IO 的基本使用&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html&quot; target=&quot;_blank&quot; rel=&quot;ext
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html&quot;&gt;http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     

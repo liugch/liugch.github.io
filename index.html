@@ -514,151 +514,15 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>IO 的基本使用</p>
 </blockquote>
-<p><a href="http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html" target="_blank" rel="external">http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html</a></p>
-<p><img src="http://pic002.cnblogs.com/images/2012/384764/2012031413373126.jpg" alt=""></p>
-<h2 id="字符流-常用类"><a href="#字符流-常用类" class="headerlink" title="字符流  常用类"></a>字符流  常用类</h2><p>Reader  Writer</p>
-<p>BufferedReader   InputStreamReader   FilterReader</p>
-<p>BufferedWriter   OutputStreamWriter  FilterWriter</p>
-<h3 id="输入流"><a href="#输入流" class="headerlink" title="输入流"></a>输入流</h3><p><strong>BufferedReader：</strong>  </p>
-<p>可以通过 InputStreamReader 及其子类 FilterReader 进行创建</p>
-<p>具有缓冲的作用，效率更高，一般都会去使用的</p>
-<p>如： </p>
-<pre><code>BufferedReader in = new BufferedReader(new FileReader(&quot;foo.in&quot;));
-
-BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-</code></pre><p><strong>InputStreamReader:</strong> </p>
-<p>可以通过 InputStream 及其 子类 进行创建</p>
-<p>一般是用来创建BufferedReader 用的</p>
-<pre><code>InputStreamReader(InputStream in) 
-</code></pre><p><strong>FilterReader：</strong></p>
-<p>一般都是不使用的， 都是用 FilterInputStream 进行代替</p>
-<pre><code>FileReader(File file) 
-      在给定从中读取数据的 File 的情况下创建一个新 FileReader。 
-
-FileReader(String fileName) 
-      在给定从中读取数据的文件名的情况下创建一个新 FileReader。 
-</code></pre><blockquote>
-<p>字符输出流和输入流几乎差不多                        </p>
-</blockquote>
-<h2 id="字节流-常用类"><a href="#字节流-常用类" class="headerlink" title="字节流 常用类"></a>字节流 常用类</h2><p>InputStream        OutputStream</p>
-<p>FileInputStream    FileOutputStream</p>
-<p>FilterInputStream  BufferedInputStream</p>
-<p>FilterOutputStream BufferedOutputStream</p>
-<h3 id="字节输出流"><a href="#字节输出流" class="headerlink" title="字节输出流"></a>字节输出流</h3><p><strong>FlieOutputStream：</strong></p>
-<p>如果要输出的时字符流，一般都是使用 FileWriter</p>
-<pre><code>FileOutputStream(File file) 
-          创建一个向指定 File 对象表示的文件中写入数据的文件输出流。
-
-FileOutputStream(String name) 
-          创建一个向具有指定名称的文件中写入数据的输出文件流。 
-</code></pre><p><strong>BufferedOutputStream：</strong></p>
-<p>缓冲字节输出流，通过OutputStream的实现类进行创建</p>
-<p>但是一般通过 FileOutputStream 来进行创建的</p>
-<pre><code>BufferedOutputStream(OutputStream out) 
-          创建一个新的缓冲输出流，以将数据写入指定的底层输出流。 
-BufferedOutputStream(OutputStream out, int size) 
-          创建一个新的缓冲输出流，以将具有指定缓冲区大小的数据写入指定的底层输出流。
-</code></pre><blockquote>
-<p>下面是一个简单的使用：</p>
-</blockquote>
-<pre><code>/**
- * BufferedRead 和 BufferedWriter 的使用
- * @throws IOException
- */
-public void fun() throws IOException{
-
-    try {
-        // 读
-        FileReader fileReader = new FileReader(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
-
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-        // 写
-
-        File file = new File(&quot;C:/Users/Administrator/Desktop/test2.txt&quot;);
-
-        if(!file.exists()){
-            file.mkdirs();
-        }
-
-
-        FileWriter fileWriter = new FileWriter(file);
-
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-        String line;
-
-        while((line=bufferedReader.readLine())!=null){
-            System.out.println(line);
-
-            bufferedWriter.write(line, 0,line.length());
-        }
-
-    } catch (Exception e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-
-
-    //===============================
-
-    FileInputStream fileInputStream = new FileInputStream(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
-
-    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-
-    BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader);
-
-}
-
-/**
- * Inputstream 和 OutputStream 的基本使用 
- * @throws IOException
- */
-public void fun2() throws IOException{
-
-    FileInputStream fileInputStream = null;
-    BufferedInputStream bufferedInputStream = null;
-    BufferedOutputStream bufferedOutputStream = null;
-    FileOutputStream fileOutputStream = null;
-    try {
-        fileInputStream = new FileInputStream(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
-        bufferedInputStream = new BufferedInputStream(fileInputStream);
-
-        File file = new File(&quot;C:/Users/Administrator/Desktop/test2.txt&quot;);
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        fileOutputStream = new FileOutputStream(file);
-
-        bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-
-        int len = fileInputStream.available();
-
-        byte[] buff = new byte[len];
-
-        while((len=fileInputStream.read(buff))!=-1){
-            System.out.println(&quot;=======&quot;+fileInputStream.read(buff));
-            bufferedOutputStream.write(buff,0,len);
-        }
-    } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }finally {
-        fileInputStream.close();
-        bufferedInputStream.close();
-        fileOutputStream.close();
-        bufferedOutputStream.flush();
-        bufferedOutputStream.close();
-    }
-
-
-}
-</code></pre>
-          
+<p><a href="http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html">http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html</a></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/14/Java IO基本的操作/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
