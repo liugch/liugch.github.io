@@ -303,8 +303,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/26/Android_menu/" itemprop="url">
-                  Android Menu
+                <a class="post-title-link" href="/2017/01/04/Java 模式之代理模式/" itemprop="url">
+                  Java 模式之代理模式
                 </a>
               
             
@@ -317,8 +317,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-26T12:50:01+08:00" content="2016-09-26">
-              2016-09-26
+            <time itemprop="dateCreated" datetime="2017-01-04T19:40:01+08:00" content="2017-01-04">
+              2017-01-04
             </time>
           </span>
 
@@ -331,8 +331,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -347,8 +347,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/26/Android_menu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/26/Android_menu/" itemprop="commentsCount"></span>
+                <a href="/2017/01/04/Java 模式之代理模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/04/Java 模式之代理模式/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -378,16 +378,9 @@
 
       
         
-          <h1 id="Meau"><a href="#Meau" class="headerlink" title="Meau"></a>Meau</h1><blockquote>
-<p>选项菜单</p>
-<p>上下文菜单</p>
-<p>子菜单</p>
-<p>Popup弹出菜单</p>
-<p>ActionMode 创建导航菜单</p>
-</blockquote>
-<p>以下小例子都有很多优化的地方</p>
+          <h1 id="Java-模式之代理模式"><a href="#Java-模式之代理模式" class="headerlink" title="Java 模式之代理模式"></a>Java 模式之代理模式</h1><p>静态代理 和 动态代理  <a href="http://blog.csdn.net/liangbinny/article/details/18656791">http://blog.csdn.net/liangbinny/article/details/18656791</a></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/26/Android_menu/#more" rel="contents">
+            <a class="btn" href="/2017/01/04/Java 模式之代理模式/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -442,8 +435,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/09/25/shapeAndview/" itemprop="url">
-                  Android Layout
+                <a class="post-title-link" href="/2017/01/03/Java 的基本问题/" itemprop="url">
+                  Java 基本问题
                 </a>
               
             
@@ -456,8 +449,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-25T17:40:51+08:00" content="2016-09-25">
-              2016-09-25
+            <time itemprop="dateCreated" datetime="2017-01-03T19:40:01+08:00" content="2017-01-03">
+              2017-01-03
             </time>
           </span>
 
@@ -470,8 +463,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
                   </a>
                 </span>
 
@@ -486,8 +479,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/25/shapeAndview/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/25/shapeAndview/" itemprop="commentsCount"></span>
+                <a href="/2017/01/03/Java 的基本问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/03/Java 的基本问题/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -517,120 +510,14 @@
 
       
         
-          
-            <h1 id="布局的优化"><a href="#布局的优化" class="headerlink" title="布局的优化"></a>布局的优化</h1><blockquote>
-<p>尽量的使用 include merge </p>
-<p>劲量不要嵌套的太多的布局</p>
-<p>一般不要 RelativeLayout 里面再次嵌套 RelativeLayout</p>
+          <h1 id="Java-基本问题"><a href="#Java-基本问题" class="headerlink" title="Java 基本问题"></a>Java 基本问题</h1><blockquote>
+<p>六大设计模式</p>
 </blockquote>
-<h2 id="布局的一些简化操作"><a href="#布局的一些简化操作" class="headerlink" title="布局的一些简化操作"></a>布局的一些简化操作</h2><pre><code> &lt;LinearLayout
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;120dp&quot;
-    android:orientation=&quot;horizontal&quot;&gt;
-
-    &lt;ImageView
-        android:layout_width=&quot;120dp&quot;
-        android:layout_height=&quot;120dp&quot;
-        android:layout_margin=&quot;5dp&quot;
-        android:src=&quot;@drawable/touxiang&quot; /&gt;
-    &lt;!--
-    ineSpacingExtra属性代表的是行间距，他默认是0，是一个绝对高度值。
-    同时还有lineSpacingMultiplier属性， 它代表行间距倍数，默认为1.0f，是一个相对高度值。
-    android:text=&quot;你好\n第三方\n大都饭店&quot; 自动回帮你换行
-    --&gt;
-    &lt;TextView
-        android:layout_width=&quot;wrap_content&quot;
-        android:layout_height=&quot;wrap_content&quot;
-        android:gravity=&quot;center_vertical&quot;
-        android:lineSpacingMultiplier=&quot;2&quot;
-        android:text=&quot;你好\n第三方\n大都饭店&quot;
-        android:textSize=&quot;14sp&quot; /&gt;
-&lt;/LinearLayout&gt;
-</code></pre><blockquote>
-<p>定义 一个shape的XML</p>
-<p>调用 自定义的 shape 设置包含item的分割线</p>
-<p>item中的间隔我可以 放弃 view 和 margin 用 space 使用</p>
-</blockquote>
-<p><strong>类似的效果图</strong></p>
-<p><img src="http://i.imgur.com/bV20OlF.png" alt=""></p>
-<p><strong>divider.xml</strong></p>
-<pre><code>&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
-&lt;size
-    android:width=&quot;1dp&quot;
-    android:height=&quot;1dp&quot;/&gt;
-&lt;solid
-    android:color=&quot;#e1e1e1&quot;/&gt;
-&lt;/shape&gt;
-</code></pre><p><strong>布局</strong>    </p>
-<pre><code>&lt;!--
-    divider:调用 定义的shape  
-    showDividers:分割线显示的位置
-    android:drawableLeft=&quot;@mipmap/shebei
-    Space: 设置 间隔
- --&gt;
-&lt;LinearLayout
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;
-    android:divider=&quot;@drawable/divider&quot;
-    android:showDividers=&quot;middle|beginning|end&quot;
-    android:orientation=&quot;vertical&quot;&gt;
-
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;40dp&quot;
-        android:background=&quot;#ffffff&quot;
-        android:drawableLeft=&quot;@mipmap/shebei&quot;
-        android:drawablePadding=&quot;5dp&quot;
-        android:drawableRight=&quot;@drawable/right&quot;
-        android:gravity=&quot;center_vertical&quot;
-        android:paddingLeft=&quot;5dp&quot;
-        android:paddingRight=&quot;5dp&quot;
-        android:text=&quot;我的设备&quot; /&gt;
-
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;40dp&quot;
-        android:background=&quot;#ffffff&quot;
-        android:drawableLeft=&quot;@mipmap/shebei&quot;
-        android:drawablePadding=&quot;5dp&quot;
-        android:drawableRight=&quot;@drawable/right&quot;
-        android:gravity=&quot;center_vertical&quot;
-        android:paddingLeft=&quot;5dp&quot;
-        android:paddingRight=&quot;5dp&quot;
-        android:text=&quot;我的设备&quot; /&gt;
-    &lt;Space
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;30dp&quot; /&gt;
-    &lt;TextView
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;40dp&quot;
-        android:background=&quot;#ffffff&quot;
-        android:drawableLeft=&quot;@mipmap/shebei&quot;
-        android:drawablePadding=&quot;5dp&quot;
-        android:drawableRight=&quot;@drawable/right&quot;
-        android:gravity=&quot;center_vertical&quot;
-        android:paddingLeft=&quot;5dp&quot;
-        android:paddingRight=&quot;5dp&quot;
-        android:text=&quot;我的设备&quot; /&gt;
-&lt;/LinearLayout&gt;
-</code></pre><p><strong>TextView 实现超链接</strong></p>
-<p>效果图:</p>
-<p><img src="http://i.imgur.com/LUa8sx6.png" alt=""></p>
-<pre><code>//布局
- &lt;TextView
-    android:id=&quot;@+id/text&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:autoLink=&quot;all&quot; /&gt;
-
-// activity
- text=(TextView) findViewById(R.id.text);
-    String texts = &quot;网址：http://www.baidu.com&quot;+&quot;\n&quot;;
-    texts += &quot;邮箱:88888888@qq.com&quot;+&quot;\n&quot;;
-    texts += &quot;电话：13888888888&quot; +&quot;\n&quot;;
-    text.setText(texts);
-</code></pre>
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/03/Java 的基本问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -665,7 +552,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -706,7 +593,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">30</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -714,7 +601,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -723,7 +610,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

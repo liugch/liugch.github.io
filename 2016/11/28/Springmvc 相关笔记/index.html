@@ -1,0 +1,1436 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next pisces">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SpringMVC," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="何有悠然" type="application/atom+xml" />
+  
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="SpringMVC 相关笔记http://45.32.42.177:3000/
+求职问题:http://arts.51job.com/arts/05/283697.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringMVC 相关笔记">
+<meta property="og:url" content="http://liugch.top/2016/11/28/Springmvc 相关笔记/index.html">
+<meta property="og:site_name" content="何有悠然">
+<meta property="og:description" content="SpringMVC 相关笔记http://45.32.42.177:3000/
+求职问题:http://arts.51job.com/arts/05/283697.html">
+<meta property="og:updated_time" content="2017-04-14T09:17:25.768Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringMVC 相关笔记">
+<meta name="twitter:description" content="SpringMVC 相关笔记http://45.32.42.177:3000/
+求职问题:http://arts.51job.com/arts/05/283697.html">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> SpringMVC 相关笔记 | 何有悠然  - 个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">何有悠然</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle" id="site-subtitle">Liu Guangch's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button onclick="showSubtitle()">
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav" id="site-nav">
+  
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photos">
+          <a href="/photos" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-picture-o"></i> <br />
+            
+            づ╭❤～づ相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mylove">
+          <a href="/mylove" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            陪伴づ╭❤～づ
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar-check-o"></i> <br />
+            
+            日志
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-commenting-o"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+	  
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringMVC 相关笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-28T20:43:02+08:00" content="2016-11-28">
+              2016-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/SpringMVC/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringMVC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/28/Springmvc 相关笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/28/Springmvc 相关笔记/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+			
+			
+			
+		
+					
+			
+			
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="SpringMVC-相关笔记"><a href="#SpringMVC-相关笔记" class="headerlink" title="SpringMVC 相关笔记"></a>SpringMVC 相关笔记</h1><p><a href="http://45.32.42.177:3000/" target="_blank" rel="external">http://45.32.42.177:3000/</a></p>
+<p>求职问题:<a href="http://arts.51job.com/arts/05/283697.html" target="_blank" rel="external">http://arts.51job.com/arts/05/283697.html</a></p>
+<a id="more"></a>
+<p>jrebel 激活 <a href="http://blog.csdn.net/xiangxueping80/article/details/44487045" target="_blank" rel="external">http://blog.csdn.net/xiangxueping80/article/details/44487045</a></p>
+<p>SpringMVC 异常的处理 <a href="http://blog.csdn.net/rj042/article/details/7380442" target="_blank" rel="external">http://blog.csdn.net/rj042/article/details/7380442</a></p>
+<p>JSR-303 验证  <a href="http://jinnianshilongnian.iteye.com/blog/1733708" target="_blank" rel="external">http://jinnianshilongnian.iteye.com/blog/1733708</a><br>主要的验jsr 验证都在这里; </p>
+<p>SpringMVC 拦截器 <a href="http://www.cnblogs.com/HD/p/4127873.html" target="_blank" rel="external">http://www.cnblogs.com/HD/p/4127873.html</a></p>
+<p>SpringMVC 图片的上传并显示 <a href="http://blog.csdn.net/luckey_zh/article/details/46867957" target="_blank" rel="external">http://blog.csdn.net/luckey_zh/article/details/46867957</a></p>
+<p>IDEA 连接数据库是遇到的问题:  <a href="https://segmentfault.com/q/1010000005020300" target="_blank" rel="external">https://segmentfault.com/q/1010000005020300</a></p>
+<blockquote>
+<p>IDEA Hibernate连接MYSQL失败提示时区错误该怎么解决？</p>
+</blockquote>
+<p>在 connection.url 值的后面追加 </p>
+<p>?serverTimezone=UTC</p>
+<p>题主可以在 mysql 中执行命令试下：</p>
+<p>set global time_zone=’+8:00’</p>
+<blockquote>
+<p> @ResponseBody  and @RequestBody 的使用</p>
+</blockquote>
+<p>一般是 配合ajax 使用的</p>
+<p>如:</p>
+<pre><code>&lt;button id=&quot;btn&quot;&gt;requestBody 和 responsebody&lt;/button&gt;
+&lt;script&gt;
+    $(&quot;#btn&quot;).click(function () {
+        alert(23);
+        var i = {&apos;name&apos;: &apos;张三&apos;, &apos;age&apos;: 20};
+        $.ajax({
+            method: &apos;post&apos;,
+            url: &apos;/index2&apos;,
+            data: JSON.stringify(i),
+            contentType: &apos;application/json&apos;,
+            success: function (data) {
+                alert(data.name);
+            }
+
+        });
+    });
+&lt;/script&gt;--%&gt;
+
+@RequestMapping(&quot;/index2&quot;)
+@ResponseBody
+public Person index2(@RequestBody Person person) {
+    //Log.getLogger().logger.info(name+&quot;=================&quot;);
+    person.setAge(100);
+    return person;
+}*/                                                     
+</code></pre><blockquote>
+<p>SpringMVC 验证器 的三种使用</p>
+</blockquote>
+<p><strong>第一种 原始用法:</strong></p>
+<pre><code>@RequestMapping(&quot;/index2&quot;)
+public String index2(Person person, Errors errors) {
+    if(person.getAge()&gt;120||person.getAge()&lt;18){
+        errors.rejectValue(&quot;age&quot;,null,&quot;年龄要在18-120 之间&quot;);
+    }
+    if(errors.hasErrors()){
+        return &quot;index&quot;;
+    }
+    return &quot;false&quot;;
+}
+</code></pre><p><strong>第二种 自定义验证器</strong></p>
+<pre><code>public class PersonValidator implements Validator {
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+        return clazz== Person.class;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Person person =(Person) target;
+        if(person.getAge()&gt;120||person.getAge()&lt;18){
+            errors.reject(null,&quot;年龄要在18-120 之间&quot;);
+        }
+    }
+}
+
+@InitBinder
+protected void init(DataBinder dataBinder) {
+    dataBinder.setValidator(new PersonValidator());
+}
+@RequestMapping(&quot;/index2&quot;)
+public String index2(@Validated Person person, Errors errors) {
+    if (errors.hasErrors()) {
+        return &quot;index&quot;;
+    }
+    return &quot;false&quot;;
+}
+</code></pre><p><strong>上面的也可以定义成全局的验证器</strong></p>
+<pre><code>&lt;mvc:annotation-driven validator=&quot;userValidator&quot; /&gt;
+&lt;bean name=&quot;userValidator&quot; class=&quot;app.liugch.validator.PersonValidator&quot; /&gt;
+</code></pre><p><strong>第三种 JSR 303 验证</strong></p>
+<p>导入相关的jar包 gradle 中:  “org.hibernate:hibernate-validator:$hibernateVersion”<br>在Model 实体类中使用相关的注解就行了</p>
+<pre><code>public class Person implements Serializable {
+    @NotEmpty(message = &quot;邮箱不能为空!&quot;)
+    /*@Pattern(regexp = &quot;^([a-z0-9A-Z]+[-|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$&quot;)*/
+    @Email(message = &quot;邮箱格式错误!&quot;)
+    private String name;
+
+
+    @NotNull
+    @Range(min = 18,max = 120,message = &quot;年龄要在18-20岁之间&quot;)
+    private int age;
+    /*
+    @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)*/
+    private Date birth;
+}
+
+
+/**
+ * jsr 303 验证
+ * @param person
+ * @param errors
+ * @return
+ */
+@RequestMapping(&quot;/index2&quot;)
+public String index2(@Valid Person person, Errors errors) {
+    if (errors.hasErrors()) {
+        return &quot;index&quot;;
+    }
+    return &quot;fail&quot;;
+}
+</code></pre><blockquote>
+<p>转换器<br>日期转换器</p>
+</blockquote>
+<p><strong>第一种方法：利用内置的 CustomDateEditor</strong></p>
+<p>在Controller 中配置使用:</p>
+<pre><code>@InitBinder
+public void init (WebDataBinder binder) {
+    CustomDateEditor dateEditor = new CustomDateEditor(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;), true);
+    binder.registerCustomEditor(Date.class, dateEditor);
+}
+</code></pre><p>在要使用的地方 添加 @valid</p>
+<p><strong>第二种方法:自定义转换器 converter</strong></p>
+<pre><code>public class DateConverter implements Converter&lt;String, Date&gt; {
+
+    @Override
+    public Date convert(String source) {
+       /* SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        try {
+            Date  d= sdf.parse(source);
+            return d;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+        // String dateString = DateFormatUtils.formatString(source);
+        SimpleDateFormat sdf = null;
+        if (source != null &amp;&amp; source.trim().equals(&quot;&quot;)) {
+            return null;
+        } else {
+            source = source.replace(&quot;-&quot;, &quot;&quot;).replace(&quot;:&quot;, &quot;&quot;).replace(&quot;/&quot;, &quot;&quot;).replace(&quot; &quot;,&quot;&quot;);
+            int length = source.length();
+            try {
+                if (length == 8) {
+                    sdf = format(&quot;yyyyMMdd&quot;);
+                    return sdf.parse(source);
+
+                } else if (length == 6) {
+                    sdf = format(&quot;yyyyMM&quot;);
+                    return sdf.parse(source);
+                } else if (length == 14) {
+                    sdf = format(&quot;yyyyMMddHHmmss&quot;);
+                    return sdf.parse(source);
+                } else {
+                    return null;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return null;
+    }
+
+    /**
+     * 不同 format
+     *
+     * @param pattern
+     * @return
+     */
+    public SimpleDateFormat format(String pattern) {
+        SimpleDateFormat sdf = null;
+        if (pattern == null &amp;&amp; pattern.trim().equals(&quot;&quot;)) {
+            sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        } else {
+            sdf = new SimpleDateFormat(pattern);
+        }
+        return sdf;
+    }
+}
+</code></pre><p>在配置文件中配置使用:</p>
+<pre><code>&lt;!--全局转换器--&gt;
+&lt;!-- 定义全局的转换服务，可以配置多个转换器 --&gt;
+&lt;!-- 在这里，只配置了我们自定义的转换器，DateConverter --&gt;
+&lt;!--&lt;mvc:annotation-driven conversion-service=&quot;myconversionService&quot;/&gt;
+&lt;bean id=&quot;myconversionService&quot; class=&quot;org.springframework.context.support.ConversionServiceFactoryBean&quot;&gt;
+    &lt;property name=&quot;converters&quot;&gt;
+        &lt;set&gt;
+            &lt;bean class=&quot;app.liugch.converter.DateConverter&quot;/&gt;
+        &lt;/set&gt;
+    &lt;/property&gt;
+
+&lt;/bean&gt;--&gt;
+</code></pre><p><strong>第三种方法:利用 注解的方式 </strong></p>
+<p>如:日期转换</p>
+<p>@DateTimeFormat(pattern = “yyyy-MM-dd”)</p>
+<blockquote>
+<p> SpringMVC Interceptor 拦截器 的使用:</p>
+</blockquote>
+<p>可以有两种方法: </p>
+<p>分别实现</p>
+<p>HandlerInterceptor(有更多的操作)<br>WebRequestInterceptor(更加的方便)</p>
+<p>先自定义拦截器</p>
+<pre><code>public class MyInterceptor implements WebRequestInterceptor {
+    @Override
+    public void preHandle(WebRequest request) throws Exception {
+        System.out.println(&quot;my:pre&quot;);
+    }
+
+    @Override
+    public void postHandle(WebRequest request, ModelMap model) throws Exception {
+        System.out.println(&quot;my:post&quot;);
+    }
+
+    @Override
+    public void afterCompletion(WebRequest request, Exception ex) throws Exception {
+        System.out.println(&quot;my:complete&quot;);
+    }
+}
+
+public class LoginInterceptor implements HandlerInterceptor {
+    //在执行 Controller 相应 handler 之前要执行
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(&quot;login:pre&quot;);
+        return true;
+    }
+
+    //执行完 handler，进入 render 页面渲染前的阶段执行
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println(&quot;login:post&quot;);
+    }
+
+    //所有的东西都做完，退出前执行。主要用来做一些清理工作
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println(&quot;login:complete&quot;);
+    }
+}
+</code></pre><p>在配置文件中配置</p>
+<pre><code>&lt;!--拦截器--&gt;
+&lt;mvc:interceptors&gt;
+    &lt;mvc:interceptor&gt;
+        &lt;mvc:mapping path=&quot;/post/*&quot;/&gt;
+        &lt;bean class=&quot;app.liugch.Interceptor.MyInterceptor&quot;/&gt;
+    &lt;/mvc:interceptor&gt;
+
+    &lt;mvc:interceptor&gt;
+        &lt;mvc:mapping path=&quot;/user/*&quot;/&gt;
+        &lt;bean class=&quot;app.liugch.Interceptor.LoginInterceptor&quot;/&gt;
+    &lt;/mvc:interceptor&gt;
+&lt;/mvc:interceptors&gt;
+</code></pre><p>如果请求:<a href="http://localhost:8080/post/message" target="_blank" rel="external">http://localhost:8080/post/message</a> 就会被 MyInterceptor 拦截器拦截  </p>
+<p>如果请求:<a href="http://localhost:8080/user/index" target="_blank" rel="external">http://localhost:8080/user/index</a> 就会被 LoginInterceptor 拦截器拦截  </p>
+<blockquote>
+<p> SpringMVC 异常处理</p>
+</blockquote>
+<p><strong>第一:使用自定义的异常处理</strong></p>
+<p>1.定义异常处理类</p>
+<p>2.在交给Spring 来管理(可以使用<bean> 也可以使用 注解方式@component) </bean></p>
+<pre><code>/**
+ * 异常处理类
+ */
+public class MyException implements HandlerExceptionResolver {
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+
+        if(ex instanceof IOException){
+            return new ModelAndView(&quot;ioexp&quot;);
+        }else if(ex instanceof SQLException){
+            return new ModelAndView(&quot;sqlexp&quot;);
+        }else{
+            return new ModelAndView(&quot;error&quot;);
+        }
+    }
+}
+</code></pre><p><strong>内置的异常处理</strong></p>
+<pre><code>  &lt;bean class=&quot;org.springframework.web.servlet.handler.SimpleMappingExceptionResolver&quot;&gt;
+    &lt;!-- 定义默认的异常处理页面，当该异常类型的注册时使用 --&gt;
+    &lt;property name=&quot;defaultErrorView&quot; value=&quot;error&quot;&gt;&lt;/property&gt;
+    &lt;!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception --&gt;
+    &lt;property name=&quot;exceptionAttribute&quot; value=&quot;ex&quot;&gt;&lt;/property&gt;
+    &lt;!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 --&gt;
+    &lt;property name=&quot;exceptionMappings&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;IOException&quot;&gt;ioexp&lt;/prop&gt;
+            &lt;prop key=&quot;java.sql.SQLException&quot;&gt;sqlexp&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p><strong>使用注解的方式</strong></p>
+<p>一般使全部的 Controller 都可以使用异常处理,所以 另外 单独定义一个 ExceptionController 类 处理异常;</p>
+<p>其中用到一个<strong>@ControllerAdvice</strong> 注解 </p>
+<p>作用: 让所有的Controller 都可以使用其中异常处理</p>
+<p>使用: 一般都是和</p>
+<p><strong>@ExceptionHandler </strong>  自定义的错误处理器</p>
+<p><strong>@ModelAttribute</strong>      全局的对所有的controller的Model添加属性</p>
+<p><strong>@InitBinder </strong> 对表单数据绑定</p>
+<pre><code>@Controller
+@ControllerAdvice
+public class ExecptionController {
+    /*
+        @ExceptionHandler({IOException.class,RuntimeException.class})
+        public String error(Exception ex, Model model) {
+            return &quot;error&quot;;
+        }
+    */
+    @ExceptionHandler
+    public String error(Exception ex, Model model) {
+        model.addAttribute(&quot;error&quot;, ex);
+        return &quot;error&quot;;
+    }
+
+    @ExceptionHandler
+    public String error2(MyExecption ex, Model model) {
+        model.addAttribute(&quot;error&quot;, ex);
+        return &quot;error&quot;;
+    }
+}
+
+class MyExecption extends Exception {
+
+}
+</code></pre>
+      
+    </div>
+
+	<div>
+      
+        
+<div style="text-align:center;color: #ccc;font-size:14px;">------ づ╭❤ ～ 文本结束 ～づ╭❤ ------</div>
+
+      
+    </div>
+	
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringMVC/" rel="tag">#SpringMVC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/01/Mybatis 映射关系/" class="post-nav-title-link" rel="prev" title="Mabatis基本使用">
+                <i class="fa fa-chevron-left"></i> Mabatis基本使用 
+              </a>
+            
+          </div>
+		  
+		  <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/01/Android_文件的地址和缓存/" class="post-nav-title-link" rel="next" title="Android 文件地址与缓存">
+                Android 文件地址与缓存  <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/11/28/Springmvc 相关笔记/"
+     data-title="SpringMVC 相关笔记"
+     data-content=""
+     data-url="http://liugch.top/2016/11/28/Springmvc 相关笔记/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><span class="ds-more" >分享到：</span></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/28/Springmvc 相关笔记/"
+           data-title="SpringMVC 相关笔记" data-url="http://liugch.top/2016/11/28/Springmvc 相关笔记/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=562862502,2807361029&fm=116&gp=0.jpg"
+               alt="何有悠然" />
+          <p class="site-author-name" itemprop="name">何有悠然</p>
+          <p class="site-description motion-element" itemprop="description">有你陪伴,寻找属于自己空间</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" target="_blank" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+			 <a title="偶尔High一下^_^" rel="alternate" class="mw-harlem_shake_slow wobble shake" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+ 
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+})()'><i class="fa fa-music"></i> High</a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liugch" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/liugch" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+		
+	   
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+              友情链接
+            </div>
+           
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://www.dnspod.cn/" title="DNSPOD" target="_blank">DNSPOD</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://portal.qiniu.com/create" title="七牛" target="_blank">七牛</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://leancloud.cn/" title="Leancloud" target="_blank">Leancloud</a>
+                </span>
+              
+            
+          </div>
+        
+		
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=30903117&auto=1&height=66"></iframe>
+		
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC-相关笔记"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC 相关笔记</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何有悠然</span>
+  
+   <span style="margin-left:8px;">
+   <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+   </span>
+  
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank">Liugch</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank">
+    Liugch.Pisces 
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liugch"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  <script type="text/JavaScript">
+function hideElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="none";
+}
+
+function showElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="block";
+}
+</script>
+
+<script type="text/JavaScript">
+function showSubtitle()
+{
+  var siteNav=document.getElementById("site-nav");
+  if(siteNav.style.display=="block")
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="none";
+  }else
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="block";
+  }
+
+}
+</script>
+  <script type="text/JavaScript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(n){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+  
+
+</body>
+</html>

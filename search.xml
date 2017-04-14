@@ -4,6 +4,1996 @@
   
     
     <entry>
+      <title><![CDATA[Springmvc 图片的上传]]></title>
+      <url>http://liugch.top/2017/01/15/Springmvc%20%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%8A%E4%BC%A0%E4%B8%8E%E4%BF%9D%E5%AD%98/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>Springmvc 图片的上传 和 保存到服务器中 并把图片地址保存在数据库中</p>
+</blockquote>
+<p>SpringMVC 中，文件的上传，是通过 MultipartResolver 实现的。</p>
+<p>所以，如果要实现文件的上传，只要在 spring-mvc.xml 中注册相应的 MultipartResolver 即可。</p>
+<a id="more"></a>
+<p>MultipartResolver 的实现类有两个：</p>
+<p>CommonsMultipartResolver</p>
+<p>StandardServletMultipartResolver</p>
+<blockquote>
+<p>两个的区别：</p>
+</blockquote>
+<p>第一个需要使用 Apache 的 commons-fileupload 等 jar 包支持，但它能在比较旧的 servlet 版本中使用。</p>
+<p>“commons-fileupload:commons-fileupload:1.3.1”,</p>
+<p>第二个不需要第三方 jar 包支持，它使用 servlet 内置的上传功能，但是只能在 Servlet 3 以上的版本使用。</p>
+<h1 id="兼容低版本方式的"><a href="#兼容低版本方式的" class="headerlink" title="兼容低版本方式的"></a>兼容低版本方式的</h1><p>1.必须导入的jar包</p>
+<p>2.在Springmvc.xml中配置</p>
+<pre><code>&lt;!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 --&gt;
+&lt;bean id=&quot;multipartResolver&quot; class=&quot;org.springframework.web.multipart.commons.CommonsMultipartResolver&quot;&gt;
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;/&gt;
+     &lt;!--最大能上传的大小 20M--&gt;
+    &lt;property name=&quot;maxUploadSize&quot; value=&quot;20971520&quot;/&gt;
+    &lt;!--每个文件的大小5M--&gt;
+    &lt;property name=&quot;maxUploadSizePerFile&quot; value=&quot;5242880&quot;/&gt;
+&lt;/bean&gt;  
+</code></pre><p>3.在controller层中</p>
+<pre><code>@PostMapping(value = &quot;/{id}&quot;)
+public String post(MultipartFile picfile, HttpServletRequest request, @PathVariable int id ,Posts posts, Model model) {
+
+    if (picfile != null &amp;&amp; !picfile.isEmpty()) {
+        try {
+            //保存的路径
+            String realPath = request.getSession().getServletContext().getRealPath(&quot;/uploads&quot;);
+
+            System.out.println(&quot;getRealPath:&quot;+realPath);
+            // 获取图片的文件名
+            String fileName = picfile.getOriginalFilename();
+            System.out.println(&quot;获取图片的文件名&quot;+fileName);
+
+
+            // 获取图片的扩展名
+            String extensionName = fileName.substring(fileName.lastIndexOf(&quot;.&quot;) + 1);
+            // 新的图片文件名 = 获取时间戳+&quot;.&quot;图片扩展名
+            String newFileName = String.valueOf(System.currentTimeMillis()) + &quot;.&quot; + extensionName;
+            System.out.println(&quot;新的图片文件名&quot;+newFileName);
+
+            // 保存在数库中文件地址
+            String SQLpicName = realPath+&quot;\\&quot;+newFileName;
+
+            String SQLpicName2 = &quot;/uploads/&quot;+newFileName;
+
+
+
+            System.out.println(&quot;保存在数库中文件地址&quot;+SQLpicName);
+            System.out.println(&quot;保存在数库中文件地址2&quot;+SQLpicName2);
+
+
+            //在服务器中创建一个 文件保存
+            File file = new File(realPath, newFileName);
+
+            //保存在服务器中
+            FileUtils.copyInputStreamToFile(picfile.getInputStream(), file);
+
+            // 保存到数据库中
+            User user = new User();
+            user.setId(new Long(id));
+
+            posts.setPic(SQLpicName2);
+            posts.setCrateTime(new Date(System.currentTimeMillis()));
+            posts.setUser(user);
+
+            postsService.save(posts);
+
+
+        } catch (Exception e) {
+            model.addAttribute(&quot;error&quot;,&quot;发布微博失败!&quot;);
+            //log.error(&quot;上传图片失败.&quot;, e);
+        }
+    }
+    return &quot;redirect:/index&quot;;
+}
+</code></pre><h2 id="支持-servlet3-0-以上方式的"><a href="#支持-servlet3-0-以上方式的" class="headerlink" title="支持 servlet3.0 以上方式的"></a>支持 servlet3.0 以上方式的</h2><p>1.在web.xml 中配置</p>
+<pre><code> &lt;servlet&gt;
+    &lt;servlet-name&gt;myblog&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+    &lt;init-param&gt;
+        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+        &lt;param-value&gt;classpath:spring-myblog.xml&lt;/param-value&gt;
+    &lt;/init-param&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+
+    &lt;multipart-config&gt;
+       &lt;!--&lt;location&gt;/temp&lt;/location&gt; &amp;lt;!&amp;ndash;临时保存&amp;ndash;&amp;gt;--&gt;
+        &lt;max-file-size&gt;5242880&lt;/max-file-size&gt;&lt;!--最大可被上传的文件5MB--&gt;
+        &lt;max-request-size&gt;20971520&lt;/max-request-size&gt;&lt;!--总大小20MB--&gt;
+        &lt;file-size-threshold&gt;0&lt;/file-size-threshold&gt;
+    &lt;/multipart-config&gt;
+&lt;/servlet&gt;
+</code></pre><p>2.在springmvc.xml 中</p>
+<pre><code>&lt;bean id=&quot;multipartResolver&quot; class=&quot;org.springframework.web.multipart.support.StandardServletMultipartResolver&quot; /&gt;
+</code></pre><p>3.在controller层中</p>
+<pre><code>@PostMapping(value = &quot;/{id}&quot;)
+public String post(MultipartFile picfile, HttpServletRequest request, @PathVariable int id ,Posts posts, Model model) {
+
+    if (picfile != null &amp;&amp; !picfile.isEmpty()) {
+        try {
+            //保存的路径
+            String realPath = request.getSession().getServletContext().getRealPath(&quot;/uploads&quot;);
+
+            System.out.println(&quot;getRealPath:&quot;+realPath);
+            // 获取图片的文件名
+            String fileName = picfile.getOriginalFilename();
+            System.out.println(&quot;获取图片的文件名&quot;+fileName);
+
+
+            // 获取图片的扩展名
+            String extensionName = fileName.substring(fileName.lastIndexOf(&quot;.&quot;) + 1);
+            // 新的图片文件名 = 获取时间戳+&quot;.&quot;图片扩展名
+            String newFileName = String.valueOf(System.currentTimeMillis()) + &quot;.&quot; + extensionName;
+            System.out.println(&quot;新的图片文件名&quot;+newFileName);
+
+            // 保存在数库中文件地址
+            String SQLpicName = realPath+&quot;\\&quot;+newFileName;
+
+            String SQLpicName2 = &quot;/uploads/&quot;+newFileName;
+
+
+
+            System.out.println(&quot;保存在数库中文件地址&quot;+SQLpicName);
+            System.out.println(&quot;保存在数库中文件地址2&quot;+SQLpicName2);
+
+
+            //在服务器中创建一个 文件保存
+            File file = new File(realPath, newFileName);
+
+            //保存在服务器中
+            //FileUtils.copyInputStreamToFile(picfile.getInputStream(), file);
+
+            // 保存到数据库中
+            User user = new User();
+            user.setId(new Long(id));
+
+            posts.setPic(SQLpicName2);
+            posts.setCrateTime(new Date(System.currentTimeMillis()));
+            posts.setUser(user);
+
+            postsService.save(posts);
+
+
+        } catch (Exception e) {
+            model.addAttribute(&quot;error&quot;,&quot;发布微博失败!&quot;);
+            //log.error(&quot;上传图片失败.&quot;, e);
+        }
+    }
+    return &quot;redirect:/index&quot;;
+}
+</code></pre><p>上面controller层中 <strong>没有如下方法</strong>(把文件保存在 Tomcat服务器中 )</p>
+<p>FileUtils.copyInputStreamToFile(picfile.getInputStream(), file);</p>
+<p>要自己实现（也就是文件的流读取和保存） 网上代码一大堆</p>
+<pre><code>public void copyInputStreamToFile(InputStream inputStream, File file) {
+
+    BufferedInputStream bin = null;
+    BufferedOutputStream bout = null;
+    try {
+        bin = new BufferedInputStream(inputStream);
+        bout = new BufferedOutputStream(new FileOutputStream(file));
+
+        byte[] buff=new byte[1024];
+        int len=0;
+        while((len=bin.read(buff))!=-1){
+            bout.write(buff,0,len);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }finally {
+        try {
+            bin.close();
+            bout.flush();
+            bout.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[IO基本的操作]]></title>
+      <url>http://liugch.top/2017/01/14/Java%20IO%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>IO 的基本使用</p>
+</blockquote>
+<p><a href="http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html" target="_blank" rel="external">http://www.cnblogs.com/oubo/archive/2012/01/06/2394638.html</a></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/384764/2012031413373126.jpg" alt=""></p>
+<h2 id="字符流-常用类"><a href="#字符流-常用类" class="headerlink" title="字符流  常用类"></a>字符流  常用类</h2><p>Reader  Writer</p>
+<p>BufferedReader   InputStreamReader   FilterReader</p>
+<p>BufferedWriter   OutputStreamWriter  FilterWriter</p>
+<h3 id="输入流"><a href="#输入流" class="headerlink" title="输入流"></a>输入流</h3><p><strong>BufferedReader：</strong>  </p>
+<p>可以通过 InputStreamReader 及其子类 FilterReader 进行创建</p>
+<p>具有缓冲的作用，效率更高，一般都会去使用的</p>
+<p>如： </p>
+<pre><code>BufferedReader in = new BufferedReader(new FileReader(&quot;foo.in&quot;));
+
+BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+</code></pre><p><strong>InputStreamReader:</strong> </p>
+<p>可以通过 InputStream 及其 子类 进行创建</p>
+<p>一般是用来创建BufferedReader 用的</p>
+<pre><code>InputStreamReader(InputStream in) 
+</code></pre><p><strong>FilterReader：</strong></p>
+<p>一般都是不使用的， 都是用 FilterInputStream 进行代替</p>
+<pre><code>FileReader(File file) 
+      在给定从中读取数据的 File 的情况下创建一个新 FileReader。 
+
+FileReader(String fileName) 
+      在给定从中读取数据的文件名的情况下创建一个新 FileReader。 
+</code></pre><blockquote>
+<p>字符输出流和输入流几乎差不多                        </p>
+</blockquote>
+<h2 id="字节流-常用类"><a href="#字节流-常用类" class="headerlink" title="字节流 常用类"></a>字节流 常用类</h2><p>InputStream        OutputStream</p>
+<p>FileInputStream    FileOutputStream</p>
+<p>FilterInputStream  BufferedInputStream</p>
+<p>FilterOutputStream BufferedOutputStream</p>
+<h3 id="字节输出流"><a href="#字节输出流" class="headerlink" title="字节输出流"></a>字节输出流</h3><p><strong>FlieOutputStream：</strong></p>
+<p>如果要输出的时字符流，一般都是使用 FileWriter</p>
+<pre><code>FileOutputStream(File file) 
+          创建一个向指定 File 对象表示的文件中写入数据的文件输出流。
+
+FileOutputStream(String name) 
+          创建一个向具有指定名称的文件中写入数据的输出文件流。 
+</code></pre><p><strong>BufferedOutputStream：</strong></p>
+<p>缓冲字节输出流，通过OutputStream的实现类进行创建</p>
+<p>但是一般通过 FileOutputStream 来进行创建的</p>
+<pre><code>BufferedOutputStream(OutputStream out) 
+          创建一个新的缓冲输出流，以将数据写入指定的底层输出流。 
+BufferedOutputStream(OutputStream out, int size) 
+          创建一个新的缓冲输出流，以将具有指定缓冲区大小的数据写入指定的底层输出流。
+</code></pre><blockquote>
+<p>下面是一个简单的使用：</p>
+</blockquote>
+<pre><code>/**
+ * BufferedRead 和 BufferedWriter 的使用
+ * @throws IOException
+ */
+public void fun() throws IOException{
+
+    try {
+        // 读
+        FileReader fileReader = new FileReader(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
+
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        // 写
+
+        File file = new File(&quot;C:/Users/Administrator/Desktop/test2.txt&quot;);
+
+        if(!file.exists()){
+            file.mkdirs();
+        }
+
+
+        FileWriter fileWriter = new FileWriter(file);
+
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        String line;
+
+        while((line=bufferedReader.readLine())!=null){
+            System.out.println(line);
+
+            bufferedWriter.write(line, 0,line.length());
+        }
+
+    } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+
+
+    //===============================
+
+    FileInputStream fileInputStream = new FileInputStream(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
+
+    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+
+    BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader);
+
+}
+
+/**
+ * Inputstream 和 OutputStream 的基本使用 
+ * @throws IOException
+ */
+public void fun2() throws IOException{
+
+    FileInputStream fileInputStream = null;
+    BufferedInputStream bufferedInputStream = null;
+    BufferedOutputStream bufferedOutputStream = null;
+    FileOutputStream fileOutputStream = null;
+    try {
+        fileInputStream = new FileInputStream(new File(&quot;C:/Users/Administrator/Desktop/test.txt&quot;));
+        bufferedInputStream = new BufferedInputStream(fileInputStream);
+
+        File file = new File(&quot;C:/Users/Administrator/Desktop/test2.txt&quot;);
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        fileOutputStream = new FileOutputStream(file);
+
+        bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+
+        int len = fileInputStream.available();
+
+        byte[] buff = new byte[len];
+
+        while((len=fileInputStream.read(buff))!=-1){
+            System.out.println(&quot;=======&quot;+fileInputStream.read(buff));
+            bufferedOutputStream.write(buff,0,len);
+        }
+    } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }finally {
+        fileInputStream.close();
+        bufferedInputStream.close();
+        fileOutputStream.close();
+        bufferedOutputStream.flush();
+        bufferedOutputStream.close();
+    }
+
+
+}
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Spring 的基本问题]]></title>
+      <url>http://liugch.top/2017/01/13/Spring%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h1 id="Spring-的基本问题"><a href="#Spring-的基本问题" class="headerlink" title="Spring 的基本问题"></a>Spring 的基本问题</h1><blockquote>
+<p>AOP</p>
+</blockquote>
+<p>AOP ： 面向切面编程 ，它主要关注的是程序的执行过程。是对OOP 的一种扩充;</p>
+<p>具体解析： 在java方法调用时，AOP机制能自动进行方法拦截，允许在方法调用之前，调用后，</p>
+<p>以及执行异常时添加特点的代码来完成需要的功能。</p>
+<a id="more"></a>
+<p>特点：</p>
+<p>1，消除编码模块之间的耦合。</p>
+<p>2， 可以在任意阶段，向已有功能模块中填加新功能，且不侵入原有功能 低侵入式设计    </p>
+<p>3， 各步骤之间的良好隔离性 , 源代码的无关性</p>
+<p>4， AOP 的目标在于 将程序中涉及的公用问题集中解决</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Spring MVC 邮箱的发送 激活注册]]></title>
+      <url>http://liugch.top/2017/01/11/Spring%20MVC%20%E9%82%AE%E7%AE%B1%E7%9A%84%E5%8F%91%E9%80%81%20%E6%BF%80%E6%B4%BB%E6%B3%A8%E5%86%8C/</url>
+      <content type="html"><![CDATA[<h1 id="Spring-MVC-邮箱的发送-激活注册"><a href="#Spring-MVC-邮箱的发送-激活注册" class="headerlink" title="Spring MVC 邮箱的发送 激活注册"></a>Spring MVC 邮箱的发送 激活注册</h1><blockquote>
+<p>发送邮件所需的jar包</p>
+</blockquote>
+<p>“org.springframework:spring-context-support:$springVersion”,<br>“javax.mail:mail:1.4.7”,</p>
+<a id="more"></a>
+<blockquote>
+<p>在你的邮箱中把 POP3/SMTP服务 开启</p>
+</blockquote>
+<p>163 邮箱中: <a href="http://help.163.com/09/1223/14/5R7P3QI100753VB8.html" target="_blank" rel="external">http://help.163.com/09/1223/14/5R7P3QI100753VB8.html</a></p>
+<p>qq 邮箱中: <a href="http://service.exmail.qq.com/cgi-bin/help?subtype=1&amp;id=28&amp;no=1000564" target="_blank" rel="external">http://service.exmail.qq.com/cgi-bin/help?subtype=1&amp;id=28&amp;no=1000564</a></p>
+<p>以163 邮箱中的发送邮箱</p>
+<blockquote>
+<p> 在Spring.xml 和mail.properties 中配置 </p>
+</blockquote>
+<pre><code>mail.host=smtp.163.com  //服务地址
+mail.username=liugchs@163.com // 用户名
+mail.password=friend123 // 生成发邮箱的密码
+
+ &lt;!--163 发送邮件 --&gt;
+&lt;bean id=&quot;javaMailSender&quot; class=&quot;org.springframework.mail.javamail.JavaMailSenderImpl&quot;&gt;
+    &lt;property name=&quot;host&quot; value=&quot;${mail.host}&quot; /&gt;
+    &lt;property name=&quot;username&quot; value=&quot;${mail.username}&quot; /&gt;
+    &lt;property name=&quot;password&quot; value=&quot;${mail.password}&quot; /&gt;
+    &lt;property name=&quot;port&quot; value=&quot;25&quot;&gt;&lt;/property&gt;// 端口
+    &lt;property name=&quot;defaultEncoding&quot; value=&quot;UTF-8&quot;/&gt;// 编码
+    &lt;property name=&quot;javaMailProperties&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;mail.transport.protocol&quot;&gt;smtp&lt;/prop&gt;
+            &lt;prop key=&quot;mail.smtp.auth&quot;&gt;true&lt;/prop&gt;
+            &lt;prop key=&quot;mail.smtp.starttls.enable&quot;&gt;true&lt;/prop&gt;
+            &lt;prop key=&quot;mail.smtp.timeout&quot;&gt;25000&lt;/prop&gt;
+            &lt;prop key=&quot;mail.debug&quot;&gt;true&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p>在 service 层中 dao 中的一些方法自己实现</p>
+<pre><code>/**
+ * Created by Administrator on 2017/2/7.
+ */
+@Service(value = &quot;userServiceImpl&quot;)
+@Transactional
+public class UserServiceImpl {
+    @Resource
+    private UserDaoImpl userDao;
+
+    @Resource
+    private EmailDaoImpl emailDao;
+
+    @Transactional
+    public void processRegist(User u) throws ServiceException {
+        boolean isexit = userDao.isExit(u);
+        if (isexit){
+            throw new ServiceException(&quot;注册的用户已经存在了!&quot;);
+        }else{
+            u.setToux(&quot;https://secure.gravatar.com/avatar/81464a18af5480e64e56989887d118e8?s=50&quot;);
+            u.setCrateTime(new Date());
+            u.setStatus(0);
+
+            String validateCode = MD5Util.encode2hex(u.getMail());
+            u.setValidateCode(validateCode);
+
+            //保存到数据库中
+            userDao.save(u);
+
+            //邮件内容
+            StringBuffer sb=new StringBuffer(&quot;点击下面链接激活账号，48小时生效，否则重新注册账号，链接只能使用一次，请尽快激活！&lt;/br&gt;&quot;);
+            sb.append(&quot;&lt;a href=\&quot;http://localhost:8080/upregist?action=activate&amp;email=&quot;);
+            sb.append(u.getMail());
+            sb.append(&quot;&amp;validateCode=&quot;);
+            sb.append(validateCode);
+            sb.append(&quot;&gt;http://localhost:8080/upregist?action=activate&amp;email=&quot;);
+            sb.append(u.getMail());
+            sb.append(&quot;&amp;validateCode=&quot;);
+            sb.append(validateCode);
+            sb.append(&quot;&lt;/a&gt;&quot;);
+
+            //发送邮件
+            emailDao.sendMail(u.getMail(),sb.toString());
+        }
+
+    }
+
+
+
+    @Transactional
+    public void activateRegist(String eamil,String validateCode) throws ServiceException {
+        User user = userDao.getUserByEamil(eamil);
+        if (user != null) {
+            if (user.getStatus() == 0) {
+                Date now = new Date(System.currentTimeMillis());
+                Date get = user.getCrateTime();
+                //得到天数
+                int count = (int) ((now.getTime() - get.getTime()) / (1000 * 3600 * 24));
+                if (get.before(now) &amp;&amp; count &lt; 2) {
+                    if (user.getValidateCode().equals(validateCode)) {
+                        user.setStatus(1);
+                        userDao.update(user);
+                    } else {
+                        throw new ServiceException(&quot;激活码不正确！&quot;);
+                    }
+                } else {
+                    throw new ServiceException(&quot;激活码已过期！&quot;);
+                }
+            } else {
+                throw new ServiceException(&quot;邮箱已激活，请登录！&quot;);
+            }
+
+        } else {
+            throw new ServiceException(&quot;该邮箱未注册（邮箱地址不存在）！&quot;);
+        }
+
+    }
+}
+</code></pre><p>在邮箱的dao 层中</p>
+<pre><code> /**
+ * 邮箱
+ */
+@Repository
+public class EmailDaoImpl {
+
+    @Resource
+    MailSender mailSender;
+    // 发件人
+    private static final String FROM=&quot;liugchs@163.com&quot;;
+
+    // 邮件标题
+    private static final String SUBJECT=&quot;这是一个邮箱注册激活验证!&quot;;
+
+    public void sendMail(String toEmail,String content) {
+        SimpleMailMessage mailMsg = new SimpleMailMessage();
+        mailMsg.setFrom(FROM);
+        mailMsg.setTo(toEmail);
+        mailMsg.setSubject(SUBJECT);
+        mailMsg.setText(content);
+        mailMsg.setSentDate(new Date());
+
+        mailSender.send(mailMsg);  // 发送
+    }
+}
+</code></pre><p>在controller 层中  还有一些userDao 中的方法自己 实现</p>
+<pre><code>@RequestMapping(value = &quot;/upregist&quot;, method = {RequestMethod.GET, RequestMethod.POST})
+public String regist2(User user, String repwd, HttpServletRequest request, Model model, HttpSession session, Errors errors) {
+    // action=activate&amp;email=&quot;
+
+    String action = request.getParameter(&quot;action&quot;);
+    String email = request.getParameter(&quot;email&quot;);
+    String validateCode = request.getParameter(&quot;validateCode&quot;);
+
+    //如果是激活的话,改变 数据库的转态
+    if (&quot;activate&quot;.equals(action)) {
+
+        uerServices.activateRegist(email, validateCode);
+
+        User use = uerServices.getUserByEamil(email);
+        if (use == null || errors.hasErrors()) {
+            return &quot;redirect:/login&quot;;
+        } else {
+            List&lt;Relationship&gt; relationshipList1 = relationshipService.getListByMasterId((int) use.getId());
+            List&lt;Relationship&gt; relationshipList2 = relationshipService.getListByForlowedId((int) use.getId());
+            session.setAttribute(&quot;session_user&quot;, use);
+            session.setAttribute(&quot;session_relationshipList1&quot;, relationshipList1);
+            session.setAttribute(&quot;session_relationshipList2&quot;, relationshipList2);
+            return &quot;redirect:/index&quot;;
+        }
+    } else {
+        // 注册 发送邮箱 激活
+        uerServices.processRegist(user);
+        model.addAttribute(&quot;activate&quot;, action);
+        return &quot;redirect: /&quot;;
+    }
+}
+</code></pre><p>工具类  用来 加密激活码用的 </p>
+<pre><code> public class MD5Util {
+
+    /**
+     * 将源字符串使用MD5加密为字节数组
+     *
+     * @param source
+     * @return
+     */
+    public static byte[] encode2bytes(String source) {
+        byte[] result = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance(&quot;MD5&quot;);
+            md.reset();
+            md.update(source.getBytes(&quot;UTF-8&quot;));
+            result = md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /**
+     * 将源字符串使用MD5加密为32位16进制数
+     *
+     * @param source
+     * @return
+     */
+    public static String encode2hex(String source) {
+        byte[] data = encode2bytes(source);
+        StringBuffer hexString = new StringBuffer();
+        for (int i = 0; i &lt; data.length; i++) {
+            String hex = Integer.toHexString(0xff &amp; data[i]);
+
+            if (hex.length() == 1) {
+                hexString.append(&apos;0&apos;);
+            }
+
+            hexString.append(hex);
+        }
+
+        return hexString.toString();
+    }
+
+    /**
+     * 验证字符串是否匹配
+     *
+     * @param unknown 待验证的字符串
+     * @param okHex   使用MD5加密过的16进制字符串
+     * @return 匹配返回true，不匹配返回false
+     */
+    public static boolean validate(String unknown, String okHex) {
+        return okHex.equals(encode2hex(unknown));
+    }
+
+}
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Redis 的基本使用]]></title>
+      <url>http://liugch.top/2017/01/10/Redis%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<h1 id="Redis-的基本使用"><a href="#Redis-的基本使用" class="headerlink" title="Redis 的基本使用"></a>Redis 的基本使用</h1><blockquote>
+<p>使用教程</p>
+</blockquote>
+<p><a href="http://www.redis.net.cn/tutorial/3503.html" target="_blank" rel="external">http://www.redis.net.cn/tutorial/3503.html</a></p>
+<a id="more"></a>
+<blockquote>
+<p>运行服务</p>
+</blockquote>
+<p> redis-server.exe redis.conf</p>
+<blockquote>
+<p>连接 </p>
+</blockquote>
+<p> redis-cli.exe -h 127.0.0.1 -p 6379</p>
+<blockquote>
+<p>PING</p>
+</blockquote>
+<p> 该命令用于检测 redis 服务是否启动。</p>
+<blockquote>
+<p>查看是否设置了密码</p>
+</blockquote>
+<p> CONFIG get requirepass</p>
+<blockquote>
+<p> 设置密码</p>
+</blockquote>
+<p> CONFIG set requirepass “runoob”</p>
+<blockquote>
+<p>整合相关</p>
+</blockquote>
+<p>个人 GitHub中有</p>
+<p> <a href="http://blog.csdn.net/h348592532/article/details/46698311" target="_blank" rel="external">http://blog.csdn.net/h348592532/article/details/46698311</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux 的基本操作]]></title>
+      <url>http://liugch.top/2017/01/09/Linux%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<h1 id="Linux-的基本操作"><a href="#Linux-的基本操作" class="headerlink" title="Linux 的基本操作"></a>Linux 的基本操作</h1><p>man ls</p>
+<p>– help</p>
+<a id="more"></a>
+<blockquote>
+<p>ls 操作</p>
+</blockquote>
+<p>ls [-l,-al]</p>
+<p>ls |grep tomcat7</p>
+<p>ls     : 当前目录下的所有的  文件夹名 及 文件名</p>
+<p>ls -l  : 显示当前目录下面的所有的 文件夹名 及 文件名（具有权限，所有文件的总数）</p>
+<p>ls -al : 显示 比 ls -l 更加具体一点的</p>
+<blockquote>
+<p>mkdir 创建 文件夹</p>
+</blockquote>
+<p>mkdir [-pm] 目录名</p>
+<p>mkdir -p  ： 递归去创建 （mkdir -p test/test/test）</p>
+<p>mkdir -m  ： 添加 不同权限的 目录 （ mkdir -m 771 test）</p>
+<p>mkdri -pm 777 test/test/test  ：递归创建文件 并赋予相应的权限</p>
+<blockquote>
+<p>rmdir 移除目录</p>
+</blockquote>
+<p>rmdir [-p] 目录</p>
+<p>rmdir -p test/test/test ： 连接上层的‘空’目录一起的移除（一点要空目录）</p>
+<blockquote>
+<p>复制 文件 或 目录</p>
+</blockquote>
+<p>cp [-adfilprsu] 源文件  目标目录</p>
+<blockquote>
+<p>删除文件夹</p>
+</blockquote>
+<p>rm [-rf] 目录名</p>
+<p>rm -rf 目录名</p>
+<blockquote>
+<p>grep</p>
+</blockquote>
+<p>用来过滤的</p>
+<blockquote>
+<p>更改用户密码 ， 切换到超级用户 ， 临时切换到超级用户，并做一些操作</p>
+</blockquote>
+<p>sudo passwd :切换到超级用户 修改密码</p>
+<p>su /sudo su ：切换到超级用户</p>
+<blockquote>
+<p>getdit Linux 下的一个简单的文本编辑器 相当于window下的编辑器</p>
+</blockquote>
+<p>getdit /etc/apt/sources.list</p>
+<blockquote>
+<p>apt 相关的操作</p>
+</blockquote>
+<p>apt-get update          : 更新 resources.list 一般当你要下载软件是一般使用比较好</p>
+<p>apt-cache search “^git” : 查找 以 git 开头的 软件</p>
+<p>apt-get install git     : 下载 git</p>
+<p>apt-get remove git      : 卸载git</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java 复习]]></title>
+      <url>http://liugch.top/2017/01/08/java%E5%9F%BA%E7%A1%80_%E5%A4%8D%E4%B9%A0/</url>
+      <content type="html"><![CDATA[<blockquote>
+<h1 id="Java-复习"><a href="#Java-复习" class="headerlink" title="Java 复习"></a>Java 复习</h1></blockquote>
+<h2 id="Java-多线程-的-相关问题"><a href="#Java-多线程-的-相关问题" class="headerlink" title="Java 多线程 的 相关问题"></a>Java 多线程 的 相关问题</h2><p>Thread 多线程 面试常用问题 : <a href="http://www.cnblogs.com/dolphin0520/p/3958019.html" target="_blank" rel="external">http://www.cnblogs.com/dolphin0520/p/3958019.html</a></p>
+<blockquote>
+<p>产生线程的方法</p>
+</blockquote>
+<a id="more"></a>
+<p>1.继承 Thread 类; </p>
+<p>2.实现Runable 接口;</p>
+<pre><code>/**
+ * 每个线程都是独立的单元
+ * 一个程序中的线程是并发进行的  相当于同时执行  
+ * 多线程,继承了Thread,并且重写了run ()方法
+ * setName(),getName() 是用于设置   和    获取线程名称
+ * Thread.currentThread() 获取当前的线程对象的引用
+ * Thread.sleep(100) 让当前的线程睡眠 
+ * threadDemo1.start() 线程的启动,使线程处于就绪的状态
+ * @author Administrator
+ *
+ */
+public class TreadDemo2 extends Thread{
+    int count=0;
+    public void run(){
+        for(int i=0;i&lt;50;i++){
+            if(i%3==0 &amp;&amp; this.getName().equals(&quot;线程2中的count值&quot;)){
+                Thread.yield();//当前线程让行,有CPU资源也不继续运行,再次进入就绪状态
+                try {
+                    Thread.sleep(200);//
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(this.getName()+&quot;:&quot;+count);
+            //System.out.println(Thread.currentThread().getName()+&quot;:&quot;+count++);
+            //增加交替进行的机会
+
+            count++;
+        }
+    }
+    //mian 函数是主线程(守护线程) 
+    public static void main(String[] args) {
+        //创建了两个线程
+        TreadDemo2 threadDemo1=new TreadDemo2();
+        TreadDemo2 threadDemo2=new TreadDemo2();
+        //设置线程的名称
+        threadDemo1.setName(&quot;线程1中的count值&quot;);
+        threadDemo2.setName(&quot;线程2中的count值&quot;);
+        //启动线程
+        threadDemo1.start();//强占CPU
+        threadDemo2.start();
+
+    }
+
+}
+
+
+public class TreadDemo3 implements Runnable{
+    int count=0;
+    public void run(){
+        for(int i=0;i&lt;5;i++){
+            //System.out.println(this.getName()+&quot;:&quot;+count++);
+
+            System.out.println(Thread.currentThread().getName()+&quot;:&quot;+count);
+            //增加交替进行的机会
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            count++;
+        }
+        }
+    public static void main(String[] args) {
+         //创建了两个线程
+        TreadDemo3 demo=new TreadDemo3();
+        Thread t1=new Thread(demo);
+        Thread t2=new Thread(demo);
+        //设置线程的名称
+        t1.setName(&quot;线程1中的count值&quot;);
+        t2.setName(&quot;线程2中的count值&quot;);
+        //启动线程
+        t1.start();//强占CPU
+        t2.start();
+    }
+
+}
+</code></pre><p>3.Synchronized 的使用:</p>
+<pre><code>class S126 implements Runnable {
+    ArrayList&lt;String&gt; list;
+    private Random rand = new Random();
+
+    public S126() {
+        list = new ArrayList&lt;String&gt;();
+        list.add(&quot;张三(0)&quot;);
+        list.add(&quot;李四(1)&quot;);
+        list.add(&quot;王五(2)&quot;);
+        list.add(&quot;赵六(3)&quot;);
+        list.add(&quot;田七(4)&quot;);
+        list.add(&quot;八哥(5)&quot;);
+        list.add(&quot;九妹(6)&quot;);
+    }
+    @Override
+    public  void run() {
+        //fun();
+        // 生成随机数
+        // 显示随机数
+        // 从列表中移除此人
+        // 显示此人信息
+        // 直到列表元素空了，就循环结束
+        while (true) {
+            synchronized (list) {    
+                if (list.isEmpty()) {
+                    System.out.println(&quot;人数已经抽完了!&quot;);
+                    break;
+                }
+                int num = rand.nextInt(list.size());
+                System.out.println(Thread.currentThread().getName() + &quot;抽到了&quot;
+                        + num + &quot;号&quot;);
+                String person = list.remove(num);
+                System.out.println(Thread.currentThread().getName() + &quot;抽到人员姓名:&quot;
+                        + person);
+                list.notifyAll();
+                try {
+                    list.wait();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    /*    System.out.println(Thread.currentThread().getName() + &quot;说:抽到人员姓名:&quot;
+                + &quot;没人了!&quot;);*/
+
+    }
+}
+
+public class SynchronizedDemo {
+    public static void main(String[] args) {
+        S126 s126 = new S126();
+        Thread t1 = new Thread(s126,&quot;同望科技&quot;);
+        Thread t2 = new Thread(s126,&quot;飞企科技&quot;);
+        Thread t3 = new Thread(s126,&quot;Google网络&quot;);
+        /*t1.setPriority(Thread.MAX_PRIORITY);
+        t2.setPriority(Thread.MIN_PRIORITY);
+        t3.setPriority(Thread.MIN_PRIORITY);*/
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+</code></pre><blockquote>
+<p>进程与线程的区别</p>
+</blockquote>
+<p>线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。</p>
+<p>不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。</p>
+<p>别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<blockquote>
+<p>Thread 类中的start() 和 run() 方法有什么区别？</p>
+</blockquote>
+<p>start()方法被用来启动新创建的线程，而且start()内部调用了run()方法，这和直接调用run()方法的效果不一样。</p>
+<p>当你调用run()方法的时候，只会是在原来的线程中调用，<strong>没有新的线程启动，start()方法才会启动新线程</strong>。</p>
+<blockquote>
+<p>Java中notify 和 notifyAll有什么区别？</p>
+</blockquote>
+<p>notify()方法不能唤醒某个具体的线程，所以只有一个线程在等待的时候它才有用武之地。</p>
+<p>而notifyAll()唤醒所有线程并允许他们争夺锁确保了至少有一个线程能继续运行。</p>
+<blockquote>
+<p> 为什么wait, notify 和 notifyAll 这些方法不在thread类里面？</p>
+</blockquote>
+<p>JAVA提供的锁是对象级的而不是线程级的，每个对象都有锁，通过线程获得。如果线程需要等待某些锁那么调用对象中的wait()方法就有意义了。</p>
+<p>如果wait()方法定义在Thread类中，线程正在等待的是哪个锁就不明显了。</p>
+<p>简单的说，由于wait，notify和notifyAll都是锁级别的操作，所以把他们定义在Object类中因为锁属于对象。</p>
+<blockquote>
+<p>Java中sleep()与wait()的区别  </p>
+</blockquote>
+<p>一,功能差不多,都用来进行线程控制,他们最大本质的区别是:sleep()释放CPU资源,不释放同步锁,wait()释放CPU资源,释放同步锁.   </p>
+<p>还有用法的上的不同是:sleep(milliseconds)可以用时间指定来使他自动醒过来,如果时间不到你只能调用interreput()来强行打断;</p>
+<p>二,Java程序中wait 和 sleep都会造成某种形式的暂停，它们可以满足不同的需要。</p>
+<p>wait()方法用于线程间通信，如果等待条件为真且其它线程被唤醒时它会释放锁，</p>
+<p>而sleep()方法仅仅释放CPU资源或者让当前线程停止执行一段时间，但不会释放锁。</p>
+<p>wait()可以用notify()直接唤起.</p>
+<blockquote>
+<p> 什么是ThreadLocal变量？</p>
+</blockquote>
+<p>ThreadLocal是Java里一种特殊的变量。每个线程都有一个ThreadLocal就是每个线程都拥有了自己独立的一个变量</p>
+<p>它是为创建代价高昂的对象获取线程安全的好方法, SimpleDataFormat;</p>
+<blockquote>
+<p>为什么wait和notify方法要在同步块中调用？</p>
+</blockquote>
+<p>主要是因为Java API强制要求这样做，如果你不这么做，你的代码会抛出IllegalMonitorStateException异常。</p>
+<p>还有一个原因是为了避免wait和notify之间产生竞态条件。</p>
+<blockquote>
+<p> Thread类中的yield方法有什么作用？</p>
+</blockquote>
+<p>Yield方法可以暂停当前正在执行的线程对象，让其它有相同优先级的线程执行。</p>
+<p>它是一个静态方法而且只保证当前线程放弃CPU占用而不能保证使其它线程一定能占用CPU，</p>
+<p>执行yield()的线程有可能在进入到暂停状态后马上又被执行。</p>
+<h2 id="Java-JDBC-数据库操作"><a href="#Java-JDBC-数据库操作" class="headerlink" title="Java JDBC 数据库操作"></a>Java JDBC 数据库操作</h2><blockquote>
+<p>JDBC 连接数据库的几个步骤(以MySQL为例)</p>
+</blockquote>
+<p>加载驱动</p>
+<pre><code>try{   
+  //加载MySql的驱动类   com.masql.jdbc.Driver
+  Class.forName(&quot;com.mysql.jdbc.Driver&quot;) ;   
+}catch(ClassNotFoundException e){   
+  System.out.println(&quot;找不到驱动程序类 ，加载驱动失败！&quot;);   
+  e.printStackTrace() ;   
+}   
+</code></pre><p>获取连接对象</p>
+<pre><code> //连接MySql数据库 url:jdbc:mysql://locahost:3306/数据库名
+String url = &quot;jdbc:mysql://localhost:3306/test&quot; ;    
+String username = &quot;root&quot; ;   
+String password = &quot;root&quot; ; 
+
+try{   
+   Connection con =    
+   DriverManager.getConnection(url , username , password ) ;   
+}catch(SQLException se){   
+   System.out.println(&quot;数据库连接失败！&quot;);   
+   se.printStackTrace() ;   
+}   
+</code></pre><p>获取语句执行对象</p>
+<pre><code>Statement stmt = con.createStatement() ;// 普通语句执行对象
+
+PreparedStatement pstmt = con.prepareStatement(sql) ;// 具有预处理执行语句对象
+
+CallableStatement cstmt = con.prepareCall(&quot;{CALL demoSp(? , ?)}&quot;);//执行储存过程语句对象  
+</code></pre><p>获取结果集对象</p>
+<pre><code>ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM ...&quot;) ;// 执行查询操作
+
+int rows = stmt.executeUpdate(&quot;INSERT INTO ...&quot;) ;// 执行插入更新操作
+
+boolean flag = stmt.execute(String sql) ;  //所有语句
+</code></pre><p>关闭操作</p>
+<pre><code>rs.close() ;   //关闭结果集
+
+stmt.close() ; // 关闭语句执行对象   
+
+conn.close() ;   //关闭连接对象
+</code></pre><h2 id="Java-一些常用的设计模式"><a href="#Java-一些常用的设计模式" class="headerlink" title="Java 一些常用的设计模式"></a>Java 一些常用的设计模式</h2><blockquote>
+<p>门面模式</p>
+</blockquote>
+<p>门面模式的实现</p>
+<p>使用门面模式还有一个附带的好处，就是能够有选择性地暴露方法。一个模块中定义的方法可以分成两部分，</p>
+<p>一部分是给子系统外部使用的，一部分是子系统内部模块之间相互调用时使用的。</p>
+<p>有了Facade类，那么用于子系统内部模块之间相互调用的方法就不用暴露给子系统外部了。</p>
+<pre><code>public class Module {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void a1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void a2(){};
+    public void a3(){};
+}
+
+public class ModuleB {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void b1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void b2(){};
+    public void b3(){};
+}
+
+public class ModuleC {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void c1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void c2(){};
+    public void c3(){};
+}
+
+
+public class ModuleFacade {
+
+    ModuleA a = new ModuleA();
+    ModuleB b = new ModuleB();
+    ModuleC c = new ModuleC();
+    /**
+     * 下面这些是A、B、C模块对子系统外部提供的方法
+     */
+    public void a1(){
+        a.a1();
+    }
+    public void b1(){
+        b.b1();
+    }
+    public void c1(){
+        c.c1();
+    }
+}
+</code></pre><p>这样定义一个ModuleFacade类可以有效地屏蔽内部的细节，免得客户端去调用Module类时，发现一些不需要它知道的方法。</p>
+<p>比如a2()和a3()方法就不需要让客户端知道，否则既暴露了内部的细节，又让客户端迷惑。</p>
+<p>对客户端来说，他可能还要去思考a2()、a3()方法用来干什么呢？</p>
+<p>其实a2()和a3()方法是内部模块之间交互的，原本就不是对子系统外部的，所以干脆就不要让客户端知道。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[java 泛型的使用]]></title>
+      <url>http://liugch.top/2017/01/07/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>java 泛型的使用</p>
+</blockquote>
+<h1 id="什么是泛型"><a href="#什么是泛型" class="headerlink" title="什么是泛型"></a>什么是泛型</h1><p><strong>类型参数化</strong></p>
+<p>类的设计者不用考虑类的具体类型,要以对象进行一定的操作，对象的所有操作都必须是进行相同的,</p>
+<p>比如，存放放对象，获取对象等操作。</p>
+<a id="more"></a>
+<p>一般情况下,泛型广泛应用容器类型。</p>
+<p>如果某两个容器类中包含A和B类两种对象，就不能对A对象进行A对象特有方法的调用,也不能调用B对象特有的方法.</p>
+<p>否则就出现错误，这是泛型的局限性。</p>
+<p><strong>在没有泛型之前，类型只有两种:</strong></p>
+<p>基本数据类型(boolean,char,byte,short,int,long,double,float)</p>
+<p>复杂类型(类，数组,接口)</p>
+<p>有了泛型，就可以定义一种类型，扩展更多的类型。</p>
+<p>例如：定义一个盒子的类型，作用一个容器,可以存储不同的类型的对象。</p>
+<pre><code>class Food{
+    public void eat(){}
+}
+class Book{
+    public void read(){}
+}
+public class Box&lt;T&gt;{
+    List&lt;T&gt; box;
+    public Box(){
+        box = new ArrayList&lt;T&gt;();
+    }
+    public void set(T t){
+        box.add(t);
+    }
+    public T get(int index){
+        return box.get(index);
+    }
+}
+public class Test{
+    public static void main(String args){            //用上面定义的泛型类Box可以定义以下两种不同的类型.
+        //box1为一个食物的盒子
+        //box2为一个放书的箱子
+        Box&lt;Food&gt; box1 = new Box&lt;Food&gt;();
+        Box&lt;Book&gt; box2 = new Box&lt;Book&gt;();
+        //还可以衍生其它的新类型
+        Box&lt;Number&gt; b3;
+        Box&lt;String&gt; b4;            
+
+        String name=&quot;张三&quot;;
+        String className;            
+        className=name;//类型相同，可以赋值            
+        //!  b3 = box1;//出错，类型不同            
+    }
+}
+</code></pre><h2 id="实现泛型类，接口及方法"><a href="#实现泛型类，接口及方法" class="headerlink" title="实现泛型类，接口及方法"></a>实现泛型类，接口及方法</h2><blockquote>
+<p>定义一个泛型类</p>
+</blockquote>
+<p><strong>class 类名&lt;泛型名&gt;{ }</strong></p>
+<p><strong>说明:</strong></p>
+<pre><code>1.类中所有的成员都可以使用泛型，除静态块，静态方法，静态属性外。
+
+2.泛型名一般用大写字母,以区别其它的标识符。
+
+3.泛型名一般用T字母，以可以使用T附近的字母，比如:T,E之类的。
+
+4.泛型定义时用&lt;&gt;包裹,写在类名之后。
+
+5.不能用new实例化对象
+
+例如:
+public class MyContainer&lt;T,E&gt;{
+    //像普通类型一样，作为成员属性的类型
+    String name;
+    T t;
+    E e;
+
+    //像普通类型一样，用在构造器的参数列表中
+    public MyContainer(String name, T t, E e){
+        this.name = name;
+        this.t = t;
+        this.e = e;
+    }
+    //像普通类型一样，作为方法的返回值类型，或方法的参数类型
+    public T getObject1(){
+        return t;
+    }
+    public void setObject2(E e){
+        this.e = e;
+    }
+    public void setName(String name){
+        this.name = name;
+    }
+    public String toString(){
+        return name+&quot;,&quot;+t.toString()+&quot;,&quot;+e.toString();
+    }
+}
+</code></pre><blockquote>
+<p> 定义一个泛型接口</p>
+</blockquote>
+<pre><code>与泛型类相同
+public Interface&lt;T&gt; 接口名{
+    //!T t=null;//接口中的属性是常量(public static final)，不能存在在静态成员中
+    public void set(T t);
+    public T get();
+}
+</code></pre><blockquote>
+<p>继承</p>
+</blockquote>
+<p>public class 子类<t,e> extends 父类<t>{</t></t,e></p>
+<p>}</p>
+<p>与普通类相似,继承一个父类，实现多个接口。</p>
+<blockquote>
+<p>方法</p>
+</blockquote>
+<p><strong>说明:</strong></p>
+<p>在修饰符之后，返回类型之前用&lt;&gt;定义泛型    </p>
+<pre><code>class 类名{
+    //如果method中有个参数是未知类型
+    public &lt;T&gt; void method(T t){
+
+    }
+    public static &lt;T&gt; void method(T t,int i){
+
+    }
+
+}
+</code></pre><blockquote>
+<p>泛型的实现原理</p>
+</blockquote>
+<p>源代码由编译器转换成字节码文件，由java虚拟机运行。</p>
+<p>泛型是在编译器中实现的，不是在虚拟机中运行,在虚拟机运行之前必须要清楚具体类。这一个过程叫”擦除”。</p>
+<p>解决问题:</p>
+<p>将ClassCastException运行时异常，变为了个编译语法检查的行为，让程序避免了运行时异常的类型转换异常.</p>
+<p>例如:</p>
+<pre><code>public class Demo&lt;T,E&gt;{
+    T firstObj;
+    E secondObj;        
+    public void setFirst(T firstObj){
+        this.firstObj = firstObj;
+    }
+    public E getSecond(){
+        return secondObj;
+    }
+    public static void main(){
+        Demo&lt;Teacher,Student&gt; demo = new Demo&lt;Teacher,Student&gt;();
+
+        //!demo.setFirst(new Person());
+        //出错:在调用setFirst()方法时，强制的约束类型为Teacher,在调用此方法时，参数类型必须是Teachar类型或其子类。            
+        demo.setFirst(new Teacher());
+
+
+        //在编译器，自动进行一个&quot;擦除&quot;,代码变如下代码:
+        //Student stu = (Student)demo.getSecond();
+        Student stu = demo.getSecond();
+    }
+}
+</code></pre><p>擦除后的代码:</p>
+<pre><code>public static void main(){
+    Demo demo = new Demo();
+
+    demo.setFirst((Object)new Teacher());
+    Object obj  = demo.getSecond();
+    Stdudent stu = (Student)obj;
+}    
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Struts2 常用的标签]]></title>
+      <url>http://liugch.top/2017/01/06/Struts2%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE/</url>
+      <content type="html"><![CDATA[<h1 id="Struts2-常用的标签"><a href="#Struts2-常用的标签" class="headerlink" title="Struts2 常用的标签"></a>Struts2 常用的标签</h1><blockquote>
+<p>集中常用的标签</p>
+</blockquote>
+<p><strong>日期标签:</strong></p>
+<a id="more"></a>
+<p>ognl:</p>
+<pre><code>&lt;s:date name=&quot;&quot; format=&quot;yyyy-mm-dd&quot; /&gt;
+</code></pre><p>jstl:</p>
+<pre><code>&lt;f:formatDate value=&quot;${值}&quot; pattern=&quot;yyyy-MM-dd&quot;/&gt;
+</code></pre><p><strong>数字格式化:</strong></p>
+<p>jstl:</p>
+<pre><code>&lt;%--以￥开头小数位为两位,不足两位不足--%&gt;
+&lt;f:formatNumber pattern=&quot;￥#.00&quot; value=&quot;${number}&quot; type=&quot;number&quot;/&gt;
+</code></pre><p><strong>ognl 错误 显示</strong></p>
+<pre><code>&lt;s:fielderror fieldName=&quot;错误字段名&quot; /&gt;
+</code></pre><p><strong>ognl 国际化显示</strong></p>
+<pre><code>&lt;%--标签输出国际化信息--%&gt;
+&lt;s:text name=“”/&gt;
+
+&lt;%--在表单标签中，通过key属性指定资源文件中的key--%&gt;
+&lt;s:textfield name=&quot;realname&quot; key=&quot;user&quot;/&gt;
+
+&lt;%--使用&lt;s:i18n&gt;标签我们可以在类路径下直接从某个资源文件中获取国际化数据，而无需任何配置--%&gt;
+&lt;s:i18n name=&quot;&quot; /&gt;
+</code></pre><h2 id="Struts2-ajax-提交"><a href="#Struts2-ajax-提交" class="headerlink" title="Struts2 ajax 提交"></a>Struts2 ajax 提交</h2><p>1.导入相关的jar包</p>
+<p>2.struts.xml 中配置相关 的 信息</p>
+<p>3.使用 ajax 提交方式</p>
+<pre><code>struts-json.jar 插件
+
+&lt;!--  
+    extends继承 json-default 
+    json-default 是继承 struts-default 的 对其的一种扩展
+--&gt;
+
+&lt;package name=&quot;ajax3&quot; extends=&quot;json-default&quot;&gt;
+
+&lt;action name=&quot;ajaxTest3&quot; class=&quot;xxx.AjaxAction&quot; method=&quot;ajaxTest3&quot;&gt;
+    &lt;result type=&quot;json&quot;&gt;
+        &lt;param name=&quot;root&quot;&gt;result 和action中 要显示页面的对象 名&lt;/param&gt;
+        &lt;!-- 还有其他一些参数，可以看文档 --&gt;
+    &lt;/result&gt;
+&lt;/action&gt;
+&lt;/package&gt;
+
+// 在action 类 中 实现 Set Get 方法
+
+private String result;
+
+
+public String ajaxTest3 () {
+    result = &quot;这是通过业务获取的string.&quot;;
+    return &quot;success&quot;;
+}
+</code></pre><h3 id="Struts2-表单-的服务端验证"><a href="#Struts2-表单-的服务端验证" class="headerlink" title="Struts2 表单 的服务端验证"></a>Struts2 表单 的服务端验证</h3><p>一.编程式验证 一般都不用所以就不写 了</p>
+<p>二. xml 进行验证</p>
+<p>在与action类<strong>同包中</strong>添加xml 配置文件</p>
+<p>1.对某个action 的验证 </p>
+<p>命名: <strong>Action类名-validation.xml</strong></p>
+<p>2.对action中某个方法进行验证</p>
+<p>命名: <strong>Action类名-方法名-validation.xml</strong></p>
+<p>例如: ScheduleAction-save-validation.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    &lt;!DOCTYPE validators PUBLIC
+            &quot;-//Apache Struts//XWork Validator 1.0.3//EN&quot;
+            &quot;http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd&quot;&gt;
+
+    &lt;validators&gt;
+
+        &lt;!-- 
+            长度的验证 
+            name: 必须和表单的字段名一致            
+        --&gt;
+
+        &lt;field name=&quot;schedule.consignee&quot;&gt;
+            &lt;field-validator type=&quot;requiredstring&quot;&gt;
+                &lt;message&gt;请填写收货人&lt;/message&gt;
+            &lt;/field-validator&gt;
+            &lt;field-validator type=&quot;stringlength&quot;&gt;
+                &lt;param name=&quot;minLength&quot;&gt;1&lt;/param&gt;
+                &lt;param name=&quot;maxLength&quot;&gt;8&lt;/param&gt;
+                &lt;message&gt;收货人必须在 ${maxLength} 个字符之内&lt;/message&gt;
+            &lt;/field-validator&gt;
+        &lt;/field&gt;
+
+
+        &lt;!-- 验证邮箱 --&gt;
+        &lt;field name=&quot;schedule.email&quot;&gt;
+            &lt;field-validator type=&quot;requiredstring&quot;&gt;
+                &lt;message&gt;邮箱不能为空&lt;/message&gt;
+            &lt;/field-validator&gt;
+            &lt;field-validator type=&quot;email&quot;&gt;
+                &lt;message&gt;请填写正确的邮箱&lt;/message&gt;
+            &lt;/field-validator&gt;
+        &lt;/field&gt;
+
+        &lt;!-- 手机号码 的验证 --&gt;
+        &lt;field name=&quot;person.phone&quot;&gt;  
+            &lt;field-validator type=&quot;regex&quot;&gt;  
+                &lt;param name=&quot;regex&quot;&gt;&lt;![CDATA[^1[358]\d{9}$]]&gt;&lt;/param&gt;            
+                &lt;message&gt;电话号码必须为11位数字&lt;/message&gt;  
+            &lt;/field-validator&gt;  
+        &lt;/field&gt;
+
+          &lt;!-- 身份证是否合法 --&gt;
+        &lt;field name=&quot;person.code&quot;&gt;  
+          &lt;field-validator type=&quot;regex&quot;&gt;
+               &lt;param name=&quot;expression&quot;&gt;
+                &lt;![CDATA[(^\d{14}(\d{1}|\d{4}|(\d{3}[xX]))$)]]&gt;
+               &lt;/param&gt;
+               &lt;message&gt;您输入的身份证号不正确&lt;/message&gt;
+             &lt;/field-validator&gt;  
+        &lt;/field&gt;
+    &lt;/validators&gt;
+
+    &lt;!-- 两次密码是否一致 --&gt;
+    &lt;validator type=&quot;fieldexpression&quot;&gt;
+        &lt;param name=&quot;fieldName&quot;&gt;pwd&lt;/param&gt;    
+         &lt;param name=&quot;fieldName&quot;&gt;pwd2&lt;/param&gt;
+         &lt;param name=&quot;expression&quot;&gt;&lt;![CDATA[pwd==pwd2]]&gt;&lt;/param&gt;&lt;!-- OGNL表达式 --&gt;
+        &lt;message&gt;确认密码和密码输入不一致&lt;/message&gt;
+    &lt;/validator&gt;
+</code></pre><p>页面上用: <s:fielderror fieldname=""> 进行错误提示显示</s:fielderror></p>
+<hr>
+<blockquote>
+<p>Struts2 几种获取参数的方法 </p>
+<p><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[JavaScript 常用笔记]]></title>
+      <url>http://liugch.top/2017/01/06/javaScript%20%E5%B8%B8%E7%94%A8%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<h1 id="JavaScript常用笔记"><a href="#JavaScript常用笔记" class="headerlink" title="JavaScript常用笔记"></a>JavaScript常用笔记</h1><blockquote>
+<p>电子邮箱 手机号码 中文验证 (表单)</p>
+</blockquote>
+<a id="more"></a>
+<pre><code> $(&quot;form&quot;).submit(function () {
+    var $consignee = $(&quot;input[name=&apos;schedule.consignee&apos;]&quot;);
+    var $email = $(&quot;input[name=&apos;schedule.email&apos;]&quot;);
+    var $mobile = $(&quot;input[name=&apos;schedule.mobile&apos;]&quot;);
+    var $address = $(&quot;input[name=&apos;schedule.address&apos;]&quot;);
+    /*中文*/
+    if ($consignee.val().trim() == &quot; &quot; || $consignee.val().length &lt; 1 || !$consignee.val().match(/^[\u4e00-\u9fa5]{1,20}$/)) {
+        $(&quot;#consignee&quot;).text(&quot;输入你的真实姓名(仅限中文名)&quot;).css(&quot;color&quot;, &quot;red&quot;);
+        $consignee.focus();
+        return false;
+    }else{
+        $(&quot;#consignee&quot;).text(&quot;&quot;);
+    }
+    /*电子邮箱*/
+    if ($email.val().trim() == &quot; &quot; || $email.val().length &lt; 1 || !$email.val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) {
+        $(&quot;#email&quot;).text(&quot;请输入正确的电子邮箱&quot;).css(&quot;color&quot;, &quot;red&quot;);
+        $email.focus();
+        return false;
+    }else{
+        $(&quot;#email&quot;).text(&quot;&quot;);
+    }
+
+    /*电话号码*/
+    if ($mobile.val().trim() == &quot; &quot; || $mobile.val().length &lt; 1 || !$mobile.val().match(/^(1(([35][0-9])|(47)|[8][01236789]))\d{8}$/)) {
+        $(&quot;#mobile&quot;).text(&quot;请输入正确的电话号码号码&quot;).css(&quot;color&quot;, &quot;red&quot;);
+        $mobile.focus();
+        return false;
+    }  else{
+        $(&quot;#mobile&quot;).text(&quot;&quot;);
+    }
+
+    if ($address.val().trim() == &quot; &quot; || $address.val().length &lt; 1 ) {
+        $(&quot;#address&quot;).text(&quot;请输入正确的收货地址&quot;).css(&quot;color&quot;, &quot;red&quot;);
+        $address.focus();
+        return false;
+    } else{
+        $(&quot;#address&quot;).text(&quot;&quot;);
+    }
+    return true;
+});
+</code></pre><blockquote>
+<p>js 关闭浏览器</p>
+</blockquote>
+<pre><code>/*关闭浏览器*/
+function closeWin(){
+    if(confirm(&quot;真的准备退出吗?&quot;)) {
+        var userAgent = navigator.userAgent;
+        if (userAgent.indexOf(&quot;Firefox&quot;) != -1 || userAgent.indexOf(&quot;Chrome&quot;) !=-1) {
+            window.location.href=&quot;about:blank&quot;;
+        } else {
+            window.opener = null;
+            window.open(&quot;&quot;, &quot;_self&quot;);
+            window.close();
+        }
+    }
+}
+
+
+
+ // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+</code></pre><p>   var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;<br>   if(reg.test(card) === false)<br>   {<br>       alert(“身份证输入不合法”);<br>       return  false;<br>   } </p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java 模式之代理模式]]></title>
+      <url>http://liugch.top/2017/01/04/Java%20%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h1 id="Java-模式之代理模式"><a href="#Java-模式之代理模式" class="headerlink" title="Java 模式之代理模式"></a>Java 模式之代理模式</h1><p>静态代理 和 动态代理  <a href="http://blog.csdn.net/liangbinny/article/details/18656791" target="_blank" rel="external">http://blog.csdn.net/liangbinny/article/details/18656791</a></p>
+<a id="more"></a>
+<blockquote>
+<p>静态代理</p>
+</blockquote>
+<p>代理的真实对象必须真实的存在</p>
+<p>如果代理的对象很多;出现类的臃肿;不够灵活;</p>
+<p>JDK 动态代理 和 CGLib 动态代理 <a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html" target="_blank" rel="external">http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html</a></p>
+<blockquote>
+<p>JDK 动态代理</p>
+</blockquote>
+<p>必须要有一个接口,  真实的对象必须实现该接口;</p>
+<pre><code>    public class BookFacadeProxy implements InvocationHandler {
+    private Object target;
+
+    private BookFacadeImpl bookFacade;
+
+    /**
+     * 绑定委托对象并返回一个代理类
+     *
+     * @param target
+     * @return
+     */
+    public Object bind(Object target) {
+        this.target = target;
+        //取得代理对象  
+        return Proxy.newProxyInstance(target.getClass().getClassLoader(),
+                target.getClass().getInterfaces(), this);   //要绑定接口(这是一个缺陷，cglib弥补了这一缺陷)  
+    }
+
+    public BookFacadeProxy(BookFacadeImpl bookFacade) {
+        this.bookFacade=bookFacade;
+    }
+
+    public BookFacadeProxy() {
+        super();
+    }
+
+    /**
+     *
+     * @param proxy 代理对象
+     * @param method 代理对象实现接口中的 方法
+     * @param args  方法中的 参数
+     * @return
+     * @throws Throwable
+     */
+/*    @Override
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable {
+        Object result = null;
+        System.out.println(&quot;事物开始&quot;);
+        //执行代理对象中方法
+        result = method.invoke(target, args);
+        System.out.println(&quot;事物结束&quot;);
+        return result;
+    }*/
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable {
+        Object result = null;
+        System.out.println(&quot;事物开始&quot;);
+        //执行方法
+        result = method.invoke(bookFacade, args);
+        System.out.println(&quot;事物结束&quot;);
+        return result;
+    }
+
+}  
+</code></pre><blockquote>
+<p>CGLib 动态代理</p>
+</blockquote>
+<p>该代理的类可以不用继承一个接口,  实现的原理是:通过产生一个子类.增强父类,字节码增强;</p>
+<p><strong>代理对象的生成过程由Enhancer类实现，大概步骤如下：</strong></p>
+<p>1、生成代理类Class的二进制字节码；</p>
+<p>2、通过Class.forName加载二进制字节码，生成Class对象；</p>
+<p>3、通过反射机制获取实例构造，并初始化代理类对象。</p>
+<pre><code>import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
+
+
+/**
+ * 使用cglib动态代理
+ *
+ * @author student
+ */
+public class BookFacadeCglib implements MethodInterceptor {
+    private Object target;
+
+    /**
+     * 创建代理对象
+     *
+     * @param target
+     * @return
+     */
+    public Object getInstance(Object target) {
+        this.target = target;
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(this.target.getClass());
+        // 回调方法  
+        enhancer.setCallback(this);
+        // 创建代理对象  
+        return enhancer.create();
+    }
+
+    @Override
+    // 回调方法  
+    public Object intercept(Object obj, Method method, Object[] args,
+                            MethodProxy proxy) throws Throwable {
+        System.out.println(&quot;事物开始&quot;);
+        proxy.invokeSuper(obj, args);
+        System.out.println(&quot;事物结束&quot;);
+        return null;
+    }
+
+}  
+
+
+
+public class TestCglib {
+
+    public static void main(String[] args) {
+
+        BookFacadeCglib cglib = new BookFacadeCglib();
+
+        //BookFacadeImpl1 bookCglib = (BookFacadeImpl1) cglib.getInstance(new BookFacadeImpl1());
+        //
+        //bookCglib.addBook();
+
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(new BookFacadeImpl1().getClass());
+        enhancer.setCallback(cglib);
+
+
+        BookFacadeImpl1 bookFacadeImpl1 = (BookFacadeImpl1) enhancer.create();
+
+        bookFacadeImpl1.addBook();
+
+
+
+
+    }
+}  
+</code></pre><p>与JDK动态代理相比，cglib可以实现对一般类的代理而无需实现接口</p>
+<p><strong>实现步骤:</strong></p>
+<p>创建Enhancer实例</p>
+<p>通过setSuperclass方法来设置目标类</p>
+<p>通过setCallback 方法来设置拦截对象</p>
+<p>create方法生成Target的代理类，并返回代理类的实例</p>
+<p>说到底就是把目标类包装一下(extend).生成一个代理对象;</p>
+<hr>
+<p>所以总结三种代理模式:</p>
+<p>静态代理: 代理类必须 实现一个接口, 在实际的开发中 会产生很多的代理类;</p>
+<p>并且代理的 真实的类必须实现 同一个接口;(一般不使用)</p>
+<p>JDK 代理 : 代理的真实的一个类必须实现一个接口;如果没有实现一个接口 会出现 转换异常;(如果真实的代理类如果实现了一个接口 使用JDK代理执行 效率比CGLib 高)</p>
+<p>CGLib 代理: 可以不实现一个接口, 只是对真正所代理的对象进行了一个继承,进行更强的包装;</p>
+<blockquote>
+<p>Spring AOP 于 Aspectj 的区别 与什么时候适用<br><a href="https://www.oschina.net/translate/comparative_analysis_between_spring_aop_and_aspectj" target="_blank" rel="external">https://www.oschina.net/translate/comparative_analysis_between_spring_aop_and_aspectj</a></p>
+</blockquote>
+<p>你一定希望使用一种易于实现的方式。因为Spring AOP支持注解，在使用@Aspect注解创建和配置方面时将更加方便。<br>而使用AspectJ，你就需要通过.aj文件来创建方面，并且需要使用ajc（Aspect编译器）来编译代码。<br>所以如果你确定之前提到的限制不会成为你的项目的障碍时，使用Spring AOP。</p>
+<p>使用AspectJ的一个间接局限是，因为AspectJ通知可以应用于POJO之上，它有可能将通知应用于一个已配置的通知之上。<br>对于一个你没有注意到这方面问题的大范围应用的通知，这有可能导致一个无限循环。</p>
+<p><a href="https://www.ibm.com/developerworks/cn/java/j-genericdao.html" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-genericdao.html</a></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java 基本问题]]></title>
+      <url>http://liugch.top/2017/01/03/Java%20%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h1 id="Java-基本问题"><a href="#Java-基本问题" class="headerlink" title="Java 基本问题"></a>Java 基本问题</h1><blockquote>
+<p>六大设计模式</p>
+</blockquote>
+<a id="more"></a>
+<p> 单一职责原则主要说明类的职责要单一；</p>
+<p> 里氏替换原则强调不要破坏继承体系；</p>
+<p> 依赖倒置原则描述要面向接口编程；</p>
+<p> 接口隔离原则讲解设计接口的时候要精简；</p>
+<p> 迪米特法则告诉我们要降低耦合；</p>
+<p> 开闭原则讲述的是对扩展开放，对修改关闭。</p>
+<p>数据的逻辑结构分两大类：<strong>线性结构 和 非线性结构 </strong></p>
+<p>数据的存储方法有四种：顺序存储方法 、 链接存储方法 、 索引存储方法、 散列存储方法 </p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java Thread]]></title>
+      <url>http://liugch.top/2017/01/02/Java%20Thread%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>Java Thread 笔记</p>
+</blockquote>
+<a id="more"></a>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git 的基本使用]]></title>
+      <url>http://liugch.top/2017/01/01/Git%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+      <content type="html"><![CDATA[<h1 id="git-的相关操作"><a href="#git-的相关操作" class="headerlink" title="git 的相关操作"></a>git 的相关操作</h1><p>Git 的基本使用</p>
+<p>一个教程网站 <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">Git 廖雪峰 教程</a> </p>
+<blockquote>
+<p>取别名 </p>
+</blockquote>
+<p><strong>局部</strong></p>
+<p>git config alias.st status</p>
+<p><strong>全局</strong></p>
+<p>git config –global alias.st status</p>
+<blockquote>
+<p>初始化</p>
+</blockquote>
+<p>git init  </p>
+<blockquote>
+<p>添加到本地缓存中</p>
+</blockquote>
+<p>git add . </p>
+<blockquote>
+<p>从索引写入到库</p>
+</blockquote>
+<p>git commit -m “提交到版本库”</p>
+<p>git commit -a -m “提交，连同所有未 add 的修改文件”</p>
+<p>git commit –amend -a -m “替换最后一次的提交信息”</p>
+<blockquote>
+<p>从git仓库中克隆下来</p>
+</blockquote>
+<p>git clone <a href="https://github.com/liugch/SSH.git" target="_blank" rel="external">https://github.com/liugch/SSH.git</a></p>
+<blockquote>
+<p>更新本地仓库</p>
+</blockquote>
+<p>git pull</p>
+<blockquote>
+<p>提交到github 仓库中</p>
+</blockquote>
+<p>git push</p>
+<blockquote>
+<p> 查看修改了什么东西</p>
+</blockquote>
+<p>git diff</p>
+<p>git diff –cached</p>
+<p>git status</p>
+<blockquote>
+<p> 查看日志，历史记录</p>
+</blockquote>
+<p>git show</p>
+<p>git log</p>
+<p>git log –pretty=oneline  # 定制 log 的显示样式</p>
+<p>git log -2 -p             # 显示最近两次提交的详细信息</p>
+<p>git log –stat –summary  # 简要显示每次更新的统计信息（提交过那些文件，有多少行修改）</p>
+<blockquote>
+<p> 增加/查看/切换/删除 分支</p>
+</blockquote>
+<p>git branch                # 查看分支</p>
+<p>git branch hehe           # 创建分支 hehe</p>
+<p>git branch hehe 22222    # 以 22222 为起点创建 hehe 分支</p>
+<p>git checkout hehe         # 切换到分支 hehe</p>
+<p>git checkout -b tmp       # 创建并切换到分支 tmp</p>
+<p>git branch -D tmp         # 删除分支 tmp</p>
+<blockquote>
+<p> 合并工作到主分支(hehe -&gt; master)</p>
+</blockquote>
+<p>git checkout master       # 切换到主分支</p>
+<p>git merge HEAD hehe       # 将 hehe 的最新版本合并到当前分支</p>
+<p>git pull . hehe           # 相当于 git fetch &amp;&amp; git merge</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Mabatis基本使用]]></title>
+      <url>http://liugch.top/2017/01/01/Mybatis%20%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB/</url>
+      <content type="html"><![CDATA[<h1 id="Mabatis基本使用"><a href="#Mabatis基本使用" class="headerlink" title="Mabatis基本使用"></a>Mabatis基本使用</h1><blockquote>
+<p>Mabatis 表与实体的映射关系</p>
+</blockquote>
+<p><a href="http://www.cnblogs.com/xdp-gacl/p/4264440.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/4264440.html</a></p>
+<a id="more"></a>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[SpringMVC 相关笔记]]></title>
+      <url>http://liugch.top/2016/11/28/Springmvc%20%E7%9B%B8%E5%85%B3%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<h1 id="SpringMVC-相关笔记"><a href="#SpringMVC-相关笔记" class="headerlink" title="SpringMVC 相关笔记"></a>SpringMVC 相关笔记</h1><p><a href="http://45.32.42.177:3000/" target="_blank" rel="external">http://45.32.42.177:3000/</a></p>
+<p>求职问题:<a href="http://arts.51job.com/arts/05/283697.html" target="_blank" rel="external">http://arts.51job.com/arts/05/283697.html</a></p>
+<a id="more"></a>
+<p>jrebel 激活 <a href="http://blog.csdn.net/xiangxueping80/article/details/44487045" target="_blank" rel="external">http://blog.csdn.net/xiangxueping80/article/details/44487045</a></p>
+<p>SpringMVC 异常的处理 <a href="http://blog.csdn.net/rj042/article/details/7380442" target="_blank" rel="external">http://blog.csdn.net/rj042/article/details/7380442</a></p>
+<p>JSR-303 验证  <a href="http://jinnianshilongnian.iteye.com/blog/1733708" target="_blank" rel="external">http://jinnianshilongnian.iteye.com/blog/1733708</a><br>主要的验jsr 验证都在这里; </p>
+<p>SpringMVC 拦截器 <a href="http://www.cnblogs.com/HD/p/4127873.html" target="_blank" rel="external">http://www.cnblogs.com/HD/p/4127873.html</a></p>
+<p>SpringMVC 图片的上传并显示 <a href="http://blog.csdn.net/luckey_zh/article/details/46867957" target="_blank" rel="external">http://blog.csdn.net/luckey_zh/article/details/46867957</a></p>
+<p>IDEA 连接数据库是遇到的问题:  <a href="https://segmentfault.com/q/1010000005020300" target="_blank" rel="external">https://segmentfault.com/q/1010000005020300</a></p>
+<blockquote>
+<p>IDEA Hibernate连接MYSQL失败提示时区错误该怎么解决？</p>
+</blockquote>
+<p>在 connection.url 值的后面追加 </p>
+<p>?serverTimezone=UTC</p>
+<p>题主可以在 mysql 中执行命令试下：</p>
+<p>set global time_zone=’+8:00’</p>
+<blockquote>
+<p> @ResponseBody  and @RequestBody 的使用</p>
+</blockquote>
+<p>一般是 配合ajax 使用的</p>
+<p>如:</p>
+<pre><code>&lt;button id=&quot;btn&quot;&gt;requestBody 和 responsebody&lt;/button&gt;
+&lt;script&gt;
+    $(&quot;#btn&quot;).click(function () {
+        alert(23);
+        var i = {&apos;name&apos;: &apos;张三&apos;, &apos;age&apos;: 20};
+        $.ajax({
+            method: &apos;post&apos;,
+            url: &apos;/index2&apos;,
+            data: JSON.stringify(i),
+            contentType: &apos;application/json&apos;,
+            success: function (data) {
+                alert(data.name);
+            }
+
+        });
+    });
+&lt;/script&gt;--%&gt;
+
+@RequestMapping(&quot;/index2&quot;)
+@ResponseBody
+public Person index2(@RequestBody Person person) {
+    //Log.getLogger().logger.info(name+&quot;=================&quot;);
+    person.setAge(100);
+    return person;
+}*/                                                     
+</code></pre><blockquote>
+<p>SpringMVC 验证器 的三种使用</p>
+</blockquote>
+<p><strong>第一种 原始用法:</strong></p>
+<pre><code>@RequestMapping(&quot;/index2&quot;)
+public String index2(Person person, Errors errors) {
+    if(person.getAge()&gt;120||person.getAge()&lt;18){
+        errors.rejectValue(&quot;age&quot;,null,&quot;年龄要在18-120 之间&quot;);
+    }
+    if(errors.hasErrors()){
+        return &quot;index&quot;;
+    }
+    return &quot;false&quot;;
+}
+</code></pre><p><strong>第二种 自定义验证器</strong></p>
+<pre><code>public class PersonValidator implements Validator {
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+        return clazz== Person.class;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Person person =(Person) target;
+        if(person.getAge()&gt;120||person.getAge()&lt;18){
+            errors.reject(null,&quot;年龄要在18-120 之间&quot;);
+        }
+    }
+}
+
+@InitBinder
+protected void init(DataBinder dataBinder) {
+    dataBinder.setValidator(new PersonValidator());
+}
+@RequestMapping(&quot;/index2&quot;)
+public String index2(@Validated Person person, Errors errors) {
+    if (errors.hasErrors()) {
+        return &quot;index&quot;;
+    }
+    return &quot;false&quot;;
+}
+</code></pre><p><strong>上面的也可以定义成全局的验证器</strong></p>
+<pre><code>&lt;mvc:annotation-driven validator=&quot;userValidator&quot; /&gt;
+&lt;bean name=&quot;userValidator&quot; class=&quot;app.liugch.validator.PersonValidator&quot; /&gt;
+</code></pre><p><strong>第三种 JSR 303 验证</strong></p>
+<p>导入相关的jar包 gradle 中:  “org.hibernate:hibernate-validator:$hibernateVersion”<br>在Model 实体类中使用相关的注解就行了</p>
+<pre><code>public class Person implements Serializable {
+    @NotEmpty(message = &quot;邮箱不能为空!&quot;)
+    /*@Pattern(regexp = &quot;^([a-z0-9A-Z]+[-|\\\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\\\.)+[a-zA-Z]{2,}$&quot;)*/
+    @Email(message = &quot;邮箱格式错误!&quot;)
+    private String name;
+
+
+    @NotNull
+    @Range(min = 18,max = 120,message = &quot;年龄要在18-20岁之间&quot;)
+    private int age;
+    /*
+    @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)*/
+    private Date birth;
+}
+
+
+/**
+ * jsr 303 验证
+ * @param person
+ * @param errors
+ * @return
+ */
+@RequestMapping(&quot;/index2&quot;)
+public String index2(@Valid Person person, Errors errors) {
+    if (errors.hasErrors()) {
+        return &quot;index&quot;;
+    }
+    return &quot;fail&quot;;
+}
+</code></pre><blockquote>
+<p>转换器<br>日期转换器</p>
+</blockquote>
+<p><strong>第一种方法：利用内置的 CustomDateEditor</strong></p>
+<p>在Controller 中配置使用:</p>
+<pre><code>@InitBinder
+public void init (WebDataBinder binder) {
+    CustomDateEditor dateEditor = new CustomDateEditor(new SimpleDateFormat(&quot;yyyy-MM-dd&quot;), true);
+    binder.registerCustomEditor(Date.class, dateEditor);
+}
+</code></pre><p>在要使用的地方 添加 @valid</p>
+<p><strong>第二种方法:自定义转换器 converter</strong></p>
+<pre><code>public class DateConverter implements Converter&lt;String, Date&gt; {
+
+    @Override
+    public Date convert(String source) {
+       /* SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        try {
+            Date  d= sdf.parse(source);
+            return d;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+
+        // String dateString = DateFormatUtils.formatString(source);
+        SimpleDateFormat sdf = null;
+        if (source != null &amp;&amp; source.trim().equals(&quot;&quot;)) {
+            return null;
+        } else {
+            source = source.replace(&quot;-&quot;, &quot;&quot;).replace(&quot;:&quot;, &quot;&quot;).replace(&quot;/&quot;, &quot;&quot;).replace(&quot; &quot;,&quot;&quot;);
+            int length = source.length();
+            try {
+                if (length == 8) {
+                    sdf = format(&quot;yyyyMMdd&quot;);
+                    return sdf.parse(source);
+
+                } else if (length == 6) {
+                    sdf = format(&quot;yyyyMM&quot;);
+                    return sdf.parse(source);
+                } else if (length == 14) {
+                    sdf = format(&quot;yyyyMMddHHmmss&quot;);
+                    return sdf.parse(source);
+                } else {
+                    return null;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+        return null;
+    }
+
+    /**
+     * 不同 format
+     *
+     * @param pattern
+     * @return
+     */
+    public SimpleDateFormat format(String pattern) {
+        SimpleDateFormat sdf = null;
+        if (pattern == null &amp;&amp; pattern.trim().equals(&quot;&quot;)) {
+            sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+        } else {
+            sdf = new SimpleDateFormat(pattern);
+        }
+        return sdf;
+    }
+}
+</code></pre><p>在配置文件中配置使用:</p>
+<pre><code>&lt;!--全局转换器--&gt;
+&lt;!-- 定义全局的转换服务，可以配置多个转换器 --&gt;
+&lt;!-- 在这里，只配置了我们自定义的转换器，DateConverter --&gt;
+&lt;!--&lt;mvc:annotation-driven conversion-service=&quot;myconversionService&quot;/&gt;
+&lt;bean id=&quot;myconversionService&quot; class=&quot;org.springframework.context.support.ConversionServiceFactoryBean&quot;&gt;
+    &lt;property name=&quot;converters&quot;&gt;
+        &lt;set&gt;
+            &lt;bean class=&quot;app.liugch.converter.DateConverter&quot;/&gt;
+        &lt;/set&gt;
+    &lt;/property&gt;
+
+&lt;/bean&gt;--&gt;
+</code></pre><p><strong>第三种方法:利用 注解的方式 </strong></p>
+<p>如:日期转换</p>
+<p>@DateTimeFormat(pattern = “yyyy-MM-dd”)</p>
+<blockquote>
+<p> SpringMVC Interceptor 拦截器 的使用:</p>
+</blockquote>
+<p>可以有两种方法: </p>
+<p>分别实现</p>
+<p>HandlerInterceptor(有更多的操作)<br>WebRequestInterceptor(更加的方便)</p>
+<p>先自定义拦截器</p>
+<pre><code>public class MyInterceptor implements WebRequestInterceptor {
+    @Override
+    public void preHandle(WebRequest request) throws Exception {
+        System.out.println(&quot;my:pre&quot;);
+    }
+
+    @Override
+    public void postHandle(WebRequest request, ModelMap model) throws Exception {
+        System.out.println(&quot;my:post&quot;);
+    }
+
+    @Override
+    public void afterCompletion(WebRequest request, Exception ex) throws Exception {
+        System.out.println(&quot;my:complete&quot;);
+    }
+}
+
+public class LoginInterceptor implements HandlerInterceptor {
+    //在执行 Controller 相应 handler 之前要执行
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(&quot;login:pre&quot;);
+        return true;
+    }
+
+    //执行完 handler，进入 render 页面渲染前的阶段执行
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println(&quot;login:post&quot;);
+    }
+
+    //所有的东西都做完，退出前执行。主要用来做一些清理工作
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println(&quot;login:complete&quot;);
+    }
+}
+</code></pre><p>在配置文件中配置</p>
+<pre><code>&lt;!--拦截器--&gt;
+&lt;mvc:interceptors&gt;
+    &lt;mvc:interceptor&gt;
+        &lt;mvc:mapping path=&quot;/post/*&quot;/&gt;
+        &lt;bean class=&quot;app.liugch.Interceptor.MyInterceptor&quot;/&gt;
+    &lt;/mvc:interceptor&gt;
+
+    &lt;mvc:interceptor&gt;
+        &lt;mvc:mapping path=&quot;/user/*&quot;/&gt;
+        &lt;bean class=&quot;app.liugch.Interceptor.LoginInterceptor&quot;/&gt;
+    &lt;/mvc:interceptor&gt;
+&lt;/mvc:interceptors&gt;
+</code></pre><p>如果请求:<a href="http://localhost:8080/post/message" target="_blank" rel="external">http://localhost:8080/post/message</a> 就会被 MyInterceptor 拦截器拦截  </p>
+<p>如果请求:<a href="http://localhost:8080/user/index" target="_blank" rel="external">http://localhost:8080/user/index</a> 就会被 LoginInterceptor 拦截器拦截  </p>
+<blockquote>
+<p> SpringMVC 异常处理</p>
+</blockquote>
+<p><strong>第一:使用自定义的异常处理</strong></p>
+<p>1.定义异常处理类</p>
+<p>2.在交给Spring 来管理(可以使用<bean> 也可以使用 注解方式@component) </bean></p>
+<pre><code>/**
+ * 异常处理类
+ */
+public class MyException implements HandlerExceptionResolver {
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+
+        if(ex instanceof IOException){
+            return new ModelAndView(&quot;ioexp&quot;);
+        }else if(ex instanceof SQLException){
+            return new ModelAndView(&quot;sqlexp&quot;);
+        }else{
+            return new ModelAndView(&quot;error&quot;);
+        }
+    }
+}
+</code></pre><p><strong>内置的异常处理</strong></p>
+<pre><code>  &lt;bean class=&quot;org.springframework.web.servlet.handler.SimpleMappingExceptionResolver&quot;&gt;
+    &lt;!-- 定义默认的异常处理页面，当该异常类型的注册时使用 --&gt;
+    &lt;property name=&quot;defaultErrorView&quot; value=&quot;error&quot;&gt;&lt;/property&gt;
+    &lt;!-- 定义异常处理页面用来获取异常信息的变量名，默认名为exception --&gt;
+    &lt;property name=&quot;exceptionAttribute&quot; value=&quot;ex&quot;&gt;&lt;/property&gt;
+    &lt;!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 --&gt;
+    &lt;property name=&quot;exceptionMappings&quot;&gt;
+        &lt;props&gt;
+            &lt;prop key=&quot;IOException&quot;&gt;ioexp&lt;/prop&gt;
+            &lt;prop key=&quot;java.sql.SQLException&quot;&gt;sqlexp&lt;/prop&gt;
+        &lt;/props&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre><p><strong>使用注解的方式</strong></p>
+<p>一般使全部的 Controller 都可以使用异常处理,所以 另外 单独定义一个 ExceptionController 类 处理异常;</p>
+<p>其中用到一个<strong>@ControllerAdvice</strong> 注解 </p>
+<p>作用: 让所有的Controller 都可以使用其中异常处理</p>
+<p>使用: 一般都是和</p>
+<p><strong>@ExceptionHandler </strong>  自定义的错误处理器</p>
+<p><strong>@ModelAttribute</strong>      全局的对所有的controller的Model添加属性</p>
+<p><strong>@InitBinder </strong> 对表单数据绑定</p>
+<pre><code>@Controller
+@ControllerAdvice
+public class ExecptionController {
+    /*
+        @ExceptionHandler({IOException.class,RuntimeException.class})
+        public String error(Exception ex, Model model) {
+            return &quot;error&quot;;
+        }
+    */
+    @ExceptionHandler
+    public String error(Exception ex, Model model) {
+        model.addAttribute(&quot;error&quot;, ex);
+        return &quot;error&quot;;
+    }
+
+    @ExceptionHandler
+    public String error2(MyExecption ex, Model model) {
+        model.addAttribute(&quot;error&quot;, ex);
+        return &quot;error&quot;;
+    }
+}
+
+class MyExecption extends Exception {
+
+}
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Android 文件地址与缓存]]></title>
       <url>http://liugch.top/2016/11/01/Android_%E6%96%87%E4%BB%B6%E7%9A%84%E5%9C%B0%E5%9D%80%E5%92%8C%E7%BC%93%E5%AD%98/</url>
       <content type="html"><![CDATA[<h1 id="文件地址与缓存"><a href="#文件地址与缓存" class="headerlink" title="文件地址与缓存"></a>文件地址与缓存</h1><blockquote>
@@ -314,6 +2304,44 @@ getFilesDir();
     </entry>
     
     <entry>
+      <title><![CDATA[SSH 整合笔记]]></title>
+      <url>http://liugch.top/2016/10/28/SSH%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<blockquote>
+<p>SSH笔记</p>
+</blockquote>
+<p>rasphone  连接网络</p>
+<blockquote>
+<p>Spring 的使用教程</p>
+</blockquote>
+<h2 id="http-wiki-jikexueyuan-com-project-spring"><a href="#http-wiki-jikexueyuan-com-project-spring" class="headerlink" title="http://wiki.jikexueyuan.com/project/spring/ "></a><a href="http://wiki.jikexueyuan.com/project/spring/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/spring/</a> </h2><a id="more"></a>
+<blockquote>
+<p>Hibernate.initialize(autho.getBook()) 显式 lazy对象</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Struts2 几种获取参数的方法 </p>
+<h2 id="https-my-oschina-net-u-1398304-blog-215874"><a href="#https-my-oschina-net-u-1398304-blog-215874" class="headerlink" title="https://my.oschina.net/u/1398304/blog/215874"></a><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></h2><p>SSH 整合的一些思路及案例</p>
+<h2 id="http-blog-csdn-net-zhuanzhe117-article-details-48014545"><a href="#http-blog-csdn-net-zhuanzhe117-article-details-48014545" class="headerlink" title="http://blog.csdn.net/zhuanzhe117/article/details/48014545"></a><a href="http://blog.csdn.net/zhuanzhe117/article/details/48014545" target="_blank" rel="external">http://blog.csdn.net/zhuanzhe117/article/details/48014545</a></h2><p>SpringMVC 的一些配置</p>
+<h2 id="https-segmentfault-com-a-1190000005670764-articleHeader7"><a href="#https-segmentfault-com-a-1190000005670764-articleHeader7" class="headerlink" title="https://segmentfault.com/a/1190000005670764#articleHeader7"></a><a href="https://segmentfault.com/a/1190000005670764#articleHeader7" target="_blank" rel="external">https://segmentfault.com/a/1190000005670764#articleHeader7</a></h2><p>SpringMVC 的一些笔记</p>
+<h2 id="http-www-imooc-com-article-1392"><a href="#http-www-imooc-com-article-1392" class="headerlink" title="http://www.imooc.com/article/1392"></a><a href="http://www.imooc.com/article/1392" target="_blank" rel="external">http://www.imooc.com/article/1392</a></h2><p>maven 中oracle jar包</p>
+</blockquote>
+<p>到达下载后的jar包的位置 执行下面语句</p>
+<p>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar -DgeneratePom=true </p>
+<hr>
+<blockquote>
+<p>大神的博客</p>
+</blockquote>
+<h2 id="http-blog-csdn-net-fengshizty-viewmode-list"><a href="#http-blog-csdn-net-fengshizty-viewmode-list" class="headerlink" title="http://blog.csdn.net/fengshizty?viewmode=list"></a><a href="http://blog.csdn.net/fengshizty?viewmode=list" target="_blank" rel="external">http://blog.csdn.net/fengshizty?viewmode=list</a></h2><blockquote>
+<p>无法访问服务器</p>
+</blockquote>
+<p>1.没有部署到服务器中;<br>2.配置中访问地址已经出错;</p>
+<blockquote>
+<p>防止访问时路径有问题<br>    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"></p>
+</blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Spring 一些基本的注解的使用]]></title>
       <url>http://liugch.top/2016/10/28/Spring%20%E4%B8%80%E4%BA%9B%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
       <content type="html"><![CDATA[<blockquote>
@@ -378,44 +2406,6 @@ getFilesDir();
 <p>上面用注入: 一般用 @Resource 就行了</p>
 <p>@Scope(“prototype”) </p>
 <p>让该类不是使用单例;重新创建新的实例;</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[SSH 整合笔记]]></title>
-      <url>http://liugch.top/2016/10/28/SSH%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/</url>
-      <content type="html"><![CDATA[<blockquote>
-<p>SSH笔记</p>
-</blockquote>
-<p>rasphone  连接网络</p>
-<blockquote>
-<p>Spring 的使用教程</p>
-</blockquote>
-<h2 id="http-wiki-jikexueyuan-com-project-spring"><a href="#http-wiki-jikexueyuan-com-project-spring" class="headerlink" title="http://wiki.jikexueyuan.com/project/spring/ "></a><a href="http://wiki.jikexueyuan.com/project/spring/" target="_blank" rel="external">http://wiki.jikexueyuan.com/project/spring/</a> </h2><a id="more"></a>
-<blockquote>
-<p>Hibernate.initialize(autho.getBook()) 显式 lazy对象</p>
-</blockquote>
-<hr>
-<blockquote>
-<p>Struts2 几种获取参数的方法 </p>
-<h2 id="https-my-oschina-net-u-1398304-blog-215874"><a href="#https-my-oschina-net-u-1398304-blog-215874" class="headerlink" title="https://my.oschina.net/u/1398304/blog/215874"></a><a href="https://my.oschina.net/u/1398304/blog/215874" target="_blank" rel="external">https://my.oschina.net/u/1398304/blog/215874</a></h2><p>SSH 整合的一些思路及案例</p>
-<h2 id="http-blog-csdn-net-zhuanzhe117-article-details-48014545"><a href="#http-blog-csdn-net-zhuanzhe117-article-details-48014545" class="headerlink" title="http://blog.csdn.net/zhuanzhe117/article/details/48014545"></a><a href="http://blog.csdn.net/zhuanzhe117/article/details/48014545" target="_blank" rel="external">http://blog.csdn.net/zhuanzhe117/article/details/48014545</a></h2><p>SpringMVC 的一些配置</p>
-<h2 id="https-segmentfault-com-a-1190000005670764-articleHeader7"><a href="#https-segmentfault-com-a-1190000005670764-articleHeader7" class="headerlink" title="https://segmentfault.com/a/1190000005670764#articleHeader7"></a><a href="https://segmentfault.com/a/1190000005670764#articleHeader7" target="_blank" rel="external">https://segmentfault.com/a/1190000005670764#articleHeader7</a></h2><p>SpringMVC 的一些笔记</p>
-<h2 id="http-www-imooc-com-article-1392"><a href="#http-www-imooc-com-article-1392" class="headerlink" title="http://www.imooc.com/article/1392"></a><a href="http://www.imooc.com/article/1392" target="_blank" rel="external">http://www.imooc.com/article/1392</a></h2><p>maven 中oracle jar包</p>
-</blockquote>
-<p>到达下载后的jar包的位置 执行下面语句</p>
-<p>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar -Dfile=ojdbc6.jar -DgeneratePom=true </p>
-<hr>
-<blockquote>
-<p>大神的博客</p>
-</blockquote>
-<h2 id="http-blog-csdn-net-fengshizty-viewmode-list"><a href="#http-blog-csdn-net-fengshizty-viewmode-list" class="headerlink" title="http://blog.csdn.net/fengshizty?viewmode=list"></a><a href="http://blog.csdn.net/fengshizty?viewmode=list" target="_blank" rel="external">http://blog.csdn.net/fengshizty?viewmode=list</a></h2><blockquote>
-<p>无法访问服务器</p>
-</blockquote>
-<p>1.没有部署到服务器中;<br>2.配置中访问地址已经出错;</p>
-<blockquote>
-<p>防止访问时路径有问题<br>    <base href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/"></p>
-</blockquote>
 ]]></content>
     </entry>
     

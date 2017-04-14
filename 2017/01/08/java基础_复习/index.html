@@ -1,0 +1,1420 @@
+<!doctype html>
+
+
+
+
+<html class="theme-next pisces">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,Thread,JDBC,设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="何有悠然" type="application/atom+xml" />
+  
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Java 复习
+Java 多线程 的 相关问题Thread 多线程 面试常用问题 : http://www.cnblogs.com/dolphin0520/p/3958019.html
+
+产生线程的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 复习">
+<meta property="og:url" content="http://liugch.top/2017/01/08/java基础_复习/index.html">
+<meta property="og:site_name" content="何有悠然">
+<meta property="og:description" content="Java 复习
+Java 多线程 的 相关问题Thread 多线程 面试常用问题 : http://www.cnblogs.com/dolphin0520/p/3958019.html
+
+产生线程的方法">
+<meta property="og:updated_time" content="2017-04-14T09:01:46.558Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 复习">
+<meta name="twitter:description" content="Java 复习
+Java 多线程 的 相关问题Thread 多线程 面试常用问题 : http://www.cnblogs.com/dolphin0520/p/3958019.html
+
+产生线程的方法">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Java 复习 | 何有悠然  - 个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">何有悠然</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle" id="site-subtitle">Liu Guangch's blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button onclick="showSubtitle()">
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav" id="site-nav">
+  
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photos">
+          <a href="/photos" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-picture-o"></i> <br />
+            
+            づ╭❤～づ相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-mylove">
+          <a href="/mylove" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            陪伴づ╭❤～づ
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar-check-o"></i> <br />
+            
+            日志
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-commenting-o"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+	  
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 复习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-08T19:40:01+08:00" content="2017-01-08">
+              2017-01-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/08/java基础_复习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/08/java基础_复习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+			
+			
+			
+		
+					
+			
+			
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h1 id="Java-复习"><a href="#Java-复习" class="headerlink" title="Java 复习"></a>Java 复习</h1></blockquote>
+<h2 id="Java-多线程-的-相关问题"><a href="#Java-多线程-的-相关问题" class="headerlink" title="Java 多线程 的 相关问题"></a>Java 多线程 的 相关问题</h2><p>Thread 多线程 面试常用问题 : <a href="http://www.cnblogs.com/dolphin0520/p/3958019.html" target="_blank" rel="external">http://www.cnblogs.com/dolphin0520/p/3958019.html</a></p>
+<blockquote>
+<p>产生线程的方法</p>
+</blockquote>
+<a id="more"></a>
+<p>1.继承 Thread 类; </p>
+<p>2.实现Runable 接口;</p>
+<pre><code>/**
+ * 每个线程都是独立的单元
+ * 一个程序中的线程是并发进行的  相当于同时执行  
+ * 多线程,继承了Thread,并且重写了run ()方法
+ * setName(),getName() 是用于设置   和    获取线程名称
+ * Thread.currentThread() 获取当前的线程对象的引用
+ * Thread.sleep(100) 让当前的线程睡眠 
+ * threadDemo1.start() 线程的启动,使线程处于就绪的状态
+ * @author Administrator
+ *
+ */
+public class TreadDemo2 extends Thread{
+    int count=0;
+    public void run(){
+        for(int i=0;i&lt;50;i++){
+            if(i%3==0 &amp;&amp; this.getName().equals(&quot;线程2中的count值&quot;)){
+                Thread.yield();//当前线程让行,有CPU资源也不继续运行,再次进入就绪状态
+                try {
+                    Thread.sleep(200);//
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println(this.getName()+&quot;:&quot;+count);
+            //System.out.println(Thread.currentThread().getName()+&quot;:&quot;+count++);
+            //增加交替进行的机会
+
+            count++;
+        }
+    }
+    //mian 函数是主线程(守护线程) 
+    public static void main(String[] args) {
+        //创建了两个线程
+        TreadDemo2 threadDemo1=new TreadDemo2();
+        TreadDemo2 threadDemo2=new TreadDemo2();
+        //设置线程的名称
+        threadDemo1.setName(&quot;线程1中的count值&quot;);
+        threadDemo2.setName(&quot;线程2中的count值&quot;);
+        //启动线程
+        threadDemo1.start();//强占CPU
+        threadDemo2.start();
+
+    }
+
+}
+
+
+public class TreadDemo3 implements Runnable{
+    int count=0;
+    public void run(){
+        for(int i=0;i&lt;5;i++){
+            //System.out.println(this.getName()+&quot;:&quot;+count++);
+
+            System.out.println(Thread.currentThread().getName()+&quot;:&quot;+count);
+            //增加交替进行的机会
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            count++;
+        }
+        }
+    public static void main(String[] args) {
+         //创建了两个线程
+        TreadDemo3 demo=new TreadDemo3();
+        Thread t1=new Thread(demo);
+        Thread t2=new Thread(demo);
+        //设置线程的名称
+        t1.setName(&quot;线程1中的count值&quot;);
+        t2.setName(&quot;线程2中的count值&quot;);
+        //启动线程
+        t1.start();//强占CPU
+        t2.start();
+    }
+
+}
+</code></pre><p>3.Synchronized 的使用:</p>
+<pre><code>class S126 implements Runnable {
+    ArrayList&lt;String&gt; list;
+    private Random rand = new Random();
+
+    public S126() {
+        list = new ArrayList&lt;String&gt;();
+        list.add(&quot;张三(0)&quot;);
+        list.add(&quot;李四(1)&quot;);
+        list.add(&quot;王五(2)&quot;);
+        list.add(&quot;赵六(3)&quot;);
+        list.add(&quot;田七(4)&quot;);
+        list.add(&quot;八哥(5)&quot;);
+        list.add(&quot;九妹(6)&quot;);
+    }
+    @Override
+    public  void run() {
+        //fun();
+        // 生成随机数
+        // 显示随机数
+        // 从列表中移除此人
+        // 显示此人信息
+        // 直到列表元素空了，就循环结束
+        while (true) {
+            synchronized (list) {    
+                if (list.isEmpty()) {
+                    System.out.println(&quot;人数已经抽完了!&quot;);
+                    break;
+                }
+                int num = rand.nextInt(list.size());
+                System.out.println(Thread.currentThread().getName() + &quot;抽到了&quot;
+                        + num + &quot;号&quot;);
+                String person = list.remove(num);
+                System.out.println(Thread.currentThread().getName() + &quot;抽到人员姓名:&quot;
+                        + person);
+                list.notifyAll();
+                try {
+                    list.wait();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+    /*    System.out.println(Thread.currentThread().getName() + &quot;说:抽到人员姓名:&quot;
+                + &quot;没人了!&quot;);*/
+
+    }
+}
+
+public class SynchronizedDemo {
+    public static void main(String[] args) {
+        S126 s126 = new S126();
+        Thread t1 = new Thread(s126,&quot;同望科技&quot;);
+        Thread t2 = new Thread(s126,&quot;飞企科技&quot;);
+        Thread t3 = new Thread(s126,&quot;Google网络&quot;);
+        /*t1.setPriority(Thread.MAX_PRIORITY);
+        t2.setPriority(Thread.MIN_PRIORITY);
+        t3.setPriority(Thread.MIN_PRIORITY);*/
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+</code></pre><blockquote>
+<p>进程与线程的区别</p>
+</blockquote>
+<p>线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。</p>
+<p>不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。</p>
+<p>别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<blockquote>
+<p>Thread 类中的start() 和 run() 方法有什么区别？</p>
+</blockquote>
+<p>start()方法被用来启动新创建的线程，而且start()内部调用了run()方法，这和直接调用run()方法的效果不一样。</p>
+<p>当你调用run()方法的时候，只会是在原来的线程中调用，<strong>没有新的线程启动，start()方法才会启动新线程</strong>。</p>
+<blockquote>
+<p>Java中notify 和 notifyAll有什么区别？</p>
+</blockquote>
+<p>notify()方法不能唤醒某个具体的线程，所以只有一个线程在等待的时候它才有用武之地。</p>
+<p>而notifyAll()唤醒所有线程并允许他们争夺锁确保了至少有一个线程能继续运行。</p>
+<blockquote>
+<p> 为什么wait, notify 和 notifyAll 这些方法不在thread类里面？</p>
+</blockquote>
+<p>JAVA提供的锁是对象级的而不是线程级的，每个对象都有锁，通过线程获得。如果线程需要等待某些锁那么调用对象中的wait()方法就有意义了。</p>
+<p>如果wait()方法定义在Thread类中，线程正在等待的是哪个锁就不明显了。</p>
+<p>简单的说，由于wait，notify和notifyAll都是锁级别的操作，所以把他们定义在Object类中因为锁属于对象。</p>
+<blockquote>
+<p>Java中sleep()与wait()的区别  </p>
+</blockquote>
+<p>一,功能差不多,都用来进行线程控制,他们最大本质的区别是:sleep()释放CPU资源,不释放同步锁,wait()释放CPU资源,释放同步锁.   </p>
+<p>还有用法的上的不同是:sleep(milliseconds)可以用时间指定来使他自动醒过来,如果时间不到你只能调用interreput()来强行打断;</p>
+<p>二,Java程序中wait 和 sleep都会造成某种形式的暂停，它们可以满足不同的需要。</p>
+<p>wait()方法用于线程间通信，如果等待条件为真且其它线程被唤醒时它会释放锁，</p>
+<p>而sleep()方法仅仅释放CPU资源或者让当前线程停止执行一段时间，但不会释放锁。</p>
+<p>wait()可以用notify()直接唤起.</p>
+<blockquote>
+<p> 什么是ThreadLocal变量？</p>
+</blockquote>
+<p>ThreadLocal是Java里一种特殊的变量。每个线程都有一个ThreadLocal就是每个线程都拥有了自己独立的一个变量</p>
+<p>它是为创建代价高昂的对象获取线程安全的好方法, SimpleDataFormat;</p>
+<blockquote>
+<p>为什么wait和notify方法要在同步块中调用？</p>
+</blockquote>
+<p>主要是因为Java API强制要求这样做，如果你不这么做，你的代码会抛出IllegalMonitorStateException异常。</p>
+<p>还有一个原因是为了避免wait和notify之间产生竞态条件。</p>
+<blockquote>
+<p> Thread类中的yield方法有什么作用？</p>
+</blockquote>
+<p>Yield方法可以暂停当前正在执行的线程对象，让其它有相同优先级的线程执行。</p>
+<p>它是一个静态方法而且只保证当前线程放弃CPU占用而不能保证使其它线程一定能占用CPU，</p>
+<p>执行yield()的线程有可能在进入到暂停状态后马上又被执行。</p>
+<h2 id="Java-JDBC-数据库操作"><a href="#Java-JDBC-数据库操作" class="headerlink" title="Java JDBC 数据库操作"></a>Java JDBC 数据库操作</h2><blockquote>
+<p>JDBC 连接数据库的几个步骤(以MySQL为例)</p>
+</blockquote>
+<p>加载驱动</p>
+<pre><code>try{   
+  //加载MySql的驱动类   com.masql.jdbc.Driver
+  Class.forName(&quot;com.mysql.jdbc.Driver&quot;) ;   
+}catch(ClassNotFoundException e){   
+  System.out.println(&quot;找不到驱动程序类 ，加载驱动失败！&quot;);   
+  e.printStackTrace() ;   
+}   
+</code></pre><p>获取连接对象</p>
+<pre><code> //连接MySql数据库 url:jdbc:mysql://locahost:3306/数据库名
+String url = &quot;jdbc:mysql://localhost:3306/test&quot; ;    
+String username = &quot;root&quot; ;   
+String password = &quot;root&quot; ; 
+
+try{   
+   Connection con =    
+   DriverManager.getConnection(url , username , password ) ;   
+}catch(SQLException se){   
+   System.out.println(&quot;数据库连接失败！&quot;);   
+   se.printStackTrace() ;   
+}   
+</code></pre><p>获取语句执行对象</p>
+<pre><code>Statement stmt = con.createStatement() ;// 普通语句执行对象
+
+PreparedStatement pstmt = con.prepareStatement(sql) ;// 具有预处理执行语句对象
+
+CallableStatement cstmt = con.prepareCall(&quot;{CALL demoSp(? , ?)}&quot;);//执行储存过程语句对象  
+</code></pre><p>获取结果集对象</p>
+<pre><code>ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM ...&quot;) ;// 执行查询操作
+
+int rows = stmt.executeUpdate(&quot;INSERT INTO ...&quot;) ;// 执行插入更新操作
+
+boolean flag = stmt.execute(String sql) ;  //所有语句
+</code></pre><p>关闭操作</p>
+<pre><code>rs.close() ;   //关闭结果集
+
+stmt.close() ; // 关闭语句执行对象   
+
+conn.close() ;   //关闭连接对象
+</code></pre><h2 id="Java-一些常用的设计模式"><a href="#Java-一些常用的设计模式" class="headerlink" title="Java 一些常用的设计模式"></a>Java 一些常用的设计模式</h2><blockquote>
+<p>门面模式</p>
+</blockquote>
+<p>门面模式的实现</p>
+<p>使用门面模式还有一个附带的好处，就是能够有选择性地暴露方法。一个模块中定义的方法可以分成两部分，</p>
+<p>一部分是给子系统外部使用的，一部分是子系统内部模块之间相互调用时使用的。</p>
+<p>有了Facade类，那么用于子系统内部模块之间相互调用的方法就不用暴露给子系统外部了。</p>
+<pre><code>public class Module {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void a1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void a2(){};
+    public void a3(){};
+}
+
+public class ModuleB {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void b1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void b2(){};
+    public void b3(){};
+}
+
+public class ModuleC {
+    /**
+     * 提供给子系统外部使用的方法
+     */
+    public void c1(){};
+
+    /**
+     * 子系统内部模块之间相互调用时使用的方法
+     */
+    public void c2(){};
+    public void c3(){};
+}
+
+
+public class ModuleFacade {
+
+    ModuleA a = new ModuleA();
+    ModuleB b = new ModuleB();
+    ModuleC c = new ModuleC();
+    /**
+     * 下面这些是A、B、C模块对子系统外部提供的方法
+     */
+    public void a1(){
+        a.a1();
+    }
+    public void b1(){
+        b.b1();
+    }
+    public void c1(){
+        c.c1();
+    }
+}
+</code></pre><p>这样定义一个ModuleFacade类可以有效地屏蔽内部的细节，免得客户端去调用Module类时，发现一些不需要它知道的方法。</p>
+<p>比如a2()和a3()方法就不需要让客户端知道，否则既暴露了内部的细节，又让客户端迷惑。</p>
+<p>对客户端来说，他可能还要去思考a2()、a3()方法用来干什么呢？</p>
+<p>其实a2()和a3()方法是内部模块之间交互的，原本就不是对子系统外部的，所以干脆就不要让客户端知道。</p>
+
+      
+    </div>
+
+	<div>
+      
+        
+<div style="text-align:center;color: #ccc;font-size:14px;">------ づ╭❤ ～ 文本结束 ～づ╭❤ ------</div>
+
+      
+    </div>
+	
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/Thread/" rel="tag">#Thread</a>
+          
+            <a href="/tags/JDBC/" rel="tag">#JDBC</a>
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/09/Linux 的基本操作/" class="post-nav-title-link" rel="prev" title="Linux 的基本操作">
+                <i class="fa fa-chevron-left"></i> Linux 的基本操作 
+              </a>
+            
+          </div>
+		  
+		  <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/07/Java泛型的简单使用/" class="post-nav-title-link" rel="next" title="java 泛型的使用">
+                java 泛型的使用  <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/01/08/java基础_复习/"
+     data-title="Java 复习"
+     data-content=""
+     data-url="http://liugch.top/2017/01/08/java基础_复习/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><span class="ds-more" >分享到：</span></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/08/java基础_复习/"
+           data-title="Java 复习" data-url="http://liugch.top/2017/01/08/java基础_复习/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=562862502,2807361029&fm=116&gp=0.jpg"
+               alt="何有悠然" />
+          <p class="site-author-name" itemprop="name">何有悠然</p>
+          <p class="site-description motion-element" itemprop="description">有你陪伴,寻找属于自己空间</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" target="_blank" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+			 <a title="偶尔High一下^_^" rel="alternate" class="mw-harlem_shake_slow wobble shake" href='javascript:(function() {
+    function c() {
+        var e = document.createElement("link");
+        e.setAttribute("type", "text/css");
+        e.setAttribute("rel", "stylesheet");
+        e.setAttribute("href", f);
+        e.setAttribute("class", l);
+        document.body.appendChild(e)
+    }
+ 
+    function h() {
+        var e = document.getElementsByClassName(l);
+        for (var t = 0; t < e.length; t++) {
+            document.body.removeChild(e[t])
+        }
+    }
+ 
+    function p() {
+        var e = document.createElement("div");
+        e.setAttribute("class", a);
+        document.body.appendChild(e);
+        setTimeout(function() {
+            document.body.removeChild(e)
+        }, 100)
+    }
+ 
+    function d(e) {
+        return {
+            height : e.offsetHeight,
+            width : e.offsetWidth
+        }
+    }
+ 
+    function v(i) {
+        var s = d(i);
+        return s.height > e && s.height < n && s.width > t && s.width < r
+    }
+ 
+    function m(e) {
+        var t = e;
+        var n = 0;
+        while (!!t) {
+            n += t.offsetTop;
+            t = t.offsetParent
+        }
+        return n
+    }
+ 
+    function g() {
+        var e = document.documentElement;
+        if (!!window.innerWidth) {
+            return window.innerHeight
+        } else if (e && !isNaN(e.clientHeight)) {
+            return e.clientHeight
+        }
+        return 0
+    }
+ 
+    function y() {
+        if (window.pageYOffset) {
+            return window.pageYOffset
+        }
+        return Math.max(document.documentElement.scrollTop, document.body.scrollTop)
+    }
+ 
+    function E(e) {
+        var t = m(e);
+        return t >= w && t <= b + w
+    }
+ 
+    function S() {
+        var e = document.createElement("audio");
+        e.setAttribute("class", l);
+        e.src = i;
+        e.loop = false;
+        e.addEventListener("canplay", function() {
+            setTimeout(function() {
+                x(k)
+            }, 500);
+            setTimeout(function() {
+                N();
+                p();
+                for (var e = 0; e < O.length; e++) {
+                    T(O[e])
+                }
+            }, 15500)
+        }, true);
+        e.addEventListener("ended", function() {
+            N();
+            h()
+        }, true);
+        e.innerHTML = " <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>";
+        document.body.appendChild(e);
+        e.play()
+    }
+ 
+    function x(e) {
+        e.className += " " + s + " " + o
+    }
+ 
+    function T(e) {
+        e.className += " " + s + " " + u[Math.floor(Math.random() * u.length)]
+    }
+ 
+    function N() {
+        var e = document.getElementsByClassName(s);
+        var t = new RegExp("\\b" + s + "\\b");
+        for (var n = 0; n < e.length; ) {
+            e[n].className = e[n].className.replace(t, "")
+        }
+    }
+ 
+    var e = 30;
+    var t = 30;
+    var n = 350;
+    var r = 350;
+    var i = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3";
+    var s = "mw-harlem_shake_me";
+    var o = "im_first";
+    var u = ["im_drunk", "im_baked", "im_trippin", "im_blown"];
+    var a = "mw-strobe_light";
+    var f = "//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css";
+    var l = "mw_added_css";
+    var b = g();
+    var w = y();
+    var C = document.getElementsByTagName("*");
+    var k = null;
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            if (E(A)) {
+                k = A;
+                break
+            }
+        }
+    }
+    if (A === null) {
+        console.warn("Could not find a node of the right size. Please try a different page.");
+        return
+    }
+    c();
+    S();
+    var O = [];
+    for (var L = 0; L < C.length; L++) {
+        var A = C[L];
+        if (v(A)) {
+            O.push(A)
+        }
+    }
+})()'><i class="fa fa-music"></i> High</a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/liugch" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/liugch" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+		
+	   
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-link"></i>
+              友情链接
+            </div>
+           
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://www.dnspod.cn/" title="DNSPOD" target="_blank">DNSPOD</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://portal.qiniu.com/create" title="七牛" target="_blank">七牛</a>
+                </span>
+              
+                <span class="links-of-author-item" style="text-align:left">
+                  <a href="https://leancloud.cn/" title="Leancloud" target="_blank">Leancloud</a>
+                </span>
+              
+            
+          </div>
+        
+		
+		<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=30903117&auto=1&height=66"></iframe>
+		
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java-复习"><span class="nav-number">1.</span> <span class="nav-text">Java 复习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-多线程-的-相关问题"><span class="nav-number">1.1.</span> <span class="nav-text">Java 多线程 的 相关问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-JDBC-数据库操作"><span class="nav-number">1.2.</span> <span class="nav-text">Java JDBC 数据库操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-一些常用的设计模式"><span class="nav-number">1.3.</span> <span class="nav-text">Java 一些常用的设计模式</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何有悠然</span>
+  
+   <span style="margin-left:8px;">
+   <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+   </span>
+  
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" target="_blank">Liugch</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank">
+    Liugch.Pisces 
+  </a>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"liugch"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1260479020&web_id=1260479020" type="text/javascript"></script>
+  </div>
+
+
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  <script type="text/JavaScript">
+function hideElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="none";
+}
+
+function showElement(elementID)
+{
+	var myele=document.getElementById(elementID);
+	myele.style.display="block";
+}
+</script>
+
+<script type="text/JavaScript">
+function showSubtitle()
+{
+  var siteNav=document.getElementById("site-nav");
+  if(siteNav.style.display=="block")
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="none";
+  }else
+  {
+   var subTitle=document.getElementById("site-subtitle");
+   subTitle.style.display="block";
+  }
+
+}
+</script>
+  <script type="text/JavaScript">
+!function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+","+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){var t="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){t&&t(),i(e)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(n){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}var d=[];e.requestAnimationFrame=function(){return e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)}}(),n()}(window,document);
+</script>
+  
+
+</body>
+</html>
